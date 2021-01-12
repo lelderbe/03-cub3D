@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/01/12 16:33:37 by lelderbe         ###   ########.fr       */
+/*   Created: 2020/10/29 14:57:11 by lelderbe          #+#    #+#             */
+/*   Updated: 2020/11/05 11:42:58 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include "minilibx/mlx.h"
-#include <stdio.h>
-
-typedef struct s_params {
-	void	*mlx;
-	void	*window;
-
-}			t_params;
-
-#endif
+int		ft_tolower(int c)
+{
+	if (c >= 'A' && c <= 'Z')
+		c = c + 'a' - 'A';
+	return (c);
+}

@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/01/12 16:33:37 by lelderbe         ###   ########.fr       */
+/*   Created: 2020/09/11 18:44:02 by lelderbe          #+#    #+#             */
+/*   Updated: 2020/11/08 19:42:07 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include "minilibx/mlx.h"
-#include <stdio.h>
+size_t	ft_strlen(const char *s)
+{
+	size_t	count;
 
-typedef struct s_params {
-	void	*mlx;
-	void	*window;
-
-}			t_params;
-
-#endif
+	count = 0;
+	while (*s)
+	{
+		count++;
+		s++;
+	}
+	return (count);
+}

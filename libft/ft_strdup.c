@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/01/12 16:33:37 by lelderbe         ###   ########.fr       */
+/*   Created: 2020/10/30 11:21:04 by lelderbe          #+#    #+#             */
+/*   Updated: 2020/11/09 13:16:05 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include "minilibx/mlx.h"
-#include <stdio.h>
+char	*ft_strdup(const char *s1)
+{
+	char	*result;
 
-typedef struct s_params {
-	void	*mlx;
-	void	*window;
-
-}			t_params;
-
-#endif
+	result = (char *)malloc(sizeof(*result) * (ft_strlen(s1) + 1));
+	if (!result)
+		return (0);
+	ft_strlcpy(result, s1, ft_strlen(s1) + 1);
+	return (result);
+}

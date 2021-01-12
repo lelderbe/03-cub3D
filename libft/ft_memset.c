@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/01/12 16:33:37 by lelderbe         ###   ########.fr       */
+/*   Created: 2020/10/29 18:17:48 by lelderbe          #+#    #+#             */
+/*   Updated: 2020/12/15 14:43:01 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include "minilibx/mlx.h"
-#include <stdio.h>
+void	*ft_memset(void *b, int c, size_t len)
+{
+	unsigned char *ptr;
 
-typedef struct s_params {
-	void	*mlx;
-	void	*window;
-
-}			t_params;
-
-#endif
+	ptr = b;
+	while (len--)
+		*ptr++ = c;
+	return (b);
+}

@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/01/12 16:33:37 by lelderbe         ###   ########.fr       */
+/*   Created: 2020/11/10 14:02:23 by lelderbe          #+#    #+#             */
+/*   Updated: 2020/11/10 14:07:48 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include "minilibx/mlx.h"
-#include <stdio.h>
+t_list	*ft_lstnew(void *content)
+{
+	t_list	*result;
 
-typedef struct s_params {
-	void	*mlx;
-	void	*window;
-
-}			t_params;
-
-#endif
+	result = malloc(sizeof(*result));
+	if (!result)
+		return (0);
+	result->content = content;
+	result->next = 0;
+	return (result);
+}

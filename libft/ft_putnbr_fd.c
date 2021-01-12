@@ -1,26 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/01/12 16:33:37 by lelderbe         ###   ########.fr       */
+/*   Created: 2020/11/04 14:38:08 by lelderbe          #+#    #+#             */
+/*   Updated: 2020/11/04 14:39:47 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include "minilibx/mlx.h"
-#include <stdio.h>
+void	ft_putnbr_fd(int n, int fd)
+{
+	char	c;
 
-typedef struct s_params {
-	void	*mlx;
-	void	*window;
-
-}			t_params;
-
-#endif
+	if (n / 10)
+	{
+		ft_putnbr_fd(n / 10, fd);
+	}
+	else if (n < 0)
+	{
+		write(fd, "-", 1);
+	}
+	if (n < 0)
+	{
+		c = '0' + (-1) * (n % 10);
+	}
+	else
+	{
+		c = '0' + (n % 10);
+	}
+	write(fd, &c, 1);
+}
