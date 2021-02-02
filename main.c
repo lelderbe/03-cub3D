@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/12 12:12:35 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/02 15:57:59 by lelderbe         ###   ########.fr       */
+/*   Created: 2021/02/02 15:58:19 by lelderbe          #+#    #+#             */
+/*   Updated: 2021/02/02 16:28:39 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ void	init_vars(t_vars *e)
 	e->save_option = 0;
 	e->mlx = 0;
 	e->win = 0;
+	e->img = 0;
+	e->addr = 0;
+	e->bits_per_pixel = 0;
+	e->line_length = 0;
+	e->endian = 0;
 }
 
 int		hook_events(t_vars *e)

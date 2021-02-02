@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/02 15:53:21 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/02 16:22:05 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,28 @@
 # define ERROR_ARGS_COUNT "Invalid arguments count"
 
 typedef struct	s_vars {
-	int			argc;
-	char		*cub_filename;
-	int			save_option;
+//	struct {
+		char	*cub_filename;
+		int		save_option;
+//	}			args;
+
+//	struct {
 	unsigned	width;
 	unsigned	height;
+//	}			map;
+
+//	struct {
 	void		*mlx;
 	void		*win;
+//	}			mlx;
+
+//	struct {
 	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+//	}			img;
 }				t_vars;
 
 int				parse_params(int argc, char **argv, t_vars *e);
