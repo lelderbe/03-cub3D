@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:51:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/02 16:38:02 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/02 16:41:23 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,6 @@ int		key_press_event(int keycode, t_vars *e)
 		exit (0);
 	
 	e->img = mlx_new_image(e->mlx, e->width, e->height);
-
-	printf("addr: %p\n", e->addr);
-	printf("bits_per_pixel: %d\n", e->bits_per_pixel);
-	printf("line_length: %d\n", e->line_length);
-	printf("endian: %d\n", e->endian);
 
     e->addr = mlx_get_data_addr(e->img, &e->bits_per_pixel, &e->line_length,
                                  &e->endian);
