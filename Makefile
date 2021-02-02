@@ -6,11 +6,11 @@
 #    By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/12 12:10:28 by lelderbe          #+#    #+#              #
-#    Updated: 2021/01/12 13:17:24 by lelderbe         ###   ########.fr        #
+#    Updated: 2021/02/02 15:57:22 by lelderbe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		= main.c
+SRCS		= main.c parse.c events.c 
 
 HEADERS		= cub3d.h
 
@@ -24,6 +24,8 @@ LIBFT_NAME	= libft.a
 MLX_DIR		= minilibx
 MLX_NAME	= libmlx.a
 
+INCLUDES	= -I${LIBFT_DIR} -I${MLX_DIR}
+
 CC			= gcc
 
 AR			= ar
@@ -34,14 +36,14 @@ CFLAGS		= -Wall -Wextra -Werror
 MLXFLAGS	= -framework OpenGL -framework Appkit
 
 %.o:		%.c ${HEADERS}
-			${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+			${CC} ${CFLAGS} ${INCLUDES} -c $< -o ${<:.c=.o}
 
 all:		${NAME}
 
 #${NAME}:	${OBJS}
 ${NAME}:	LIBFT MLX ${OBJS}
 			#${CC} ${OBJS} -o ${NAME}
-			${CC} ${OBJS} -L${LIBFT_DIR} -lft -L${MLX_DIR} -lmlx ${MLXFLAGS} -o ${NAME}
+			${CC} ${OBJS} ${INCLUDES} -L${LIBFT_DIR} -lft -L${MLX_DIR} -lmlx ${MLXFLAGS} -o ${NAME}
 			#cp ${LIBFT_DIR}/${LIBFT_NAME} ${NAME}
 			#${AR} rc ${NAME} ${OBJS}
 
@@ -63,7 +65,7 @@ clean:
 fclean:		clean
 			${RM} ${NAME}
 			${MAKE} -C ${LIBFT_DIR} fclean
-			${MAKE} -C ${MLX_DIR} fclean
+#			${MAKE} -C ${MLX_DIR} fclean
 #			cd libft && ${MAKE} fclean
 
 re:			fclean all
