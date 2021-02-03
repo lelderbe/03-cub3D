@@ -6,11 +6,11 @@
 #    By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/12 12:10:28 by lelderbe          #+#    #+#              #
-#    Updated: 2021/02/02 15:57:22 by lelderbe         ###   ########.fr        #
+#    Updated: 2021/02/03 11:20:24 by lelderbe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		= main.c parse.c events.c 
+SRCS		= main.c parse.c events.c display.c logs.c
 
 HEADERS		= cub3d.h
 

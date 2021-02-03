@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:58:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/02 16:28:39 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/03 13:08:05 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	init_vars(t_vars *e)
 {
+	ft_memset(e, 0, sizeof(*e));
+	/*
 	e->cub_filename = 0;
 	e->save_option = 0;
 	e->mlx = 0;
@@ -23,14 +25,15 @@ void	init_vars(t_vars *e)
 	e->bits_per_pixel = 0;
 	e->line_length = 0;
 	e->endian = 0;
+	*/
 }
 
 int		hook_events(t_vars *e)
 {
-	mlx_mouse_hook(e->win, m_event, e); 
-	mlx_hook(e->win, 6, 1L<<6, motion_event, e);
-	mlx_hook(e->win, 2, 1L<<0, key_press_event, e);
-	mlx_hook(e->win, 17, 0L<<0, window_destroy_event, e);
+	mlx_mouse_hook(e->win, event_m, e); 
+	mlx_hook(e->win, 6, 1L<<6, event_motion, e);
+	mlx_hook(e->win, 2, 1L<<0, event_key_press, e);
+	mlx_hook(e->win, 17, 0L<<0, event_window_destroy, e);
 	return (OK);
 }
 
@@ -39,12 +42,19 @@ int		main(int argc, char **argv)
 	t_vars	e;
 
 	init_vars(&e);
+	//printf("%p\n", e.mlx);
+	//printf("%p\n", e.win);
+	//printf("%p\n", e.addr);
+	//printf("%d\n", e.endian);
 	// parse params
 	if (parse_params(argc, argv, &e) == FAIL)
 		return (-1);
 	// parse .cub-file
 	if (parse_cub_file(&e) == FAIL)
 		return (-1);
+	log_map2(&e);
+	log_pl(&e);
+
 	// mlx init
 	if (!(e.mlx = mlx_init()))
 		return (-1);
@@ -54,6 +64,8 @@ int		main(int argc, char **argv)
 		printf("error creating window ( \n");
 		return (-1);
 	}
+
+	display_map(&e);
 
 	if (e.save_option)
 	{

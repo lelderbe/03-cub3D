@@ -6,13 +6,13 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:51:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/02 16:41:23 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/03 14:46:48 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		window_destroy_event(t_vars *e)
+int		event_window_destroy(t_vars *e)
 {
 	(void)e;
 	printf("%s triggered\n", __FUNCTION__);
@@ -28,15 +28,47 @@ void	my_mlx_pixel_put(t_vars *e, int x, int y, int color)
     *(unsigned int*)dst = color;
 }
 
-int		key_press_event(int keycode, t_vars *e)
+int		event_key_press(int keycode, t_vars *e)
 {
-	unsigned int x;
-	unsigned int y;
+	int x;
+	int y;
 
 	printf("keycode: %d\n", keycode);
 	if (keycode == 53)
 		exit (0);
-	
+	if (keycode == 0)
+	{
+		e->pl_x -= STEP;
+		log_pl(e);
+		if (e->pl_x < BODY / 2)
+			e->pl_x = BODY / 2;
+		log_pl(e);
+	}
+	if (keycode == 13)
+	{
+		e->pl_y -= STEP;
+		log_pl(e);
+		if (e->pl_y < BODY / 2)
+			e->pl_y = BODY / 2;
+		log_pl(e);
+	}
+	if (keycode == 1)
+	{
+		e->pl_y += STEP;
+		log_pl(e);
+		if (e->pl_y > e->height - BODY / 2)
+			e->pl_y = e->height - BODY / 2;
+		log_pl(e);
+	}
+	if (keycode == 2)
+	{
+		e->pl_x += STEP;
+		log_pl(e);
+		if (e->pl_x > e->width - BODY / 2)
+			e->pl_x = e->width - BODY / 2;
+		log_pl(e);
+	}
+
 	e->img = mlx_new_image(e->mlx, e->width, e->height);
 
     e->addr = mlx_get_data_addr(e->img, &e->bits_per_pixel, &e->line_length,
@@ -59,11 +91,14 @@ int		key_press_event(int keycode, t_vars *e)
 	}
 
     mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
+	mlx_destroy_image(e->mlx, e->img);
+
+	repaint(e);
 
 	return (0);
 }
 
-int		m_event(int button, int x, int y, t_vars *e)
+int		event_m(int button, int x, int y, t_vars *e)
 {
 	int color;
 
@@ -72,10 +107,12 @@ int		m_event(int button, int x, int y, t_vars *e)
 	mlx_pixel_put(e->mlx, e->win, x, y, color);
 	printf("x: %d, y: %d, button: %d\n", x, y, button);
 
+	repaint(e);
+
 	return (0);
 }
 
-int		motion_event(int x, int y, t_vars *e)
+int		event_motion(int x, int y, t_vars *e)
 {
 	//int x;
 	//int y;
@@ -83,7 +120,7 @@ int		motion_event(int x, int y, t_vars *e)
 	//(void)x;
 	//(void)y;
 	
-	m_event(0, x, y, e);
+	event_m(0, x, y, e);
 	
 	return (0);
 }

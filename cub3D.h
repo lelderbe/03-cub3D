@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/02 16:22:05 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/03 13:25:13 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,23 @@
 # define ERROR "Error"
 # define ERROR_ARGS_COUNT "Invalid arguments count"
 
+# define SCALE	64 
+# define BODY	10
+# define STEP	8
+
 typedef struct	s_vars {
 //	struct {
-		char	*cub_filename;
-		int		save_option;
+	char		*cub_filename;
+	int			save_option;
 //	}			args;
 
 //	struct {
-	unsigned	width;
-	unsigned	height;
+	char		**map;
 //	}			map;
 
 //	struct {
+	int			width;
+	int			height;
 	void		*mlx;
 	void		*win;
 //	}			mlx;
@@ -49,14 +54,27 @@ typedef struct	s_vars {
 	int			line_length;
 	int			endian;
 //	}			img;
+
+//	struct {
+	int			pl_x;
+	int			pl_y;
+	double		pl_ang;
+//	}			pl;
 }				t_vars;
 
 int				parse_params(int argc, char **argv, t_vars *e);
 int				parse_cub_file(t_vars *e);
 
-int				window_destroy_event(t_vars *e);
-int				m_event(int button, int x, int y, t_vars *e);
-int				motion_event(int x, int y, t_vars *e);
-int				key_press_event(int keycode, t_vars *e);
+int				event_window_destroy(t_vars *e);
+int				event_m(int button, int x, int y, t_vars *e);
+int				event_motion(int x, int y, t_vars *e);
+int				event_key_press(int keycode, t_vars *e);
+
+void			display_map(t_vars *e);
+void			repaint(t_vars *e);
+
+void			log_map(t_vars *e);
+void			log_map2(t_vars *e);
+void			log_pl(t_vars *e);
 
 #endif
