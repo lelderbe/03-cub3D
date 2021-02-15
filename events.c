@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:51:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/05 14:41:22 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/15 14:48:26 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,16 @@ int		event_window_destroy(t_vars *e)
 
 int		event_window_create(t_vars *e)
 {
+	(void)e;
 	printf("window create event\n");
-	repaint(e);
+	//repaint(e);
 	return (0);
-}
-
-void	my_mlx_pixel_put(t_vars *e, int x, int y, int color)
-{
-    char    *dst;
-
-    dst = e->addr + (y * e->line_length + x * (e->bits_per_pixel / 8));
-    *(unsigned int*)dst = color;
 }
 
 int		event_key_press(int keycode, t_vars *e)
 {
-	int x;
-	int y;
+	//int x;
+	//int y;
 
 	printf("keycode: %d\n", keycode);
 	if (keycode == KEYCODE_ESC)
@@ -92,32 +85,7 @@ int		event_key_press(int keycode, t_vars *e)
 		log_pl(e);
 	}
 
-	e->img = mlx_new_image(e->mlx, e->width, e->height);
-
-    e->addr = mlx_get_data_addr(e->img, &e->bits_per_pixel, &e->line_length,
-                                 &e->endian);
-	printf("addr: %p\n", e->addr);
-	printf("bits_per_pixel: %d\n", e->bits_per_pixel);
-	printf("line_length: %d\n", e->line_length);
-	printf("endian: %d\n", e->endian);
-	x = 0;
-	while (x < e->width)
-	{
-		y = 0;
-		while (y < e->height)
-		{
-		    //my_mlx_pixel_put(e, x, y, 0x008F0000);
-		    my_mlx_pixel_put(e, x, y, keycode);
-			y++;
-		}
-		x++;
-	}
-
-    mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
-	mlx_destroy_image(e->mlx, e->img);
-
 	repaint(e);
-
 	return (0);
 }
 
@@ -130,7 +98,7 @@ int		event_m(int button, int x, int y, t_vars *e)
 	mlx_pixel_put(e->mlx, e->win, x, y, color);
 	printf("x: %d, y: %d, button: %d\n", x, y, button);
 
-	repaint(e);
+	//repaint(e);
 
 	return (0);
 }

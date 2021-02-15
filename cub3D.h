@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/05 14:52:03 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/15 13:21:42 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,26 @@
 # include <math.h>
 # include <stdio.h>
 
-# define APP_NAME "cub3D"
-# define FAIL 0
-# define OK 1
+# define APP_NAME	"cub3D"
+# define FAIL		0
+# define OK			1
 
-# define SAVE_OPTION "--save"
-# define ERROR "Error"
-# define ERROR_ARGS_COUNT "Invalid arguments count"
+# define SAVE_OPTION		"--save"
+# define ERROR				"Error"
+# define ERROR_ARGS_COUNT	"Invalid arguments count"
 
-# define SCALE		64 
+# define SCALE		64
 # define BODY		10
 # define STEP		8
 # define LOOK_LEN	10
 
-# define KEYCODE_ESC	53
-# define KEYCODE_W		13
-# define KEYCODE_A		0
-# define KEYCODE_S		1
-# define KEYCODE_D		2
-# define KEYCODE_LEFT	123
-# define KEYCODE_RIGHT	124
+# define KEYCODE_ESC		53
+# define KEYCODE_W			13
+# define KEYCODE_A			0
+# define KEYCODE_S			1
+# define KEYCODE_D			2
+# define KEYCODE_LEFT		123
+# define KEYCODE_RIGHT		124
 
 # define EV_KEY_PRESS		2
 # define EV_MOTION_NOTIFY	6
