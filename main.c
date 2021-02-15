@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:58:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/03 13:08:05 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/05 14:15:17 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ void	init_vars(t_vars *e)
 int		hook_events(t_vars *e)
 {
 	mlx_mouse_hook(e->win, event_m, e); 
-	mlx_hook(e->win, 6, 1L<<6, event_motion, e);
-	mlx_hook(e->win, 2, 1L<<0, event_key_press, e);
-	mlx_hook(e->win, 17, 0L<<0, event_window_destroy, e);
+	mlx_hook(e->win, EV_MOTION_NOTIFY, MASK_POINTER_MOTION, event_motion, e);
+	mlx_hook(e->win, EV_KEY_PRESS, MASK_KEY_PRESS, event_key_press, e);
+	mlx_hook(e->win, EV_CREATE_NOTIFY, 0, event_window_create, e);
+	mlx_hook(e->win, EV_DESTROY_NOTIFY, MASK_NO_EVENT, event_window_destroy, e);
 	return (OK);
 }
 
@@ -42,10 +43,6 @@ int		main(int argc, char **argv)
 	t_vars	e;
 
 	init_vars(&e);
-	//printf("%p\n", e.mlx);
-	//printf("%p\n", e.win);
-	//printf("%p\n", e.addr);
-	//printf("%d\n", e.endian);
 	// parse params
 	if (parse_params(argc, argv, &e) == FAIL)
 		return (-1);
@@ -65,7 +62,7 @@ int		main(int argc, char **argv)
 		return (-1);
 	}
 
-	display_map(&e);
+	repaint(&e);
 
 	if (e.save_option)
 	{

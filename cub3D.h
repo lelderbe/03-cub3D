@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/03 13:25:13 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/05 14:52:03 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,27 @@
 # define ERROR "Error"
 # define ERROR_ARGS_COUNT "Invalid arguments count"
 
-# define SCALE	64 
-# define BODY	10
-# define STEP	8
+# define SCALE		64 
+# define BODY		10
+# define STEP		8
+# define LOOK_LEN	10
+
+# define KEYCODE_ESC	53
+# define KEYCODE_W		13
+# define KEYCODE_A		0
+# define KEYCODE_S		1
+# define KEYCODE_D		2
+# define KEYCODE_LEFT	123
+# define KEYCODE_RIGHT	124
+
+# define EV_KEY_PRESS		2
+# define EV_MOTION_NOTIFY	6
+# define EV_CREATE_NOTIFY	16
+# define EV_DESTROY_NOTIFY	17
+
+# define MASK_NO_EVENT			0L<<0
+# define MASK_KEY_PRESS			1L<<0
+# define MASK_POINTER_MOTION	1L<<6
 
 typedef struct	s_vars {
 //	struct {
@@ -65,6 +83,7 @@ typedef struct	s_vars {
 int				parse_params(int argc, char **argv, t_vars *e);
 int				parse_cub_file(t_vars *e);
 
+int				event_window_create(t_vars *e);
 int				event_window_destroy(t_vars *e);
 int				event_m(int button, int x, int y, t_vars *e);
 int				event_motion(int x, int y, t_vars *e);
