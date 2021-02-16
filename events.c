@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:51:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/15 14:48:26 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/16 13:25:24 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int		event_m(int button, int x, int y, t_vars *e)
 	(void)button;
 	color = 0x0000FF00;
 	mlx_pixel_put(e->mlx, e->win, x, y, color);
-	printf("x: %d, y: %d, button: %d\n", x, y, button);
+	//printf("x: %d, y: %d, button: %d\n", x, y, button);
 
 	//repaint(e);
 

@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:15:32 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/15 14:35:37 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/16 14:22:09 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ static void	my_mlx_pixel_put(t_vars *e, int x, int y, int color)
     *(unsigned int*)dst = color;
 }
 
-void	disp_ray(double ang, t_vars *e)
+static int	disp_ray(double ang, t_vars *e)
 {
 	int x;
 	int y;
-	double i;
+	double d;
 	//int j;
 	int xd;
 	int yd;
@@ -48,31 +48,77 @@ void	disp_ray(double ang, t_vars *e)
 		xd = 1;
 	}
 
-	i = 0;
-	while (i < 1000)
+	d = 0;
+	while (d < 1000)
 	{
-		x = round(cos(ang / 180 * M_PI) * i);
-		y = -round(sin(ang / 180 * M_PI) * i);
+		x = round(cos(ang / 180 * M_PI) * d);
+		y = -round(sin(ang / 180 * M_PI) * d);
 		//printf("ray x: %d y: %d\n", x / SCALE, y / SCALE);
 		if (e->map[(e->pl_y + y) / SCALE][(e->pl_x + x) / SCALE] == '1')
 		{
+			return ((int)d);
 			break ;
 		}
 		//mlx_pixel_put(e->mlx, e->win, e->pl_x + x, e->pl_y + y, 0x0000FF00);
 		my_mlx_pixel_put(e, e->pl_x + x, e->pl_y + y, 0x0000FF00);
-		i = i + 1;
+		d = d + 1;
 	}
+	return (d);
+}
+
+void	disp_column(t_vars *e, int x, int d)
+{
+	int		i;
+	int		h;
+
+	(void)e;
+	(void)d;
+	h = round(1.0 * SCALE / d * e->d);
+	printf("h: %d\n", h);
+	i = -h / 2;
+	while (i < h / 2)
+	{
+		//printf("x: %d, y: %d\n", x, e->height / 2 + i);
+		my_mlx_pixel_put(e, x, e->height / 2 + i, WALL_COLOR);
+		i++;
+	}
+
+
 }
 
 void	disp_rays(t_vars *e)
 {
-	double i;
+	double	i;
+	double	fov;
+	double	fov_step;
+	int		x;
+	int		d;
+	int		col;
 
-	i = -10;
-	while (i <= 10)
+	fov = FOV;
+	x = e->width;
+	fov_step = fov / e->width;
+
+	i = -fov / 2;
+	e->d = e->width / 2 / tan(fov / 2);
+	col = 0;
+	while (i <= fov / 2)
 	{
-		disp_ray(e->pl_ang + i, e);
-		i = i + 0.5;
+		d = disp_ray(e->pl_ang - i, e);
+		//printf("ang: %4.2f, d: %d\n", e->pl_ang - i, d);
+		disp_column(e, col, d);
+		i = i + fov_step;
+		col++;
+	}
+	i = -fov / 2;
+	e->d = e->width / 2 / tan(fov / 2);
+	col = 0;
+	while (i <= fov / 2)
+	{
+		d = disp_ray(e->pl_ang - i, e);
+		//printf("ang: %4.2f, d: %d\n", e->pl_ang - i, d);
+		i = i + fov_step;
+		col++;
 	}
 }
 
@@ -92,7 +138,7 @@ static void	display_floor_ceil(t_vars *e)
 		while (x < e->width)
 		{
 			// TODO: optimize (maybe via memcpy)
-			color = y < e->height / 2 ? 0x00333333 : 0x00888888;
+			color = y < e->height / 2 ? CEIL_COLOR : FLOOR_COLOR;
 			my_mlx_pixel_put(e, x, y, color);
 			x++;
 		}
@@ -191,8 +237,8 @@ void	repaint(t_vars *e)
 	printf("endian: %d\n", e->endian);
 
 	display_floor_ceil(e);
-	display_map(e);
 	disp_rays(e);
+	display_map(e);
 	disp_look_line(e);
 
     mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);

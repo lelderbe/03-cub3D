@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:46:54 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/05 15:08:41 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/16 14:15:06 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ int		parse_cub_file(t_vars *e)
 	char	**map;
 
 	map = malloc(sizeof(*map) * (4 + 1));
-	map[0] = ft_strdup("1110");
-	map[1] = ft_strdup("1011");
-	map[2] = ft_strdup("1N01");
-	map[3] = ft_strdup("1111");
+	map[0] = ft_strdup("11110");
+	map[1] = ft_strdup("10011");
+	map[2] = ft_strdup("1N001");
+	map[3] = ft_strdup("11111");
 	map[4] = 0;
-	e->width = 640;
-	e->height = 480;
+	e->width = 800;
+	e->height = 600;
 	e->map = map;
 	e->pl_x = 1 * SCALE + SCALE / 2;
 	e->pl_y = 2 * SCALE + SCALE / 2;

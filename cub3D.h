@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/15 13:21:42 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/16 14:51:18 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,13 @@
 # define MASK_KEY_PRESS			1L<<0
 # define MASK_POINTER_MOTION	1L<<6
 
+# define FOV	20
+
+# define CEIL_COLOR		0x00333333
+# define FLOOR_COLOR	0x00666666
+# define WALL_COLOR		0x00000066
+
+
 typedef struct	s_vars {
 //	struct {
 	char		*cub_filename;
@@ -77,6 +84,7 @@ typedef struct	s_vars {
 	int			pl_x;
 	int			pl_y;
 	double		pl_ang;
+	int			d;
 //	}			pl;
 }				t_vars;
 
