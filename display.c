@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:15:32 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/17 13:15:42 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/17 16:15:32 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,25 +60,27 @@ static int	disp_ray(double ang, t_vars *e)
 	}
 
 	d = 0;
-	while (d < MAX_VIEW)
+	while (d < 10)//MAX_VIEW)
 	{
 		//x = round(cos(ang / 180 * M_PI) * d);
 		//y = -round(sin(ang / 180 * M_PI) * d);
 		x = (cos(ang / 180 * M_PI) * d);
 		y = -(sin(ang / 180 * M_PI) * d);
-		//printf("ray x: %d y: %d\n", x / SCALE, y / SCALE);
+		//printf("ang: %6.2f, ray x: %6.2f y: %6.2f\n", ang, x, y);
 		//if (e->map[(e->pl_y + y) / SCALE][(e->pl_x + x) / SCALE] == '1')
 		//if (e->map[(round(e->pl_y + y))][round(e->pl_x + x)] == '1')
-		xx = round(e->pl_x + x);
-		yy = round(e->pl_y + y);
+		xx = (int)(e->pl_x + x);
+		yy = (int)(e->pl_y + y);
+		//printf("xx: %d, yy: %d\n", xx, yy);
 		if (e->map[yy][xx] == '1')
 		{
+			//printf("wall\n");
 			return ((int)d);
 			break ;
 		}
 		//mlx_pixel_put(e->mlx, e->win, e->pl_x + x, e->pl_y + y, 0x0000FF00);
-		my_mlx_pixel_put(e, e->pl_x * SCALE + x, e->pl_y * SCALE + y, 0x0000FF00);
-		d = d + 1;
+		my_mlx_pixel_put(e, (e->pl_x + x) * SCALE, (e->pl_y + y) * SCALE, 0x0000FF00);
+		d = d + 1.0 / 2 / SCALE;
 	}
 	return (d);
 }
@@ -149,8 +151,8 @@ static void	display_floor_ceil(t_vars *e)
 	int color;
 
 	(void)e;
-	printf("floor and ceiling\n");
-	printf("width: %d, height: %d\n", e->width, e->height);
+	//printf("floor and ceiling\n");
+	//printf("width: %d, height: %d\n", e->width, e->height);
 	y = 0;
 	while (y < e->height)
 	{
@@ -266,7 +268,7 @@ void	repaint(t_vars *e)
 	printf("endian: %d\n", e->endian);
 
 	display_floor_ceil(e);
-	//disp_rays(e);
+	disp_rays(e);
 	display_map(e);
 	display_pl(e);
 	disp_look_line(e);
