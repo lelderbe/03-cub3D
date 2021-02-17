@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/16 14:51:18 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/17 11:49:32 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@
 
 # define SCALE		64
 # define BODY		10
-# define STEP		8
-# define LOOK_LEN	10
+//# define STEP		8
+# define STEP		0.1
+# define LOOK_LEN	20
+# define MAX_VIEW	1000
 
 # define KEYCODE_ESC		53
 # define KEYCODE_W			13
@@ -81,8 +83,10 @@ typedef struct	s_vars {
 //	}			img;
 
 //	struct {
-	int			pl_x;
-	int			pl_y;
+//	int			pl_x;
+//	int			pl_y;
+	double		pl_x;
+	double		pl_y;
 	double		pl_ang;
 	int			d;
 //	}			pl;

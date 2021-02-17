@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:20:39 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/03 13:15:18 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/17 12:46:27 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,7 @@ void	log_map2(t_vars *e)
 
 void	log_pl(t_vars *e)
 {
-	printf("x: %d y: %d angle: %6.2f\n", e->pl_x, e->pl_y, e->pl_ang);
+	//printf("x: %d y: %d angle: %6.2f\n", e->pl_x, e->pl_y, e->pl_ang);
+	printf("x: %6.2f (%d) y: %6.2f (%d) angle: %6.2f\n",
+		   e->pl_x, (int)round(e->pl_x * SCALE), e->pl_y, (int)round(e->pl_y * SCALE), e->pl_ang);
 }
