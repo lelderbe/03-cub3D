@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/17 11:49:32 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/17 13:17:32 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define SCALE		64
 # define BODY		10
 //# define STEP		8
-# define STEP		0.1
+# define STEP		1.0/8
 # define LOOK_LEN	20
 # define MAX_VIEW	1000
 

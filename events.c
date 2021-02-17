@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:51:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/16 13:25:24 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/17 13:43:33 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,44 +28,76 @@ int		event_window_create(t_vars *e)
 	return (0);
 }
 
+void	check_pl_coords(t_vars *e)
+{
+	if (e->pl_x * SCALE < BODY / 2)
+		e->pl_x = (BODY / 2) * 1.0 / SCALE;
+	if (e->pl_y * SCALE < BODY / 2)
+		e->pl_y = (BODY / 2) * 1.0 / SCALE;
+}
+
 int		event_key_press(int keycode, t_vars *e)
 {
-	//int x;
-	//int y;
+	double x;
+	double y;
 
 	printf("keycode: %d\n", keycode);
 	if (keycode == KEYCODE_ESC)
 		exit (0);
 	if (keycode == KEYCODE_A)
 	{
-		e->pl_x -= STEP;
+		x = cos((e->pl_ang - 90) / 180 * M_PI) * STEP;
+		y = -sin((e->pl_ang - 90) / 180 * M_PI) * STEP;
+		//e->pl_x -= STEP;
+		e->pl_x -= x;
+		e->pl_y -= y;
 		log_pl(e);
-		if (e->pl_x < BODY / 2)
-			e->pl_x = BODY / 2;
+		//if (e->pl_x < BODY / 2)
+		//	e->pl_x = BODY / 2;
+		if (e->pl_x * SCALE < BODY / 2)
+			e->pl_x = (BODY / 2) * 1.0 / SCALE;
+		if (e->pl_y * SCALE < BODY / 2)
+			e->pl_y = (BODY / 2) * 1.0 / SCALE;
 		log_pl(e);
 	}
 	if (keycode == KEYCODE_W)
 	{
-		e->pl_y -= STEP;
+		//e->pl_y -= STEP;
+		x = cos((e->pl_ang - 0) / 180 * M_PI) * STEP;
+		y = -sin((e->pl_ang - 0) / 180 * M_PI) * STEP;
+		e->pl_x += x;
+		e->pl_y += y;
 		log_pl(e);
-		if (e->pl_y < BODY / 2)
-			e->pl_y = BODY / 2;
+		//if (e->pl_y < BODY / 2)
+		//	e->pl_y = BODY / 2;
+		if (e->pl_x * SCALE < BODY / 2)
+			e->pl_x = (BODY / 2) * 1.0 / SCALE;
+		if (e->pl_y * SCALE < BODY / 2)
+			e->pl_y = (BODY / 2) * 1.0 / SCALE;
 		log_pl(e);
 	}
 	if (keycode == KEYCODE_S)
 	{
 		e->pl_y += STEP;
 		log_pl(e);
-		if (e->pl_y > e->height - BODY / 2)
-			e->pl_y = e->height - BODY / 2;
+		//if (e->pl_y > e->height - BODY / 2)
+		//	e->pl_y = e->height - BODY / 2;
+		if (e->pl_y * SCALE > e->height - BODY / 2)
+			e->pl_y = (e->height - BODY / 2) * 1.0 / SCALE;
 		log_pl(e);
 	}
 	if (keycode == KEYCODE_D)
 	{
-		e->pl_x += STEP;
+		//e->pl_x += STEP;
+		x = cos((e->pl_ang + 90) / 180 * M_PI) * STEP;
+		y = -sin((e->pl_ang + 90) / 180 * M_PI) * STEP;
+		e->pl_x -= x;
+		e->pl_y -= y;
 		log_pl(e);
-		if (e->pl_x > e->width - BODY / 2)
-			e->pl_x = e->width - BODY / 2;
+		//if (e->pl_x > e->width - BODY / 2)
+		//	e->pl_x = e->width - BODY / 2;
+		if (e->pl_x * SCALE > e->width - BODY / 2)
+			e->pl_x = (e->width - BODY / 2) * 1.0 / SCALE;
 		log_pl(e);
 	}
 	if (keycode == KEYCODE_LEFT)

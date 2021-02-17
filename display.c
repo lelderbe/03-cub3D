@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:15:32 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/17 12:16:34 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/17 13:15:42 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,8 +225,8 @@ void	display_pl(t_vars *e)
 		{
 			//x = round(cos(1.0 * j / 180 * M_PI) * i);
 			//y = -round(sin(1.0 * j / 180 * M_PI) * i);
-			x = (cos(1.0 * j / 180 * M_PI) * i);
-			y = -(sin(1.0 * j / 180 * M_PI) * i);
+			x = round(cos(1.0 * j / 180 * M_PI) * i);
+			y = -round(sin(1.0 * j / 180 * M_PI) * i);
 			//my_mlx_pixel_put(e, e->pl_x + x, e->pl_y + y, 0x0000FF00);
 			my_mlx_pixel_put(e, e->pl_x * SCALE + x, e->pl_y * SCALE + y, 0x0000FF00);
 			j++;
@@ -269,7 +269,7 @@ void	repaint(t_vars *e)
 	//disp_rays(e);
 	display_map(e);
 	display_pl(e);
-	//disp_look_line(e);
+	disp_look_line(e);
 
     mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
 	mlx_destroy_image(e->mlx, e->img);
