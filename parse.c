@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:46:54 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/17 12:10:32 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/18 14:30:29 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,14 @@ int		parse_cub_file(t_vars *e)
 	map[4] = 0;
 	e->width = 800;
 	e->height = 600;
+	e->half_w = e->width / 2;
+	e->half_h = e->height / 2;
+	e->d = e->half_w / tan((FOV / 2) / 180 * M_PI);
 	e->map = map;
 	//e->pl_x = 1 * SCALE + SCALE / 2;
 	//e->pl_y = 2 * SCALE + SCALE / 2;
-	e->pl_x = 1.5;
-	e->pl_y = 2.5;
+	e->pl_x = 1 + 0.5;
+	e->pl_y = 2 + 0.5;
 	e->pl_ang = 90;
 	return (OK);
 }

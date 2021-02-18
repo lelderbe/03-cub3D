@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:15:32 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/17 16:15:32 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/18 14:43:52 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static void	my_mlx_pixel_put(t_vars *e, double x, double y, int color)
 	int	yy;
     char    *dst;
 
-	xx = round(x);
-	yy = round(y);
+	xx = (int)(x);
+	yy = (int)(y);
     //dst = e->addr + (round(y * SCALE) * e->line_length +
 	//	   round(x * SCALE) * (e->bits_per_pixel / 8));
     dst = e->addr + (yy * e->line_length + xx * (e->bits_per_pixel / 8));
@@ -80,7 +80,7 @@ static int	disp_ray(double ang, t_vars *e)
 		}
 		//mlx_pixel_put(e->mlx, e->win, e->pl_x + x, e->pl_y + y, 0x0000FF00);
 		my_mlx_pixel_put(e, (e->pl_x + x) * SCALE, (e->pl_y + y) * SCALE, 0x0000FF00);
-		d = d + 1.0 / 2 / SCALE;
+		d = d + 1.0 / SCALE;
 	}
 	return (d);
 }
@@ -120,7 +120,7 @@ void	disp_rays(t_vars *e)
 	fov_step = fov / e->width;
 
 	i = -fov / 2;
-	e->d = e->width / 2 / tan(fov / 2);
+	//e->d = e->width / 2 / tan(fov / 2);
 	col = 0;
 	while (i <= fov / 2)
 	{
@@ -176,13 +176,16 @@ void	disp_look_line(t_vars *e)
 	//int j;
 	
 	i = 0;
-	while (i < LOOK_LEN)
+	//while (i < LOOK_LEN)
+	while (i < e->width)
 	{
 		x = round(cos(e->pl_ang / 180 * M_PI) * i);
 		y = -round(sin(e->pl_ang / 180 * M_PI) * i);
 		//printf("look x: %d y: %d\n", x, y);
 		//mlx_pixel_put(e->mlx, e->win, e->pl_x + x, e->pl_y + y, 0x00FF0000);
 		//my_mlx_pixel_put(e, e->pl_x + x, e->pl_y + y, 0x00FF0000);
+		if ((int)(e->pl_x * SCALE + x) > e->width)
+			break ;
 		my_mlx_pixel_put(e, e->pl_x * SCALE + x,
 				   e->pl_y * SCALE + y, 0x00FF0000);
 		i++;

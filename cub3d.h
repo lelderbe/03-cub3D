@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/17 16:03:12 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/18 14:13:40 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@
 # define ERROR				"Error"
 # define ERROR_ARGS_COUNT	"Invalid arguments count"
 
+# define TILE		64
 # define SCALE		64
 # define BODY		10
-//# define STEP		8
+//# define STEP		SCALE / 8
 # define STEP		1.0/8
 # define LOOK_LEN	20
 # define MAX_VIEW	1000
@@ -70,6 +71,8 @@ typedef struct	s_vars {
 //	struct {
 	int			width;
 	int			height;
+	int			half_w;
+	int			half_h;
 	void		*mlx;
 	void		*win;
 //	}			mlx;
