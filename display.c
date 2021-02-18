@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:15:32 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/18 14:43:52 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/18 15:39:58 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	my_mlx_pixel_put(t_vars *e, double x, double y, int color)
     *(unsigned int*)dst = color;
 }
 
-static int	disp_ray(double ang, t_vars *e)
+static double	disp_ray(double ang, t_vars *e)
 {
 	//int x;
 	//int y;
@@ -75,7 +75,7 @@ static int	disp_ray(double ang, t_vars *e)
 		if (e->map[yy][xx] == '1')
 		{
 			//printf("wall\n");
-			return ((int)d);
+			return (d);
 			break ;
 		}
 		//mlx_pixel_put(e->mlx, e->win, e->pl_x + x, e->pl_y + y, 0x0000FF00);
@@ -85,15 +85,20 @@ static int	disp_ray(double ang, t_vars *e)
 	return (d);
 }
 
-void	disp_column(t_vars *e, int x, int d)
+//void	disp_column(t_vars *e, int x, int d)
+void	disp_column(t_vars *e, int x, double d)
 {
 	int		i;
 	int		h;
 
 	(void)e;
 	(void)d;
-	h = round(1.0 * SCALE / d * e->d);
+	//h = round(1.0 * SCALE / d * e->d);
+	printf("e->d: %6.2f, d: %6.2f\n", e->d, d);
+	h = (int)(e->d / d * SCALE / 100);
 	printf("h: %d\n", h);
+	if (h > e->height)
+		h = e->height;
 	i = -h / 2;
 	while (i < h / 2)
 	{
@@ -112,7 +117,7 @@ void	disp_rays(t_vars *e)
 	double	fov;
 	double	fov_step;
 	int		x;
-	int		d;
+	double	d;
 	int		col;
 
 	fov = FOV;
@@ -126,7 +131,7 @@ void	disp_rays(t_vars *e)
 	{
 		d = disp_ray(e->pl_ang - i, e);
 		//printf("ang: %4.2f, d: %d\n", e->pl_ang - i, d);
-		//disp_column(e, col, d);
+		disp_column(e, col, d);
 		i = i + fov_step;
 		col++;
 	}
@@ -177,14 +182,19 @@ void	disp_look_line(t_vars *e)
 	
 	i = 0;
 	//while (i < LOOK_LEN)
-	while (i < e->width)
+	while (i < (e->width * 2))
 	{
-		x = round(cos(e->pl_ang / 180 * M_PI) * i);
-		y = -round(sin(e->pl_ang / 180 * M_PI) * i);
+		//x = round(cos(e->pl_ang / 180 * M_PI) * i);
+		//y = -round(sin(e->pl_ang / 180 * M_PI) * i);
+		x = (cos(e->pl_ang / 180 * M_PI) * i);
+		y = -(sin(e->pl_ang / 180 * M_PI) * i);
 		//printf("look x: %d y: %d\n", x, y);
 		//mlx_pixel_put(e->mlx, e->win, e->pl_x + x, e->pl_y + y, 0x00FF0000);
 		//my_mlx_pixel_put(e, e->pl_x + x, e->pl_y + y, 0x00FF0000);
-		if ((int)(e->pl_x * SCALE + x) > e->width)
+		if ((int)(e->pl_x * SCALE + x) > e->width ||
+				(int)(e->pl_x * SCALE + x) < 0 ||
+				(int)(e->pl_y * SCALE + y) > e->height ||
+				(int)(e->pl_y * SCALE + y) < 0)
 			break ;
 		my_mlx_pixel_put(e, e->pl_x * SCALE + x,
 				   e->pl_y * SCALE + y, 0x00FF0000);
