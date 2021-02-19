@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:46:54 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/18 15:39:43 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/19 14:15:09 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,25 @@ int		parse_cub_file(t_vars *e)
 {
 	char	**map;
 
-	map = malloc(sizeof(*map) * (4 + 1));
-	map[0] = ft_strdup("11110");
-	map[1] = ft_strdup("10011");
-	map[2] = ft_strdup("1N001");
-	map[3] = ft_strdup("11111");
-	map[4] = 0;
-	e->width = 800;
-	e->height = 600;
+	map = malloc(sizeof(*map) * (6 + 1));
+	map[0] = ft_strdup("1111111110");
+	map[1] = ft_strdup("1000000011");
+	map[2] = ft_strdup("1000110011");
+	map[3] = ft_strdup("1000010011");
+	map[4] = ft_strdup("1N00000001");
+	map[5] = ft_strdup("1111111111");
+	map[6] = 0;
+	e->width = 640;
+	e->height = 480;
 	e->half_w = e->width / 2;
 	e->half_h = e->height / 2;
-	printf("tan: %6.2f\n", tan(10 * M_PI / 180));
 	e->d = 1.0 * e->half_w / tan((FOV / 2) * M_PI / 180);
+	printf("e->d: %6.2f\n", e->d);
 	e->map = map;
 	//e->pl_x = 1 * SCALE + SCALE / 2;
 	//e->pl_y = 2 * SCALE + SCALE / 2;
 	e->pl_x = 1 + 0.5;
-	e->pl_y = 2 + 0.5;
+	e->pl_y = 4 + 0.5;
 	e->pl_ang = 90;
 	return (OK);
 }

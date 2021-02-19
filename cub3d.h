@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/18 15:35:28 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/19 15:33:28 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,19 @@
 # define ERROR				"Error"
 # define ERROR_ARGS_COUNT	"Invalid arguments count"
 
-# define TILE		64
-# define SCALE		64
-# define BODY		10
+# define MAP_TILE	20
+# define MAP_BODY	10
+# define TILE		100
+# define SCALE		100
+# define BODY		1.0 / 8
 //# define STEP		SCALE / 8
-# define STEP		1.0/8
+# define STEP		1.0 / 8
+# define ANGLE_STEP	2
 # define LOOK_LEN	20
-# define MAX_VIEW	1000
+# define MAX_VIEW	10
+
+# define WALL		'1'
+# define EMPTY		'0'
 
 # define KEYCODE_ESC		53
 # define KEYCODE_W			13
@@ -51,7 +57,8 @@
 # define MASK_KEY_PRESS			1L<<0
 # define MASK_POINTER_MOTION	1L<<6
 
-# define FOV	60
+# define FOV		60
+# define HALF_FOV	FOV / 2
 
 # define CEIL_COLOR		0x00333333
 # define FLOOR_COLOR	0x00666666
