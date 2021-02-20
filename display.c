@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:15:32 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/19 15:31:44 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/20 14:28:08 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,16 @@ static double	disp_ray(double ang, t_vars *e)
 		if (e->map[yy][xx] == '1')
 		{
 			//printf("wall\n");
+			//d = d * cos(ang / 180 * M_PI);
 			return (d);
 			break ;
 		}
 		//mlx_pixel_put(e->mlx, e->win, e->pl_x + x, e->pl_y + y, 0x0000FF00);
-		my_mlx_pixel_put(e, (e->pl_x + x) * MAP_TILE, (e->pl_y + y) * MAP_TILE, 0x0000FF00);
-		d = d + 1.0 / SCALE;
+		if (e->visible)
+			my_mlx_pixel_put(e, (e->pl_x + x) * MAP_TILE, (e->pl_y + y) * MAP_TILE, 0x0000FF00);
+		d = d + 1.0 / TILE;
 	}
+	//d = d * cos(ang / 180 * M_PI);
 	return (d);
 }
 
@@ -96,11 +99,12 @@ void	disp_column(t_vars *e, int x, double d)
 	(void)d;
 	//h = round(1.0 * SCALE / d * e->d);
 	//printf("e->d: %6.2f, d: %6.2f\n", e->d, d);
-	h = (int)(1.0 * e->d * TILE / (d * TILE));
-	//h = (int)(1.0 * e->d / d);
-	//printf("h: %d\n", h);
-	if (h > e->height)
-		h = e->height;
+	//h = (int)(1.0 * e->d * TILE / (d * TILE));
+	//h = (int)(1.0 * e->d * TILE / d);
+	h = (int)(1.0 * e->d / d / 2);
+	//printf("d: %6.2f, D: %6.2f, h: %d\n", e->d, d, h);
+	if (h >= e->height)
+		h = e->height - 1;
 	i = -h / 2;
 	while (i < h / 2)
 	{
@@ -115,6 +119,11 @@ void	disp_column(t_vars *e, int x, double d)
 	}
 
 
+}
+
+static double mod(double d)
+{
+	return (d < 0 ? -d : d);
 }
 
 void	disp_rays(t_vars *e)
@@ -135,6 +144,9 @@ void	disp_rays(t_vars *e)
 	{
 		d = disp_ray(e->pl_ang - i, e);
 		//printf("ang: %4.2f, d: %6.2f\n", e->pl_ang - i, d * TILE);
+		//disp_column(e, col, d);
+		d = d * cos(mod(i) / 180 * M_PI);
+		//printf("d: %6.2f\n", d);
 		disp_column(e, col, d);
 		i = i + fov_step;
 		col++;
@@ -179,28 +191,43 @@ static void	display_floor_ceil(t_vars *e)
 
 void	disp_look_line(t_vars *e)
 {
-	int x;
-	int y;
+	int dx;
+	int dy;
 	int i;
 	//int j;
+	int xx;
+	int yy;
 	
+	if (!e->visible)
+		return ;
 	i = 0;
 	//while (i < LOOK_LEN)
 	while (i < (e->width * 2))
 	{
 		//x = round(cos(e->pl_ang / 180 * M_PI) * i);
 		//y = -round(sin(e->pl_ang / 180 * M_PI) * i);
-		x = (cos(1.0 * e->pl_ang / 180 * M_PI) * i);
-		y = -(sin(1.0 * e->pl_ang / 180 * M_PI) * i);
+		dx = (cos(1.0 * e->pl_ang / 180 * M_PI) * i);
+		dy = -(sin(1.0 * e->pl_ang / 180 * M_PI) * i);
 		//printf("look x: %d y: %d\n", x, y);
 		//mlx_pixel_put(e->mlx, e->win, e->pl_x + x, e->pl_y + y, 0x00FF0000);
 		//my_mlx_pixel_put(e, e->pl_x + x, e->pl_y + y, 0x00FF0000);
-		if ((int)(e->pl_x * MAP_TILE + x) > e->width ||
-				(int)(e->pl_x * MAP_TILE + x) < 0 ||
-				(int)(e->pl_y * MAP_TILE + y) > e->height ||
-				(int)(e->pl_y * MAP_TILE + y) < 0)
+		if ((int)(e->pl_x * MAP_TILE + dx) >= e->width ||
+				(int)(e->pl_x * MAP_TILE + dx) < 0 ||
+				(int)(e->pl_y * MAP_TILE + dy) >= e->height ||
+				(int)(e->pl_y * MAP_TILE + dy) < 0)
 			break ;
-		my_mlx_pixel_put(e, e->pl_x * MAP_TILE + x, e->pl_y * MAP_TILE + y, 0x00FF0000);
+		
+		
+		xx = (int)(e->pl_x + 1.0 * dx / MAP_TILE);
+		yy = (int)(e->pl_y + 1.0 * dy / MAP_TILE);
+		//printf("xx: %d, yy: %d\n", xx, yy);
+		if (e->map[yy][xx] == '1')
+			break ;
+		
+
+		//printf("x: %6.2f, y: %6.2f\n", e->pl_x * MAP_TILE + x, e->pl_y * MAP_TILE + y);
+		my_mlx_pixel_put(e, e->pl_x * MAP_TILE + dx, e->pl_y * MAP_TILE + dy, 0x00FF0000);
+		//my_mlx_pixel_put(e, (e->pl_x + dx) * MAP_TILE, (e->pl_y + dy) * MAP_TILE, 0x00FF0000);
 		i++;
 	}
 }
@@ -235,6 +262,8 @@ void	display_pl(t_vars *e)
 	double x;
 	double y;
 
+	if (!e->visible)
+		return ;
 	i = 1;
 	while (i < MAP_BODY / 2)
 	{
@@ -259,6 +288,8 @@ void	display_map(t_vars *e)
 	int	x;
 	int	y;
 
+	if (!e->visible)
+		return ;
 	y = 0;
 	while (e->map[y])
 	{
@@ -273,8 +304,73 @@ void	display_map(t_vars *e)
 	}
 }
 
-void	repaint(t_vars *e)
+void	world_update(t_vars *e)
 {
+	double dx;
+	double dy;
+
+	if (e->pl_a)
+	{
+		dx = cos((e->pl_ang + 90) / 180 * M_PI) * STEP;
+		dy = -sin((e->pl_ang + 90) / 180 * M_PI) * STEP;
+		log_pl(e);
+		pl_check_and_move(e, dx, dy);
+		log_pl(e);
+	}
+	if (e->pl_w)
+	{
+		dx = cos((e->pl_ang - 0) / 180 * M_PI) * STEP;
+		dy = -sin((e->pl_ang - 0) / 180 * M_PI) * STEP;
+		//e->pl_x += dx;
+		//e->pl_y += dy;
+		log_pl(e);
+		pl_check_and_move(e, dx, dy);
+		//check_pl_coords(e);
+		log_pl(e);
+	}
+	if (e->pl_s)
+	{
+		dx = cos((e->pl_ang - 180) / 180 * M_PI) * STEP;
+		dy = -sin((e->pl_ang - 180) / 180 * M_PI) * STEP;
+		//e->pl_x += dx;
+		//e->pl_y += dy;
+		log_pl(e);
+		pl_check_and_move(e, dx, dy);
+		//check_pl_coords(e);
+		log_pl(e);
+	}
+	if (e->pl_d)
+	{
+		dx = cos((e->pl_ang - 90) / 180 * M_PI) * STEP;
+		dy = -sin((e->pl_ang - 90) / 180 * M_PI) * STEP;
+		//e->pl_x += dx;
+		//e->pl_y += dy;
+		log_pl(e);
+		pl_check_and_move(e, dx, dy);
+		//check_pl_coords(e);
+		log_pl(e);
+	}
+	if (e->pl_left)
+	{
+		e->pl_ang += ANGLE_STEP;
+		if (e->pl_ang >= 360)
+			e->pl_ang -= 360;
+		log_pl(e);
+	}
+	if (e->pl_right)
+	{
+		e->pl_ang -= ANGLE_STEP;
+		if (e->pl_ang < 0)
+			e->pl_ang = 360 + e->pl_ang;
+		//if (e->pl_ang <= -360)
+		//	e->pl_ang += 360;
+		log_pl(e);
+	}
+}
+
+int	repaint(t_vars *e)
+{
+	world_update(e);
 	e->img = mlx_new_image(e->mlx, e->width, e->height);
     e->addr = mlx_get_data_addr(e->img, &e->bits_per_pixel, &e->line_length,
                                  &e->endian);
@@ -291,5 +387,6 @@ void	repaint(t_vars *e)
 
     mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
 	mlx_destroy_image(e->mlx, e->img);
+	return (0);
 }
 

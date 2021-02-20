@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:51:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/19 15:33:50 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/20 14:27:26 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ void	pl_check_and_move(t_vars *e, double dx, double dy)
 {
 	double x;
 	double y;
+	//int sign;
+
+	//sign = dx < 0 ? -1 : 1;
 
 	x = e->pl_x + dx;
 	if (dx > 0)
@@ -70,6 +73,10 @@ void	pl_check_and_move(t_vars *e, double dx, double dy)
 		else
 			x = (int)(x + 1) + BODY / 2;
 	}
+	else
+	{
+		x = e->pl_x + dx;
+	}
 
 	y = e->pl_y + dy;
 	if (dy > 0)
@@ -85,6 +92,10 @@ void	pl_check_and_move(t_vars *e, double dx, double dy)
 		else
 			y = (int)(y + 1) + BODY / 2;
 	}
+	else
+	{
+		y = e->pl_y + dy;
+	}
 	
 	printf("final x: %6.2f, y: %6.2f\n", x, y);
 
@@ -97,11 +108,17 @@ int		event_key_press(int keycode, t_vars *e)
 	double dx;
 	double dy;
 
+	(void)dx;
+	(void)dy;
 	printf("keycode: %d\n", keycode);
 	if (keycode == KEYCODE_ESC)
 		exit (0);
+	if (keycode == KEYCODE_TAB)
+		e->visible = !e->visible;
 	if (keycode == KEYCODE_A)
 	{
+		e->pl_a = 1;
+		/*
 		dx = cos((e->pl_ang + 90) / 180 * M_PI) * STEP;
 		dy = -sin((e->pl_ang + 90) / 180 * M_PI) * STEP;
 		//e->pl_x += dx;
@@ -110,9 +127,12 @@ int		event_key_press(int keycode, t_vars *e)
 		pl_check_and_move(e, dx, dy);
 		//check_pl_coords(e);
 		log_pl(e);
+		*/
 	}
 	if (keycode == KEYCODE_W)
 	{
+		e->pl_w = 1;
+		/*
 		dx = cos((e->pl_ang - 0) / 180 * M_PI) * STEP;
 		dy = -sin((e->pl_ang - 0) / 180 * M_PI) * STEP;
 		//e->pl_x += dx;
@@ -121,9 +141,12 @@ int		event_key_press(int keycode, t_vars *e)
 		pl_check_and_move(e, dx, dy);
 		//check_pl_coords(e);
 		log_pl(e);
+		*/
 	}
 	if (keycode == KEYCODE_S)
 	{
+		e->pl_s = 1;
+		/*
 		dx = cos((e->pl_ang - 180) / 180 * M_PI) * STEP;
 		dy = -sin((e->pl_ang - 180) / 180 * M_PI) * STEP;
 		//e->pl_x += dx;
@@ -132,9 +155,12 @@ int		event_key_press(int keycode, t_vars *e)
 		pl_check_and_move(e, dx, dy);
 		//check_pl_coords(e);
 		log_pl(e);
+		*/
 	}
 	if (keycode == KEYCODE_D)
 	{
+		e->pl_d = 1;
+		/*
 		dx = cos((e->pl_ang - 90) / 180 * M_PI) * STEP;
 		dy = -sin((e->pl_ang - 90) / 180 * M_PI) * STEP;
 		//e->pl_x += dx;
@@ -143,22 +169,61 @@ int		event_key_press(int keycode, t_vars *e)
 		pl_check_and_move(e, dx, dy);
 		//check_pl_coords(e);
 		log_pl(e);
+		*/
 	}
 	if (keycode == KEYCODE_LEFT)
 	{
+		e->pl_left = 1;
+		/*
 		e->pl_ang += ANGLE_STEP;
 		if (e->pl_ang >= 360)
 			e->pl_ang -= 360;
 		log_pl(e);
+		*/
 	}
 	if (keycode == KEYCODE_RIGHT)
 	{
+		e->pl_right = 1;
+		/*
 		e->pl_ang -= ANGLE_STEP;
 		if (e->pl_ang < 0)
 			e->pl_ang = 360 + e->pl_ang;
 		//if (e->pl_ang <= -360)
 		//	e->pl_ang += 360;
 		log_pl(e);
+		*/
+	}
+
+	repaint(e);
+	return (0);
+}
+
+int		event_key_release(int keycode, t_vars *e)
+{
+
+	if (keycode == KEYCODE_A)
+	{
+		e->pl_a = 0;
+	}
+	if (keycode == KEYCODE_W)
+	{
+		e->pl_w = 0;
+	}
+	if (keycode == KEYCODE_S)
+	{
+		e->pl_s = 0;
+	}
+	if (keycode == KEYCODE_D)
+	{
+		e->pl_d = 0;
+	}
+	if (keycode == KEYCODE_LEFT)
+	{
+		e->pl_left = 0;
+	}
+	if (keycode == KEYCODE_RIGHT)
+	{
+		e->pl_right = 0;
 	}
 
 	repaint(e);

@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:46:54 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/19 14:15:09 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/20 14:31:31 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,15 @@ int		parse_cub_file(t_vars *e)
 	map[4] = ft_strdup("1N00000001");
 	map[5] = ft_strdup("1111111111");
 	map[6] = 0;
-	e->width = 640;
-	e->height = 480;
+	e->width = 1024;
+	e->height = 768;
 	e->half_w = e->width / 2;
 	e->half_h = e->height / 2;
 	e->d = 1.0 * e->half_w / tan((FOV / 2) * M_PI / 180);
+	//e->d = (1.0 * e->half_w / TILE) / tan((FOV / 2) * M_PI / 180);
 	printf("e->d: %6.2f\n", e->d);
 	e->map = map;
+	e->visible = 1;
 	//e->pl_x = 1 * SCALE + SCALE / 2;
 	//e->pl_y = 2 * SCALE + SCALE / 2;
 	e->pl_x = 1 + 0.5;

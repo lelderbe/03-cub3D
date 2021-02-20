@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:58:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/05 14:15:17 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/20 14:30:53 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int		hook_events(t_vars *e)
 	mlx_mouse_hook(e->win, event_m, e); 
 	mlx_hook(e->win, EV_MOTION_NOTIFY, MASK_POINTER_MOTION, event_motion, e);
 	mlx_hook(e->win, EV_KEY_PRESS, MASK_KEY_PRESS, event_key_press, e);
+	mlx_hook(e->win, EV_KEY_RELEASE, MASK_KEY_RELEASE, event_key_release, e);
 	mlx_hook(e->win, EV_CREATE_NOTIFY, 0, event_window_create, e);
 	mlx_hook(e->win, EV_DESTROY_NOTIFY, MASK_NO_EVENT, event_window_destroy, e);
 	return (OK);
@@ -74,6 +75,7 @@ int		main(int argc, char **argv)
 	hook_events(&e);
 	e.img = mlx_new_image(e.mlx, e.width, e.height);
 	// game start
+	//mlx_loop_hook(e.mlx, repaint, &e);
 	mlx_loop(e.mlx);
 	return (0);
 }
