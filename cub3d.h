@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/20 14:20:57 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/21 18:05:22 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,24 @@ typedef struct	s_vars {
 	int			pl_left;
 	int			pl_right;
 //	}			pl;
+
+	int			color;
+
+//	struct {
+	void		*wall_n;
+	int			n_width;
+	int			n_height;
+//	}			textures;
+
+//	struct {
+	double		wall_x;
+//	}			textures;
 }				t_vars;
 
 int				parse_params(int argc, char **argv, t_vars *e);
 int				parse_cub_file(t_vars *e);
+
+void			texture_load(t_vars *e);
 
 int				event_window_create(t_vars *e);
 int				event_window_destroy(t_vars *e);

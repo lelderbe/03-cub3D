@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:58:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/20 14:30:53 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/21 17:22:01 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ int		main(int argc, char **argv)
 		return (-1);
 	}
 
+	// texture load
+	texture_load(&e);
+
 	repaint(&e);
 
 	if (e.save_option)
@@ -74,6 +77,7 @@ int		main(int argc, char **argv)
 	// hook events create
 	hook_events(&e);
 	e.img = mlx_new_image(e.mlx, e.width, e.height);
+
 	// game start
 	//mlx_loop_hook(e.mlx, repaint, &e);
 	mlx_loop(e.mlx);
