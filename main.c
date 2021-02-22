@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:58:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/21 17:22:01 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/22 14:22:24 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,10 @@ int		main(int argc, char **argv)
 
 	// texture load
 	texture_load(&e);
+	// window img prepare
+	e.img = mlx_new_image(e.mlx, e.width, e.height);
+	e.addr = mlx_get_data_addr(e.img, &e.bits_per_pixel, &e.line_length, &e.endian);
+	log_img(e.addr, e.bits_per_pixel, e.line_length, e.endian);
 
 	repaint(&e);
 
@@ -76,7 +80,6 @@ int		main(int argc, char **argv)
 	//mlx_clear_window(e.mlx, e.window);
 	// hook events create
 	hook_events(&e);
-	e.img = mlx_new_image(e.mlx, e.width, e.height);
 
 	// game start
 	//mlx_loop_hook(e.mlx, repaint, &e);

@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/21 18:05:22 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/22 15:14:47 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,17 @@
 # define WALL_COLOR		0x00000066
 
 
+typedef struct	s_wall {
+	char		*file;
+	void		*img;
+	int			width;
+	int			height;
+	void		*addr;
+	int			bpp;
+	int			len;
+	int			endian;
+}				t_wall;
+
 typedef struct	s_vars {
 //	struct {
 	char		*cub_filename;
@@ -87,6 +98,12 @@ typedef struct	s_vars {
 	void		*mlx;
 	void		*win;
 //	}			mlx;
+
+//	struct {
+	int			wall_color;
+	int			floor_color;
+	int			ceil_color;
+//	}			opts;
 
 //	struct {
 	void		*img;
@@ -114,10 +131,13 @@ typedef struct	s_vars {
 	int			color;
 
 //	struct {
-	void		*wall_n;
-	int			n_width;
-	int			n_height;
 //	}			textures;
+
+	t_wall		w[4];
+	t_wall		wn;
+	t_wall		ws;
+	t_wall		we;
+	t_wall		ww;
 
 //	struct {
 	double		wall_x;
@@ -143,5 +163,6 @@ int				repaint(t_vars *e);
 void			log_map(t_vars *e);
 void			log_map2(t_vars *e);
 void			log_pl(t_vars *e);
+void			log_img(void *addr, int bpp, int len, int endian);
 
 #endif

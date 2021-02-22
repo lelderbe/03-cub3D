@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:15:32 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/21 18:24:27 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/22 15:18:35 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,12 @@ static void	my_mlx_pixel_put(t_vars *e, double x, double y, int color)
     dst = e->addr + (yy * e->line_length + xx * (e->bits_per_pixel / 8));
     *(unsigned int*)dst = color;
 }
+/*
+unsigned int	get_texture_pixel_color(t_vars *e, int x, int y)
+{
 
+}
+*/
 static double	disp_ray(double ang, t_vars *e)
 {
 	//int x;
@@ -100,26 +105,36 @@ void	disp_column(t_vars *e, int x, double d)
 {
 	int		i;
 	int		h;
-	unsigned int		color;
+	unsigned int	color;
 	double	step;
-	int		column;
+	double	shift;
 	double		tex_y;
+	int addr;
+	int dx;
+	int dy;
+	t_wall wn;
 
+	wn = e->w[1]; // NO
+
+	shift = 0;
 	tex_y = 0;
-	(void)e;
-	(void)d;
 	//h = round(1.0 * SCALE / d * e->d);
 	//printf("e->d: %6.2f, d: %6.2f\n", e->d, d);
 	//h = (int)(1.0 * e->d * TILE / (d * TILE));
 	//h = (int)(1.0 * e->d * TILE / d);
-	h = (int)(e->d / d / 1);
-	//h = (round)(e->d / d / 2);
+	h = (int)(e->d / d);
+	//h = (round)(e->d / d);
 	//printf("d: %6.2f, D: %6.2f, h: %d\n", e->d, d, h);
+	step = 1.0 * wn.height / h;
 	if (h >= e->height)
+	{
+		shift = step * (h - e->height) / 2;
 		h = e->height - 1;
+	}
 
-	step = 1.0 * e->n_height / h;
-	column = (int)e->n_width * e->wall_x;
+	//step = 1.0 * e->n_height / h;
+	dx = (int)wn.width * e->wall_x;
+	//printf("h: %d, wall_x: %6.2f, column: %d\n", h, e->wall_x, column);
 
 	i = -h / 2;
 	while (i < h / 2)
@@ -127,13 +142,17 @@ void	disp_column(t_vars *e, int x, double d)
 		//printf("x: %d, y: %d\n", x, e->height / 2 + i);
 		//my_mlx_pixel_put(e, x, e->height / 2 + i, WALL_COLOR);
 		//printf("color: %16.8f\n", (1 + d * d * 0.1));
-		color = 0x00000000 | (int)(255 / (1 + d * d * 0.1));
+		color = e->wall_color;
+		color = (int)(255 / (1 + d * d * 0.1));
 		color = e->color;
+		
+		//dy = shift + (int)tex_y;
+		dy = (int)(tex_y + shift);
+		addr = dy * wn.len + dx * (wn.bpp / 8);
+		color =	*((unsigned int*)(wn.addr + addr));
+		//printf("dy: %d, addr: %d, color: %d\n", dy, addr, color);
 
-		//color = *(unsigned int *)(e->wall_n + ((int)tex_y + column * (e->bits_per_pixel / 8)));
-		//color = *(unsigned int *)(e->wall_n + ((int)tex_y * e->n_width * 4  + column * (e->bits_per_pixel / 8)));
 		tex_y += step;
-		//my_mlx_pixel_put(e, x, e->height / 2 + i, WALL_COLOR);
 		my_mlx_pixel_put(e, x, e->height / 2 + i, color);
 		i++;
 	}
@@ -166,18 +185,6 @@ void	disp_rays(t_vars *e)
 		i = i + fov_step;
 		col++;
 	}
-/*
-	i = -fov / 2;
-	e->d = e->width / 2 / tan(fov / 2);
-	col = 0;
-	while (i <= fov / 2)
-	{
-		d = disp_ray(e->pl_ang - i, e);
-		//printf("ang: %4.2f, d: %d\n", e->pl_ang - i, d);
-		i = i + fov_step;
-		col++;
-	}
-	*/
 }
 
 static void	display_floor_ceil(t_vars *e)
@@ -186,8 +193,6 @@ static void	display_floor_ceil(t_vars *e)
 	int y;
 	int color;
 
-	(void)e;
-	//printf("floor and ceiling\n");
 	//printf("width: %d, height: %d\n", e->width, e->height);
 	y = 0;
 	while (y < e->height)
@@ -196,7 +201,7 @@ static void	display_floor_ceil(t_vars *e)
 		while (x < e->width)
 		{
 			// TODO: optimize (maybe via memcpy)
-			color = y < e->height / 2 ? CEIL_COLOR : FLOOR_COLOR;
+			color = y < e->height / 2 ? e->ceil_color : e->floor_color;
 			my_mlx_pixel_put(e, x, y, color);
 			x++;
 		}
@@ -385,23 +390,44 @@ void	world_update(t_vars *e)
 
 void	texture_load(t_vars *e)
 {
-	char    *relative_path = "./img/bluestone.xpm";
+	int i;
 
-	e->wall_n = mlx_xpm_file_to_image(e->mlx, relative_path, &e->n_width, &e->n_height);
-
-	printf("texture width: %d, height: %d\n", e->n_width, e->n_height);
+	i = 0;
+	while (i < 4)
+	{
+		if (e->w[i].file)
+		{
+			e->w[i].img = mlx_xpm_file_to_image(
+					e->mlx, e->w[i].file, &e->w[i].width, &e->w[i].height);
+			printf("tex width: %d, height: %d\n", e->w[i].width, e->w[i].height);
+    		if (e->w[i].img)
+			{
+				e->w[i].addr = mlx_get_data_addr(
+						e->w[i].img, &e->w[i].bpp, &e->w[i].len, &e->w[i].endian);
+				log_img(e->w[i].addr, e->w[i].bpp, e->w[i].len, e->w[i].endian);
+			}
+		}
+		/*
+		if (e->wn.file)
+		{
+			e->wn.img = mlx_xpm_file_to_image(
+					e->mlx, e->wn.file, &e->wn.width, &e->wn.height);
+			printf("texture width: %d, height: %d\n", e->wn.width, e->wn.height);
+    		if (e->wn.img)
+			{
+				e->wn.addr = mlx_get_data_addr(
+						e->wn.img, &e->wn.bpp, &e->wn.len, &e->wn.endian);
+				log_img(e->wn.addr, e->wn.bpp, e->wn.len, e->wn.endian);
+			}
+		}
+		*/
+		i++;
+	}
 }
 
 int	repaint(t_vars *e)
 {
 	world_update(e);
-	e->img = mlx_new_image(e->mlx, e->width, e->height);
-    e->addr = mlx_get_data_addr(e->img, &e->bits_per_pixel, &e->line_length,
-                                 &e->endian);
-	printf("addr: %p\n", e->addr);
-	printf("bits_per_pixel: %d\n", e->bits_per_pixel);
-	printf("line_length: %d\n", e->line_length);
-	printf("endian: %d\n", e->endian);
 
 	display_floor_ceil(e);
 	disp_rays(e);
@@ -410,8 +436,7 @@ int	repaint(t_vars *e)
 	disp_look_line(e);
 
 	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
-	//mlx_put_image_to_window(e->mlx, e->win, e->wall_n, 100, 100);
-	mlx_destroy_image(e->mlx, e->img);
+
+	//mlx_destroy_image(e->mlx, e->img);
 	return (0);
 }
-

@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:46:54 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/20 14:31:31 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/22 15:15:04 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,21 @@ int		parse_cub_file(t_vars *e)
 	e->height = 768;
 	e->half_w = e->width / 2;
 	e->half_h = e->height / 2;
-	e->d = 1.0 * e->half_w / tan((FOV / 2) * M_PI / 180);
+	e->d = 1.0 * e->half_w / tan((FOV / 2) * M_PI / 180) / 1;
 	//e->d = (1.0 * e->half_w / TILE) / tan((FOV / 2) * M_PI / 180);
 	printf("e->d: %6.2f\n", e->d);
+
+	e->wn.file = "./img/bluestone.xpm";
+	e->w[0].file = "./img/bluestone.xpm"; // EA
+	e->w[1].file = "./img/bluestone.xpm"; // NO
+	e->w[2].file = "./img/bluestone.xpm"; // WE
+	e->w[3].file = "./img/bluestone.xpm"; // SO
 	e->map = map;
+
+	e->wall_color = WALL_COLOR;
+	e->floor_color = FLOOR_COLOR;
+	e->ceil_color = CEIL_COLOR;
+
 	e->visible = 1;
 	//e->pl_x = 1 * SCALE + SCALE / 2;
 	//e->pl_y = 2 * SCALE + SCALE / 2;
