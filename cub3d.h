@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/22 15:14:47 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/23 16:03:46 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,46 @@
 
 # include "libft.h"
 # include "mlx.h"
+# include "get_next_line.h"
 # include <math.h>
+# include <fcntl.h>
 # include <stdio.h>
 
-# define APP_NAME	"cub3D"
-# define FAIL		0
-# define OK			1
+# define APP_NAME			"cub3D"
+# define FAIL				0
+# define OK					1
 
 # define SAVE_OPTION		"--save"
 # define ERROR				"Error"
 # define ERROR_ARGS_COUNT	"Invalid arguments count"
+# define ERR_OPEN_FILE		"Can't open .cub file"
+# define ERR_PARSE_FILE		"Error parse .cub file"
+# define ERR_WRONG_RES		"Wrong resolution"
+# define ERR_WRONG_TEXTURE	"Wrong texture option"
+# define ERR_WRONG_COLOR	"Wrong color option"
 
-# define MAP_TILE	20
-# define MAP_BODY	10
-# define TILE		150
-# define SCALE		100
-# define BODY		1.0 / 8
-//# define STEP		SCALE / 8
-# define STEP		1.0 / 8
-# define ANGLE_STEP	10
-# define LOOK_LEN	20
-# define MAX_VIEW	10
+# define PARSE_COMPL		8
+# define R_RES				"R"
+# define NO_NORTH			"NO"
+# define SO_SOUTH			"SO"
+# define WE_WEST			"WE"
+# define EA_EAST			"EA"
+# define F_COLOR			"F"
+# define C_COLOR			"C"
 
-# define WALL		'1'
-# define EMPTY		'0'
+# define MAP_TILE			20
+# define MAP_BODY			10
+# define TILE				150
+# define SCALE				100
+# define BODY				1.0 / 8
+//# define STEP				SCALE / 8
+# define STEP				1.0 / 8
+# define ANGLE_STEP			10
+# define LOOK_LEN			20
+# define MAX_VIEW			10
+
+# define WALL				'1'
+# define EMPTY				'0'
 
 # define KEYCODE_ESC		53
 # define KEYCODE_W			13
@@ -82,6 +98,7 @@ typedef struct	s_wall {
 typedef struct	s_vars {
 //	struct {
 	char		*cub_filename;
+	int			fd;
 	int			save_option;
 //	}			args;
 
@@ -101,8 +118,8 @@ typedef struct	s_vars {
 
 //	struct {
 	int			wall_color;
-	int			floor_color;
-	int			ceil_color;
+	unsigned	floor_color;
+	unsigned	ceil_color;
 //	}			opts;
 
 //	struct {
@@ -134,14 +151,16 @@ typedef struct	s_vars {
 //	}			textures;
 
 	t_wall		w[4];
-	t_wall		wn;
-	t_wall		ws;
-	t_wall		we;
-	t_wall		ww;
+	//t_wall		wn;
+	//t_wall		ws;
+	//t_wall		we;
+	//t_wall		ww;
 
 //	struct {
 	double		wall_x;
 //	}			textures;
+
+	int			parsed;
 }				t_vars;
 
 int				parse_params(int argc, char **argv, t_vars *e);

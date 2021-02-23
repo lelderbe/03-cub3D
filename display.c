@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:15:32 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/22 15:18:35 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/23 15:27:42 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,8 @@ void	disp_column(t_vars *e, int x, double d)
 		color = e->color;
 		
 		//dy = shift + (int)tex_y;
-		dy = (int)(tex_y + shift);
+		//dy = (int)(tex_y + shift);
+		dy = floor(tex_y + shift);
 		addr = dy * wn.len + dx * (wn.bpp / 8);
 		color =	*((unsigned int*)(wn.addr + addr));
 		//printf("dy: %d, addr: %d, color: %d\n", dy, addr, color);

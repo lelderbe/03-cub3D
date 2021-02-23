@@ -1,13 +1,18 @@
-R 1920 1080
-NO ./path_to_the_north_texture
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
+R1 800 768
+R 1024 768
+RR 1920 1080
+NO ./img/bluestone.xpm
+NO2 ./img/greystone.xpm
+SO ./img/wood.xpm
+WE ./img/colorstone.xpm
+EA ./img/greystone.xpm
 
 S ./path_to_the_sprite_texture
 
-F 220,100,0
-C 225,30,0
+F 102,102,102
+F1 220,100,0
+C 51,51,51
+C1 225,30,0
 
         1111111111111111111111111
         1000000000110000000000001

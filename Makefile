@@ -6,11 +6,11 @@
 #    By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/12 12:10:28 by lelderbe          #+#    #+#              #
-#    Updated: 2021/02/03 11:20:24 by lelderbe         ###   ########.fr        #
+#    Updated: 2021/02/23 12:44:15 by lelderbe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		= main.c parse.c events.c display.c logs.c
+SRCS		= main.c parse.c events.c display.c logs.c ${GNL_DIR}/get_next_line.c ${GNL_DIR}/get_next_line_utils.c
 
 HEADERS		= cub3d.h
 
@@ -23,8 +23,9 @@ LIBFT_DIR	= libft
 LIBFT_NAME	= libft.a
 MLX_DIR		= minilibx
 MLX_NAME	= libmlx.a
+GNL_DIR		= gnl
 
-INCLUDES	= -I${LIBFT_DIR} -I${MLX_DIR}
+INCLUDES	= -I${LIBFT_DIR} -I${MLX_DIR} -I${GNL_DIR}
 
 CC			= gcc
 
