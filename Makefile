@@ -6,7 +6,7 @@
 #    By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/12 12:10:28 by lelderbe          #+#    #+#              #
-#    Updated: 2021/02/23 12:44:15 by lelderbe         ###   ########.fr        #
+#    Updated: 2021/02/24 18:57:43 by lelderbe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,8 @@ ${NAME}:	LIBFT MLX ${OBJS}
 			#${AR} rc ${NAME} ${OBJS}
 
 LIBFT:		RULE
-			${MAKE} -C ${LIBFT_DIR} all
+			${MAKE} -C ${LIBFT_DIR} bonus
+#			${MAKE} -C ${LIBFT_DIR} all
 
 MLX:		RULE
 			${MAKE} -C ${MLX_DIR} all

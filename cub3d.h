@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/23 16:03:46 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/24 19:24:12 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,32 @@
 # define ERR_WRONG_RES		"Wrong resolution"
 # define ERR_WRONG_TEXTURE	"Wrong texture option"
 # define ERR_WRONG_COLOR	"Wrong color option"
+# define ERR_OUT_OF_MEM		"Not enough memory"
+# define ERR_INVALID_MAP	"Invalid map data"
 
-# define PARSE_COMPL		8
 # define R_RES				"R"
 # define NO_NORTH			"NO"
 # define SO_SOUTH			"SO"
 # define WE_WEST			"WE"
 # define EA_EAST			"EA"
+# define S_SPRITE			"S"
 # define F_COLOR			"F"
 # define C_COLOR			"C"
 
+# define PARSE_COMPL		255
+# define R_BIT				1
+# define NO_BIT				1<<1
+# define SO_BIT				1<<2
+# define WE_BIT				1<<3
+# define EA_BIT				1<<4
+# define S_BIT				1<<5
+# define F_BIT				1<<6
+# define C_BIT				1<<7
+
 # define MAP_TILE			20
 # define MAP_BODY			10
-# define TILE				150
-# define SCALE				100
+# define TILE				100
+//# define SCALE				100
 # define BODY				1.0 / 8
 //# define STEP				SCALE / 8
 # define STEP				1.0 / 8
@@ -84,7 +96,7 @@
 # define WALL_COLOR		0x00000066
 
 
-typedef struct	s_wall {
+typedef struct	s_tex {
 	char		*file;
 	void		*img;
 	int			width;
@@ -93,8 +105,13 @@ typedef struct	s_wall {
 	int			bpp;
 	int			len;
 	int			endian;
-}				t_wall;
-
+}				t_tex;
+/*
+typedef struct	s_elem {
+	char		*data;
+	struct s_elem *next;
+}				t_elem;
+*/
 typedef struct	s_vars {
 //	struct {
 	char		*cub_filename;
@@ -150,7 +167,9 @@ typedef struct	s_vars {
 //	struct {
 //	}			textures;
 
-	t_wall		w[4];
+	t_tex		w[4];
+	t_tex		sprite;
+	
 	//t_wall		wn;
 	//t_wall		ws;
 	//t_wall		we;
@@ -160,7 +179,10 @@ typedef struct	s_vars {
 	double		wall_x;
 //	}			textures;
 
-	int			parsed;
+//	struct {
+	t_list		*lst;	
+	char		parsed;
+//	}			parser;
 }				t_vars;
 
 int				parse_params(int argc, char **argv, t_vars *e);
@@ -183,5 +205,6 @@ void			log_map(t_vars *e);
 void			log_map2(t_vars *e);
 void			log_pl(t_vars *e);
 void			log_img(void *addr, int bpp, int len, int endian);
+void			log_lst(t_list *lst);
 
 #endif

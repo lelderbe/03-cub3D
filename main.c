@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:58:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/22 14:22:24 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/24 16:34:31 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ void	init_vars(t_vars *e)
 	e->line_length = 0;
 	e->endian = 0;
 	*/
+	e->wall_color = WALL_COLOR;
+	e->floor_color = FLOOR_COLOR;
+	e->ceil_color = CEIL_COLOR;
 }
 
 int		hook_events(t_vars *e)

@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:20:39 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/22 11:17:57 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/24 18:56:46 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	log_pl(t_vars *e)
 {
 	//printf("x: %d y: %d angle: %6.2f\n", e->pl_x, e->pl_y, e->pl_ang);
 	printf("x: %6.2f (%d) y: %6.2f (%d) angle: %6.2f\n",
-		   e->pl_x, (int)round(e->pl_x * SCALE), e->pl_y, (int)round(e->pl_y * SCALE), e->pl_ang);
+		e->pl_x, (int)round(e->pl_x * TILE), e->pl_y, (int)round(e->pl_y * TILE), e->pl_ang);
 }
 
 void	log_img(void *addr, int bpp, int len, int endian)
@@ -56,4 +56,14 @@ void	log_img(void *addr, int bpp, int len, int endian)
 	printf("bits_per_pixel: %d\n", bpp);
 	printf("line_length: %d\n", len);
 	printf("endian: %d\n", endian);
+}
+
+void	log_lst(t_list *lst)
+{
+	printf("------list---------\n");
+	while (lst)
+	{
+		printf("%s\n", lst->content);
+		lst = lst->next;
+	}
 }

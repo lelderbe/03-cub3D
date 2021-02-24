@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:15:32 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/23 15:27:42 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/24 19:35:42 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,10 @@ void	disp_column(t_vars *e, int x, double d)
 	int addr;
 	int dx;
 	int dy;
-	t_wall wn;
+	t_tex wn;
 
 	wn = e->w[1]; // NO
+	//wn = e->sprite; // NO
 
 	shift = 0;
 	tex_y = 0;
@@ -401,28 +402,23 @@ void	texture_load(t_vars *e)
 			e->w[i].img = mlx_xpm_file_to_image(
 					e->mlx, e->w[i].file, &e->w[i].width, &e->w[i].height);
 			printf("tex width: %d, height: %d\n", e->w[i].width, e->w[i].height);
-    		if (e->w[i].img)
+			if (e->w[i].img)
 			{
 				e->w[i].addr = mlx_get_data_addr(
 						e->w[i].img, &e->w[i].bpp, &e->w[i].len, &e->w[i].endian);
 				log_img(e->w[i].addr, e->w[i].bpp, e->w[i].len, e->w[i].endian);
 			}
 		}
-		/*
-		if (e->wn.file)
-		{
-			e->wn.img = mlx_xpm_file_to_image(
-					e->mlx, e->wn.file, &e->wn.width, &e->wn.height);
-			printf("texture width: %d, height: %d\n", e->wn.width, e->wn.height);
-    		if (e->wn.img)
-			{
-				e->wn.addr = mlx_get_data_addr(
-						e->wn.img, &e->wn.bpp, &e->wn.len, &e->wn.endian);
-				log_img(e->wn.addr, e->wn.bpp, e->wn.len, e->wn.endian);
-			}
-		}
-		*/
 		i++;
+	}
+	e->sprite.img = mlx_xpm_file_to_image(
+				e->mlx, e->sprite.file, &e->sprite.width, &e->sprite.height);
+	printf("tex width: %d, height: %d\n", e->sprite.width, e->sprite.height);
+	if (e->sprite.img)
+	{
+		e->sprite.addr = mlx_get_data_addr(
+				e->sprite.img, &e->sprite.bpp, &e->sprite.len, &e->sprite.endian);
+		log_img(e->sprite.addr, e->sprite.bpp, e->sprite.len, e->sprite.endian);
 	}
 }
 

@@ -7,7 +7,7 @@ SO ./img/wood.xpm
 WE ./img/colorstone.xpm
 EA ./img/greystone.xpm
 
-S ./path_to_the_sprite_texture
+S ./img/barrel.xpm
 
 F 102,102,102
 F1 220,100,0
