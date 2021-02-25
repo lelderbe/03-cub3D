@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:20:39 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/24 18:56:46 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/25 14:05:34 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,9 @@ void	log_lst(t_list *lst)
 		printf("%s\n", lst->content);
 		lst = lst->next;
 	}
+}
+
+void	log_eq(char *s1, char *s2)
+{
+	printf("compare: |%s| vs |%s|\n", s1, s2);
 }

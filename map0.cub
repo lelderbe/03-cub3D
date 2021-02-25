@@ -1,0 +1,17 @@
+R 1024 768
+NO ./img/bluestone.xpm
+SO ./img/wood.xpm
+WE ./img/colorstone.xpm
+EA ./img/greystone.xpm
+
+S ./img/barrel.xpm
+
+F 102,102,102
+C 51,51,51
+
+1111111110
+1000000011
+1000110011
+1000010011
+1N00000001
+1111111111

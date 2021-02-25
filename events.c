@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:51:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/24 18:41:02 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/25 15:20:05 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int		event_key_press(int keycode, t_vars *e)
 	if (keycode == KEYCODE_ESC)
 		exit (0);
 	if (keycode == KEYCODE_TAB)
-		e->visible = !e->visible;
+		e->map_visible = !e->map_visible;
 	if (keycode == KEYCODE_A)
 	{
 		e->pl_a = 1;

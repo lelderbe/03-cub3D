@@ -6,113 +6,198 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:15:32 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/24 19:35:42 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/25 22:48:03 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-//static void	my_mlx_pixel_put(t_vars *e, int x, int y, int color)
-static void	my_mlx_pixel_put(t_vars *e, double x, double y, int color)
-{
-	int	xx;
-	int	yy;
-    char    *dst;
-
-	xx = (int)(x);
-	yy = (int)(y);
-    //dst = e->addr + (round(y * SCALE) * e->line_length +
-	//	   round(x * SCALE) * (e->bits_per_pixel / 8));
-    dst = e->addr + (yy * e->line_length + xx * (e->bits_per_pixel / 8));
-    *(unsigned int*)dst = color;
-}
 /*
 unsigned int	get_texture_pixel_color(t_vars *e, int x, int y)
 {
 
 }
 */
-static double	disp_ray(double ang, t_vars *e)
-{
-	//int x;
-	//int y;
-	double x;
-	double y;
-	double d;
-	//int j;
-	int xd;
-	int yd;
-	int xx;
-	int yy;
-
-	xd = 0;
-	yd = 0;
-	if (ang > 0 && ang < 180)
-	{
-		yd = -1;
-	}
-	else if (ang > 180 && ang < 360)
-	{
-		yd = 1;
-	}
-	if (ang > 90 && ang < 270)
-	{
-		xd = -1;
-	}
-	else if (ang < 90 || ang > 270)
-	{
-		xd = 1;
-	}
-
-	d = 0;
-	while (d < MAX_VIEW)
-	{
-		//x = round(cos(ang / 180 * M_PI) * d);
-		//y = -round(sin(ang / 180 * M_PI) * d);
-		x = (cos(ang / 180 * M_PI) * d);
-		y = -(sin(ang / 180 * M_PI) * d);
-		//printf("ang: %6.2f, ray x: %6.2f y: %6.2f\n", ang, x, y);
-		//if (e->map[(e->pl_y + y) / SCALE][(e->pl_x + x) / SCALE] == '1')
-		//if (e->map[(round(e->pl_y + y))][round(e->pl_x + x)] == '1')
-		xx = (int)(e->pl_x + x);
-		yy = (int)(e->pl_y + y);
-		//printf("xx: %d, yy: %d\n", xx, yy);
-		if (e->map[yy][xx] == '1')
-		{
-			e->wall_x = (e->pl_x + x) - (int)(e->pl_x + x);
-			e->color = yy * 30 + xx * 30;
-			//printf("wall\n");
-			//d = d * cos(ang / 180 * M_PI);
-			return (d);
-			break ;
-		}
-		//mlx_pixel_put(e->mlx, e->win, e->pl_x + x, e->pl_y + y, 0x0000FF00);
-		if (e->visible)
-			my_mlx_pixel_put(e, (e->pl_x + x) * MAP_TILE, (e->pl_y + y) * MAP_TILE, 0x0000FF00);
-		d = d + 1.0 / TILE;
-	}
-	//d = d * cos(ang / 180 * M_PI);
-	return (d);
-}
 
 static double mod(double d)
 {
 	return (d < 0 ? -d : d);
 }
 
-//void	disp_column(t_vars *e, int x, int d)
-void	disp_column(t_vars *e, int x, double d)
+static double	disp_ray(double ang, t_vars *e)
 {
-	int		i;
-	int		h;
-	unsigned int	color;
-	double	step;
-	double	shift;
-	double		tex_y;
-	int addr;
+	double x;
+	double y;
+	double d;
+	int xd;
+	int yd;
+
+	xd = 0;
+	yd = 0;
+	if (ang > 0 && ang < 180)
+		yd = -1;
+	else if (ang > 180 && ang < 360)
+		yd = 1;
+	if (ang > 90 && ang < 270)
+		xd = -1;
+	else if (ang < 90 || ang > 270)
+		xd = 1;
+
+	d = 0;
+	while (d < MAX_VIEW)
+	{
+		x = (cos(ang / 180 * M_PI) * d);
+		y = -(sin(ang / 180 * M_PI) * d);
+		//printf("ang: %6.2f, ray x: %6.2f y: %6.2f\n", ang, x, y);
+		if (e->map[(int)(e->pl_y + y)][(int)(e->pl_x + x)] == '1')
+		{
+			e->wall_x = (e->pl_x + x) - (int)(e->pl_x + x);
+			e->hit_x = (e->pl_x + x) - (int)(e->pl_x + x);
+			e->hit_y = (e->pl_y + y) - (int)(e->pl_y + y);
+			e->color = (int)(e->pl_y + y) * 30 + (int)(e->pl_x + x) * 30;
+			//printf("ang: %6.2f, ray x: %6.3f y: %6.3f, d: %6.3f\n", ang, x, y, d);
+			break ;
+		}
+		if (e->map_visible)
+			if ((e->pl_x + x) * MAP_TILE < e->width && (e->pl_y + y) * MAP_TILE < e->height)
+				img_pixel_put(&e->mp, (e->pl_x + x) * MAP_TILE, (e->pl_y + y) * MAP_TILE, 0x0000FF00);
+		d = d + 1.0 / TILE;
+	}
+	//d = d * sin(ang / 180 * M_PI);
+	//d = d * cos(i / 180 * M_PI);
+	//printf("ang: %6.2f, ray x: %6.3f y: %6.3f, d: %6.3f\n", ang, x, y, d);
+	return (d);
+}
+
+double	check_vert_lines(double ang, t_vars *e, double dx, double dy)
+{
+	double d;
+	double ax;
+	double ay;
+
+	if (ang > 90)
+		ang = 180 - ang;
+	printf("v= pl_x: %6.2f, pl_y: %6.2f, dx: %6.2f, dy: %6.2f\n", e->pl_x, e->pl_y, dx, dy);
+	if (dx > 0)
+		ax = (int)(e->pl_x + 1) + 0.01;
+	else
+		ax = (int)e->pl_x - 0.01;
+
+	ay = e->pl_y + (e->pl_x - ax) * tan(ang / 180 * M_PI);
+	printf("v= ax: %6.2f, ay: %6.2f\n", ax, ay);
+
+	dy = -(dx) * tan(ang / 180 * M_PI);
+
+	while (e->map[(int)ay][(int)ax] != '1')
+	{
+		ay += dy;
+		ax += dx;
+		printf("v= ax: %6.2f, ay: %6.2f\n", ax, ay);
+	}
+
+	d = (ax - e->pl_x) / cos(ang / 180 * M_PI);
+	printf("v= ang: %6.2f, x: %d, y: %d, d: %6.3f\n", ang, (int)ax, (int)ay, d);
+	return (d);
+}
+
+double	check_horiz_lines(double ang, t_vars *e, double dx, double dy)
+{
+	double d;
+	double ax;
+	double ay;
+
+	if (ang > 90)
+		ang = 180 - ang;
+	printf("h= pl_x: %6.2f, pl_y: %6.2f, dx: %6.2f, dy: %6.2f\n", e->pl_x, e->pl_y, dx, dy);
+	if (dy > 0)
+		ay = (int)(e->pl_y + 1) + 0.01;
+	else
+		ay = (int)e->pl_y - 0.01;
+
+	ax = e->pl_x + (e->pl_y - ay) / tan(ang / 180 * M_PI);
+	printf("h= ax: %6.2f, ay: %6.2f\n", ax, ay);
+
+	dx = mod(dy) / tan(ang / 180 * M_PI);
+
+	while (e->map[(int)ay][(int)ax] != '1')
+	{
+		ay += dy;
+		ax += dx;
+		printf("h= ax: %6.2f, ay: %6.2f\n", ax, ay);
+	}
+
+	d = (ax - e->pl_x) / cos(ang / 180 * M_PI);
+	printf("h= ang: %6.2f, x: %d, y: %d, d: %6.3f\n", ang, (int)ax, (int)ay, d);
+	return (d);
+}
+
+void	cast_ray(double ang, t_vars *e)
+{
+	//double x;
+	//double y;
+	double d;
 	int dx;
 	int dy;
-	t_tex wn;
+
+	dx = 0;
+	dy = 0;
+	if (ang > 0 && ang < 180)
+		dy = -1;
+	else if (ang > 180 && ang < 360)
+		dy = 1;
+	if (ang > 90 && ang < 270)
+		dx = -1;
+	else if (ang < 90 || ang > 270)
+		dx = 1;
+
+	d = 0;
+	if (dy != 0)
+		d = check_horiz_lines(ang, e, 0, dy);
+	if (dx != 0)
+		d = check_vert_lines(ang, e, dx, 0);
+	printf("ang: %6.2f, new d: %6.3f, dx: %d, dy: %d\n", ang, d, dx, dy);
+	return ;
+/*
+	d = 0;
+	while (d < MAX_VIEW)
+	{
+		mx = (int)();
+		x = (cos(ang / 180 * M_PI) * d);
+		y = -(sin(ang / 180 * M_PI) * d);
+		//printf("ang: %6.2f, ray x: %6.2f y: %6.2f\n", ang, x, y);
+		if (e->map[(int)(e->pl_y + y)][(int)(e->pl_x + x)] == '1')
+		{
+			e->wall_x = (e->pl_x + x) - (int)(e->pl_x + x);
+			e->hit_x = (e->pl_x + x) - (int)(e->pl_x + x);
+			e->hit_y = (e->pl_y + y) - (int)(e->pl_y + y);
+			e->color = (int)(e->pl_y + y) * 30 + (int)(e->pl_x + x) * 30;
+			//printf("ang: %6.2f, ray x: %6.3f y: %6.3f, d: %6.3f\n", ang, x, y, d);
+			break ;
+		}
+		if (e->map_visible)
+			if ((e->pl_x + x) * MAP_TILE < e->width && (e->pl_y + y) * MAP_TILE < e->height)
+				img_pixel_put(&e->mp, (e->pl_x + x) * MAP_TILE, (e->pl_y + y) * MAP_TILE, 0x0000FF00);
+		d = d + 1.0 / TILE;
+	}
+	//d = d * sin(ang / 180 * M_PI);
+	//d = d * cos(i / 180 * M_PI);
+	//printf("ang: %6.2f, ray x: %6.3f y: %6.3f, d: %6.3f\n", ang, x, y, d);
+	return (d);
+*/
+}
+
+void	display_3d_column(t_vars *e, int x, double d)
+{
+	int				i;
+	int				h;
+	unsigned int	color;
+	double			step;
+	double			shift;
+	double			tex_y;
+	int 			addr;
+	int 			dx;
+	int 			dy;
+	t_tex			wn;
 
 	wn = e->w[1]; // NO
 	//wn = e->sprite; // NO
@@ -145,7 +230,7 @@ void	disp_column(t_vars *e, int x, double d)
 		//printf("color: %16.8f\n", (1 + d * d * 0.1));
 		color = e->wall_color;
 		color = (int)(255 / (1 + d * d * 0.1));
-		color = e->color;
+		//color = e->color;
 		
 		//dy = shift + (int)tex_y;
 		//dy = (int)(tex_y + shift);
@@ -155,7 +240,7 @@ void	disp_column(t_vars *e, int x, double d)
 		//printf("dy: %d, addr: %d, color: %d\n", dy, addr, color);
 
 		tex_y += step;
-		my_mlx_pixel_put(e, x, e->height / 2 + i, color);
+		img_pixel_put(&e->main, x, e->height / 2 + i, color);
 		i++;
 	}
 }
@@ -173,23 +258,26 @@ void	disp_rays(t_vars *e)
 
 	mod(1);
 	i = -HALF_FOV;
+	//i = HALF_FOV - 1;
 	//e->d = e->width / 2 / tan(fov / 2);
 	col = 0;
 	while (i <= HALF_FOV)
 	{
+		cast_ray(e->pl_ang - i, e);
 		d = disp_ray(e->pl_ang - i, e);
+		printf("ang: %6.2f, old d: %6.3f\n", e->pl_ang - i, d);
 		//printf("ang: %4.2f, d: %6.2f\n", e->pl_ang - i, d * TILE);
-		//disp_column(e, col, d);
 		//d = d * cos(mod(i) / 180 * M_PI);
 		d = d * cos(i / 180 * M_PI);
+		//printf("ang: %6.2f, d: %6.3f\n", i, d);
 		//printf("d: %6.2f\n", d);
-		disp_column(e, col, d);
+		display_3d_column(e, col, d);
 		i = i + fov_step;
 		col++;
 	}
 }
 
-static void	display_floor_ceil(t_vars *e)
+static void	display_3d_floor_ceil(t_vars *e)
 {
 	int x;
 	int y;
@@ -204,122 +292,8 @@ static void	display_floor_ceil(t_vars *e)
 		{
 			// TODO: optimize (maybe via memcpy)
 			color = y < e->height / 2 ? e->ceil_color : e->floor_color;
-			my_mlx_pixel_put(e, x, y, color);
-			x++;
-		}
-		y++;
-	}
-}
-
-void	disp_look_line(t_vars *e)
-{
-	int dx;
-	int dy;
-	int i;
-	//int j;
-	int xx;
-	int yy;
-	
-	if (!e->visible)
-		return ;
-	i = 0;
-	//while (i < LOOK_LEN)
-	while (i < (e->width * 2))
-	{
-		//x = round(cos(e->pl_ang / 180 * M_PI) * i);
-		//y = -round(sin(e->pl_ang / 180 * M_PI) * i);
-		dx = (cos(1.0 * e->pl_ang / 180 * M_PI) * i);
-		dy = -(sin(1.0 * e->pl_ang / 180 * M_PI) * i);
-		//printf("look x: %d y: %d\n", x, y);
-		//mlx_pixel_put(e->mlx, e->win, e->pl_x + x, e->pl_y + y, 0x00FF0000);
-		//my_mlx_pixel_put(e, e->pl_x + x, e->pl_y + y, 0x00FF0000);
-		if ((int)(e->pl_x * MAP_TILE + dx) >= e->width ||
-				(int)(e->pl_x * MAP_TILE + dx) < 0 ||
-				(int)(e->pl_y * MAP_TILE + dy) >= e->height ||
-				(int)(e->pl_y * MAP_TILE + dy) < 0)
-			break ;
-		
-		
-		xx = (int)(e->pl_x + 1.0 * dx / MAP_TILE);
-		yy = (int)(e->pl_y + 1.0 * dy / MAP_TILE);
-		//printf("xx: %d, yy: %d\n", xx, yy);
-		if (e->map[yy][xx] == '1')
-			break ;
-		
-
-		//printf("x: %6.2f, y: %6.2f\n", e->pl_x * MAP_TILE + x, e->pl_y * MAP_TILE + y);
-		my_mlx_pixel_put(e, e->pl_x * MAP_TILE + dx, e->pl_y * MAP_TILE + dy, 0x00FF0000);
-		//my_mlx_pixel_put(e, (e->pl_x + dx) * MAP_TILE, (e->pl_y + dy) * MAP_TILE, 0x00FF0000);
-		i++;
-	}
-}
-
-void	display_wall_box(int x, int y, t_vars *e)
-{
-	int i;
-	int j;
-	int d;
-
-	d = 1;
-	j = 0 + d;
-	while (j < MAP_TILE - d)
-	{
-		i = 0 + d;
-		while (i < MAP_TILE - d)
-		{
-			//mlx_pixel_put(e->mlx, e->win, x * SCALE + i, y * SCALE + j, 0x00FFFFFF);
-			my_mlx_pixel_put(e, x * MAP_TILE + i, y * MAP_TILE + j, 0x00FFFFFF);
-			i++;
-		}
-		j++;
-	}
-}
-
-void	display_pl(t_vars *e)
-{
-	int	i;
-	int	j;
-	//int x;
-	//int y;
-	double x;
-	double y;
-
-	if (!e->visible)
-		return ;
-	i = 1;
-	while (i < MAP_BODY / 2)
-	{
-		j = 0;
-		while (j < 360)
-		{
-			//x = round(cos(1.0 * j / 180 * M_PI) * i);
-			//y = -round(sin(1.0 * j / 180 * M_PI) * i);
-			x = round(cos(1.0 * j / 180 * M_PI) * i);
-			y = -round(sin(1.0 * j / 180 * M_PI) * i);
-			//my_mlx_pixel_put(e, e->pl_x + x, e->pl_y + y, 0x0000FF00);
-			my_mlx_pixel_put(e, e->pl_x * MAP_TILE + x, e->pl_y * MAP_TILE + y, 0x0000FF00);
-			j++;
-		}
-		i++;
-	}
-	//disp_look_line(e);
-}
-
-void	display_map(t_vars *e)
-{
-	int	x;
-	int	y;
-
-	if (!e->visible)
-		return ;
-	y = 0;
-	while (e->map[y])
-	{
-		x = 0;
-		while (e->map[y][x])
-		{
-			if (e->map[y][x] == '1')
-				display_wall_box(x, y, e);
+			//my_mlx_pixel_put(e, x, y, color);
+			img_pixel_put(&e->main, x, y, color);
 			x++;
 		}
 		y++;
@@ -401,39 +375,38 @@ void	texture_load(t_vars *e)
 		{
 			e->w[i].img = mlx_xpm_file_to_image(
 					e->mlx, e->w[i].file, &e->w[i].width, &e->w[i].height);
-			printf("tex width: %d, height: %d\n", e->w[i].width, e->w[i].height);
+			//printf("tex width: %d, height: %d\n", e->w[i].width, e->w[i].height);
 			if (e->w[i].img)
 			{
 				e->w[i].addr = mlx_get_data_addr(
 						e->w[i].img, &e->w[i].bpp, &e->w[i].len, &e->w[i].endian);
-				log_img(e->w[i].addr, e->w[i].bpp, e->w[i].len, e->w[i].endian);
+				//log_img(e->w[i].addr, e->w[i].bpp, e->w[i].len, e->w[i].endian);
 			}
 		}
 		i++;
 	}
 	e->sprite.img = mlx_xpm_file_to_image(
 				e->mlx, e->sprite.file, &e->sprite.width, &e->sprite.height);
-	printf("tex width: %d, height: %d\n", e->sprite.width, e->sprite.height);
+	//printf("tex width: %d, height: %d\n", e->sprite.width, e->sprite.height);
 	if (e->sprite.img)
 	{
 		e->sprite.addr = mlx_get_data_addr(
 				e->sprite.img, &e->sprite.bpp, &e->sprite.len, &e->sprite.endian);
-		log_img(e->sprite.addr, e->sprite.bpp, e->sprite.len, e->sprite.endian);
+		//log_img(e->sprite.addr, e->sprite.bpp, e->sprite.len, e->sprite.endian);
 	}
 }
 
-int	repaint(t_vars *e)
+int		repaint(t_vars *e)
 {
 	world_update(e);
-
-	display_floor_ceil(e);
+	clear_2d_map_window(e);
+	display_3d_floor_ceil(e);
 	disp_rays(e);
-	display_map(e);
-	display_pl(e);
-	disp_look_line(e);
+	display_2d_map(e);
 
-	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
+	mlx_put_image_to_window(e->mlx, e->win, e->main.img, 0, 0);
+	if (e->map_visible)
+		mlx_put_image_to_window(e->mlx, e->win, e->mp.img, 0, 0);
 
-	//mlx_destroy_image(e->mlx, e->img);
 	return (0);
 }

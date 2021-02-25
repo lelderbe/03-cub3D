@@ -6,11 +6,11 @@
 #    By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/12 12:10:28 by lelderbe          #+#    #+#              #
-#    Updated: 2021/02/24 18:57:43 by lelderbe         ###   ########.fr        #
+#    Updated: 2021/02/25 19:17:17 by lelderbe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		= main.c parse.c events.c display.c logs.c ${GNL_DIR}/get_next_line.c ${GNL_DIR}/get_next_line_utils.c
+SRCS		= main.c parse.c events.c display.c display_2d.c map.c graphics.c logs.c utils.c ${GNL_DIR}/get_next_line.c ${GNL_DIR}/get_next_line_utils.c
 
 HEADERS		= cub3d.h
 

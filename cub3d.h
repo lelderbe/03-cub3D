@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/24 19:24:12 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/25 19:44:31 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define ERROR_ARGS_COUNT	"Invalid arguments count"
 # define ERR_OPEN_FILE		"Can't open .cub file"
 # define ERR_PARSE_FILE		"Error parse .cub file"
-# define ERR_WRONG_RES		"Wrong resolution"
+# define ERR_WRONG_RES		"Wrong resolution option"
 # define ERR_WRONG_TEXTURE	"Wrong texture option"
 # define ERR_WRONG_COLOR	"Wrong color option"
 # define ERR_OUT_OF_MEM		"Not enough memory"
@@ -44,7 +44,10 @@
 # define F_COLOR			"F"
 # define C_COLOR			"C"
 
-# define PARSE_COMPL		255
+# define MAP_ALLOWED_CHARS	" 012ENWS"
+# define PL_ALLOWED_CHARS	"ENWS"
+
+# define PARSE_COMPLETE		255
 # define R_BIT				1
 # define NO_BIT				1<<1
 # define SO_BIT				1<<2
@@ -62,8 +65,8 @@
 //# define STEP				SCALE / 8
 # define STEP				1.0 / 8
 # define ANGLE_STEP			10
-# define LOOK_LEN			20
-# define MAX_VIEW			10
+//# define LOOK_LEN			30
+# define MAX_VIEW			20
 
 # define WALL				'1'
 # define EMPTY				'0'
@@ -106,12 +109,15 @@ typedef struct	s_tex {
 	int			len;
 	int			endian;
 }				t_tex;
-/*
-typedef struct	s_elem {
-	char		*data;
-	struct s_elem *next;
-}				t_elem;
-*/
+
+typedef struct	s_img {
+	void		*img;
+	char		*addr;
+	int			bpp;
+	int			len;
+	int			endian;
+}				t_img;
+
 typedef struct	s_vars {
 //	struct {
 	char		*cub_filename;
@@ -120,40 +126,31 @@ typedef struct	s_vars {
 //	}			args;
 
 //	struct {
-	char		**map;
-	int			visible;
-//	}			map;
-
-//	struct {
+	void		*mlx;
+	void		*win;
 	int			width;
 	int			height;
 	int			half_w;
 	int			half_h;
-	void		*mlx;
-	void		*win;
 //	}			mlx;
+
+	t_img		main;
+	t_img		mp;
+//	struct {
+	char		**map;
+	int			map_visible;
+//	}			map;
 
 //	struct {
 	int			wall_color;
 	unsigned	floor_color;
 	unsigned	ceil_color;
-//	}			opts;
+//	}			defaults;
 
 //	struct {
-	void		*img;
-	char		*addr;
-	int			bits_per_pixel;
-	int			line_length;
-	int			endian;
-//	}			img;
-
-//	struct {
-//	int			pl_x;
-//	int			pl_y;
 	double		pl_x;
 	double		pl_y;
 	double		pl_ang;
-	double		d;
 	int			pl_a;
 	int			pl_w;
 	int			pl_s;
@@ -165,28 +162,32 @@ typedef struct	s_vars {
 	int			color;
 
 //	struct {
-//	}			textures;
-
 	t_tex		w[4];
 	t_tex		sprite;
-	
-	//t_wall		wn;
-	//t_wall		ws;
-	//t_wall		we;
-	//t_wall		ww;
-
-//	struct {
 	double		wall_x;
 //	}			textures;
 
 //	struct {
-	t_list		*lst;	
+	double		d;
+	double		hit_x;
+	double		hit_y;
+//	}			rays;
+
+//	struct {
+	t_list		*map_lst;	
 	char		parsed;
+	int			map_parse_started;
+	size_t		map_max;
+	int			map_lines;
+	int			pl_count;
 //	}			parser;
 }				t_vars;
 
 int				parse_params(int argc, char **argv, t_vars *e);
 int				parse_cub_file(t_vars *e);
+int				parse_map_line(t_vars *e, char *line);
+//void			parse_pl_pos(t_vars *e, const char *pl_allowed_chars);
+void			parse_map(t_vars *e);
 
 void			texture_load(t_vars *e);
 
@@ -198,13 +199,26 @@ int				event_key_press(int keycode, t_vars *e);
 int				event_key_release(int keycode, t_vars *e);
 void			pl_check_and_move(t_vars *e, double dx, double dy);
 
-void			display_map(t_vars *e);
 int				repaint(t_vars *e);
+
+int				eq(char *s1, char *s2);
+int				err_exit(char *err);
+void			free_split(char **s);
+
+int				create_trgb(int t, int r, int g, int b);
+void			img_pixel_put(t_img *img, double x, double y, int color);
+
+void			clear_2d_map_window(t_vars *e);
+void			display_2d_map(t_vars *e);
+//void			display_2d_wall_box(int x, int y, t_vars *e);
+//void			display_2d_pl(t_vars *e);
+//void			display_2d_look_line(t_vars *e);
 
 void			log_map(t_vars *e);
 void			log_map2(t_vars *e);
 void			log_pl(t_vars *e);
 void			log_img(void *addr, int bpp, int len, int endian);
 void			log_lst(t_list *lst);
+void			log_eq(char *s1, char *s2);
 
 #endif

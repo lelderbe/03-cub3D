@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/10 16:17:52 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/25 15:08:32 by lelderbe         ###   ########.fr       */
+/*   Created: 2021/02/25 14:36:05 by lelderbe          #+#    #+#             */
+/*   Updated: 2021/02/25 14:37:09 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "cub3d.h"
 
-void	ft_lstdelone(t_list *lst, void (*del)(void*))
+int		validate_data(t_vars *e)
 {
-	if (lst)
-	{
-		if (del)
-			del(lst->content);
-		lst->next = 0;
-		free(lst);
-	}
+	validate_pl(e);
+	validate_map(e);
 }
