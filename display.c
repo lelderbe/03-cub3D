@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:15:32 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/25 22:48:03 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/26 15:05:19 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static double	disp_ray(double ang, t_vars *e)
 	double d;
 	int xd;
 	int yd;
-
+	
+	return (0);
 	xd = 0;
 	yd = 0;
 	if (ang > 0 && ang < 180)
@@ -72,48 +73,112 @@ static double	disp_ray(double ang, t_vars *e)
 double	check_vert_lines(double ang, t_vars *e, double dx, double dy)
 {
 	double d;
-	double ax;
-	double ay;
+	double x;
+	double y;
+	double cos_a;
+	double sin_a;
 
-	if (ang > 90)
-		ang = 180 - ang;
-	printf("v= pl_x: %6.2f, pl_y: %6.2f, dx: %6.2f, dy: %6.2f\n", e->pl_x, e->pl_y, dx, dy);
-	if (dx > 0)
-		ax = (int)(e->pl_x + 1) + 0.01;
+	cos_a = cos(ang / 180 * M_PI);
+	sin_a = -sin(ang / 180 * M_PI);
+//	printf("v= pl_x: %6.2f, pl_y: %6.2f, cos_a: %6.2f, sin_a: %6.2f\n", e->pl_x, e->pl_y, cos_a, sin_a);
+	if (cos_a >= 0)
+		x = (int)(e->pl_x + 1);// + 0.01;
 	else
-		ax = (int)e->pl_x - 0.01;
+		x = (int)e->pl_x - 0.01;
 
-	ay = e->pl_y + (e->pl_x - ax) * tan(ang / 180 * M_PI);
-	printf("v= ax: %6.2f, ay: %6.2f\n", ax, ay);
+	//ay = e->pl_y + (e->pl_x - ax) * tan(ang / 180 * M_PI);
+	d = (x - e->pl_x) / cos_a;
+	y = e->pl_y + d * sin_a;
+	y = y < 0 ? 0 : y;
+//	printf("v= new x: %6.2f, new y: %6.2f, d: %6.2f\n", x, y, d);
 
-	dy = -(dx) * tan(ang / 180 * M_PI);
+	if (mod(d) > 1000)
+		return (mod(d));
+	//dy = -(dx) * tan(ang / 180 * M_PI);
+	dx = cos_a >= 0 ? 1 : -1;
+	e->vhit = dx > 0 ? 0 : 2;
+	d = cos_a == 0 ? 1 : dx / cos_a;
+	dy = d * sin_a;
+//	printf("v= d: %6.2f, dx: %6.2f, dy: %6.2f\n", d, dx, dy);
 
-	while (e->map[(int)ay][(int)ax] != '1')
+	if (x >= e->map_max || y >= e->map_lines || x < 0 || y < 0)
+		return (mod(d));
+
+	while (e->map[(int)y][(int)x] != '1')
 	{
-		ay += dy;
-		ax += dx;
-		printf("v= ax: %6.2f, ay: %6.2f\n", ax, ay);
+		x += dx;
+		y += dy;
+//		printf("v= new x: %6.2f, new y: %6.2f\n", x, y);
+		y = y < 0 ? 0 : y;
+		if (x >= e->map_max || y >= e->map_lines || x < 0 || y < 0)
+			break ;
 	}
 
-	d = (ax - e->pl_x) / cos(ang / 180 * M_PI);
-	printf("v= ang: %6.2f, x: %d, y: %d, d: %6.3f\n", ang, (int)ax, (int)ay, d);
-	return (d);
+	//e->wall_x = (x) - (int)(x);
+	//e->hit_x = (x) - (int)(x);
+	e->hit_y = (y) - (int)(y);
+	//e->color = (int)(y) * 30 + (int)(x) * 30;
+
+	d = cos_a == 0 ? mod(x - e->pl_x) : mod(x - e->pl_x) / cos_a;
+	//printf("v= ang: %6.2f, x: %d, y: %d, d: %6.3f\n", ang, (int)x, (int)y, d);
+	printf("v= ang: %6.2f, x: %6.2f, y: %6.2f, d: %6.3f\n", ang, x, y, d);
+	return (mod(d));
 }
 
 double	check_horiz_lines(double ang, t_vars *e, double dx, double dy)
 {
 	double d;
-	double ax;
-	double ay;
+	double x;
+	double y;
+	double cos_a;
+	double sin_a;
 
-	if (ang > 90)
-		ang = 180 - ang;
-	printf("h= pl_x: %6.2f, pl_y: %6.2f, dx: %6.2f, dy: %6.2f\n", e->pl_x, e->pl_y, dx, dy);
-	if (dy > 0)
-		ay = (int)(e->pl_y + 1) + 0.01;
+	cos_a = cos(ang / 180 * M_PI);
+	sin_a = -sin(ang / 180 * M_PI);
+//	printf("h= pl_x: %6.2f, pl_y: %6.2f, cos_a: %6.2f, sin_a: %6.2f\n", e->pl_x, e->pl_y, cos_a, sin_a);
+	if (sin_a >= 0)
+		y = (int)(e->pl_y + 1);// + 0.01;
 	else
-		ay = (int)e->pl_y - 0.01;
+		y = (int)e->pl_y - 0.001;
 
+	d = (y - e->pl_y) / sin_a;
+	x = e->pl_x + d * cos_a;
+	x = x < 0 ? 0 : x;
+//	printf("h= new x: %6.2f, new y: %6.2f, d: %6.2f\n", x, y, d);
+
+	if (mod(d) > 1000)
+		return (mod(d));
+	//dy = -(dx) * tan(ang / 180 * M_PI);
+	dy = sin_a >= 0 ? 1 : -1;
+	e->hhit = dy > 0 ? 3 : 1;
+	d = sin_a == 0 ? 1 : dy / sin_a;
+	dx = d * cos_a;
+//	printf("h= d: %6.2f, dx: %6.2f, dy: %6.2f\n", d, dx, dy);
+
+	if (x >= e->map_max || y >= e->map_lines || x < 0 || y < 0)
+		return (mod(d));
+
+	while (e->map[(int)y][(int)x] != '1')
+	{
+		x += dx;
+		y += dy;
+//		printf("h= new x: %6.2f, new y: %6.2f\n", x, y);
+		//x = x < 0 ? 0 : x;
+		//y = y < 0 ? 0 : y;
+		if (x >= e->map_max || y >= e->map_lines || x < 0 || y < 0)
+			break ;
+	}
+
+	//e->wall_x = (x) - (int)(x);
+	e->hit_x = (x) - (int)(x);
+	//e->hit_y = (y) - (int)(y);
+	//e->color = (int)(y) * 30 + (int)(x) * 30;
+
+	d = sin_a == 0 ? mod(y - e->pl_y) : mod(y - e->pl_y) / sin_a;
+//	printf("h= ang: %6.2f, x: %d, y: %d, d: %6.3f\n", ang, (int)x, (int)y, d);
+	printf("h= ang: %6.2f, x: %d, y: %d, d: %6.3f\n", ang, (int)x, (int)y, d);
+	return (mod(d));
+	/*
 	ax = e->pl_x + (e->pl_y - ay) / tan(ang / 180 * M_PI);
 	printf("h= ax: %6.2f, ay: %6.2f\n", ax, ay);
 
@@ -129,13 +194,15 @@ double	check_horiz_lines(double ang, t_vars *e, double dx, double dy)
 	d = (ax - e->pl_x) / cos(ang / 180 * M_PI);
 	printf("h= ang: %6.2f, x: %d, y: %d, d: %6.3f\n", ang, (int)ax, (int)ay, d);
 	return (d);
+	*/
 }
 
-void	cast_ray(double ang, t_vars *e)
+double	cast_ray(double ang, t_vars *e)
 {
 	//double x;
 	//double y;
 	double d;
+	double dh;
 	int dx;
 	int dy;
 
@@ -151,12 +218,16 @@ void	cast_ray(double ang, t_vars *e)
 		dx = 1;
 
 	d = 0;
-	if (dy != 0)
-		d = check_horiz_lines(ang, e, 0, dy);
-	if (dx != 0)
-		d = check_vert_lines(ang, e, dx, 0);
-	printf("ang: %6.2f, new d: %6.3f, dx: %d, dy: %d\n", ang, d, dx, dy);
-	return ;
+	//if (dy != 0)
+	//	d = check_horiz_lines(ang, e, 0, dy);
+	//if (dx != 0)
+		d = check_vert_lines(ang, e, 0, 0);
+		dh = check_horiz_lines(ang, e, 0, 0);
+		e->hit = d < dh ? e->vhit : e->hhit;
+		d = d < dh ? d : dh;
+		//d = check_vert_lines(90, e, 0, 0);
+	//printf("ang: %6.2f, new d: %6.3f, dx: %d, dy: %d\n", ang, d, dx, dy);
+	return d;
 /*
 	d = 0;
 	while (d < MAX_VIEW)
@@ -199,9 +270,11 @@ void	display_3d_column(t_vars *e, int x, double d)
 	int 			dy;
 	t_tex			wn;
 
-	wn = e->w[1]; // NO
+	//wn = e->w[1]; // NO
+	wn = e->w[e->hit]; // NO
 	//wn = e->sprite; // NO
 
+	e->wall_x = e->hit == 0 || e->hit == 2 ? e->hit_y : e->hit_x;
 	shift = 0;
 	tex_y = 0;
 	//h = round(1.0 * SCALE / d * e->d);
@@ -263,9 +336,9 @@ void	disp_rays(t_vars *e)
 	col = 0;
 	while (i <= HALF_FOV)
 	{
-		cast_ray(e->pl_ang - i, e);
-		d = disp_ray(e->pl_ang - i, e);
-		printf("ang: %6.2f, old d: %6.3f\n", e->pl_ang - i, d);
+		d = cast_ray(e->pl_ang - i, e);
+		disp_ray(e->pl_ang - i, e);
+		//printf("ang: %6.2f, old d: %6.3f\n", e->pl_ang - i, d);
 		//printf("ang: %4.2f, d: %6.2f\n", e->pl_ang - i, d * TILE);
 		//d = d * cos(mod(i) / 180 * M_PI);
 		d = d * cos(i / 180 * M_PI);
@@ -275,6 +348,7 @@ void	disp_rays(t_vars *e)
 		i = i + fov_step;
 		col++;
 	}
+		//cast_ray(60, e);
 }
 
 static void	display_3d_floor_ceil(t_vars *e)

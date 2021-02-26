@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/25 19:44:31 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/26 14:32:57 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,9 @@ typedef struct	s_vars {
 	double		d;
 	double		hit_x;
 	double		hit_y;
+	int			hit;
+	int			vhit;
+	int			hhit;
 //	}			rays;
 
 //	struct {
