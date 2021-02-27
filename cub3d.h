@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/26 14:32:57 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/27 20:39:50 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,18 @@
 # include <fcntl.h>
 # include <stdio.h>
 
+# define USE_MANY_COLORS	1
+# define USE_TEXTURES		1
+# define USE_FOG			0
+
 # define APP_NAME			"cub3D"
 # define FAIL				0
 # define OK					1
 
 # define SAVE_OPTION		"--save"
 # define ERROR				"Error"
-# define ERROR_ARGS_COUNT	"Invalid arguments count"
+# define ERR_ARGS_COUNT		"Invalid arguments count"
+# define ERR_INVALID_ARG	"Invalid argument"
 # define ERR_OPEN_FILE		"Can't open .cub file"
 # define ERR_PARSE_FILE		"Error parse .cub file"
 # define ERR_WRONG_RES		"Wrong resolution option"
@@ -34,6 +39,8 @@
 # define ERR_WRONG_COLOR	"Wrong color option"
 # define ERR_OUT_OF_MEM		"Not enough memory"
 # define ERR_INVALID_MAP	"Invalid map data"
+# define ERR_MLX_INIT		"Error mlx init"
+# define ERR_MLX_WINDOW		"Error window create"
 
 # define R_RES				"R"
 # define NO_NORTH			"NO"
@@ -45,9 +52,11 @@
 # define C_COLOR			"C"
 
 # define MAP_ALLOWED_CHARS	" 012ENWS"
+# define MAP_WALL			'1'
+# define MAP_EMPTY			'0'
 # define PL_ALLOWED_CHARS	"ENWS"
 
-# define PARSE_COMPLETE		255
+# define PARSE_OPT_COMPLETE	255
 # define R_BIT				1
 # define NO_BIT				1<<1
 # define SO_BIT				1<<2
@@ -58,18 +67,25 @@
 # define C_BIT				1<<7
 
 # define MAP_TILE			20
-# define MAP_BODY			10
+# define MAP_COLOR			0x00999999
+# define MAP_PL_BODY		10
+# define MAP_PL_BODY_COLOR	0x0000FF00
+# define MAP_RAY_COLOR		0x000000FF
+# define MAP_RAY_STEP		0.01
+# define MAP_RAYS_SHOW		1
 # define TILE				100
 //# define SCALE				100
 # define BODY				1.0 / 8
-//# define STEP				SCALE / 8
 # define STEP				1.0 / 8
 # define ANGLE_STEP			10
-//# define LOOK_LEN			30
-# define MAX_VIEW			20
+//# define MAP_RAY_COLOR		0x0000FF00
+# define FOV				60
+# define HALF_FOV			FOV / 2
 
-# define WALL				'1'
-# define EMPTY				'0'
+# define E_WALL				0
+# define N_WALL				1
+# define W_WALL				2
+# define S_WALL				3
 
 # define KEYCODE_ESC		53
 # define KEYCODE_W			13
@@ -91,13 +107,9 @@
 # define MASK_KEY_RELEASE		1L<<1
 # define MASK_POINTER_MOTION	1L<<6
 
-# define FOV		60
-# define HALF_FOV	FOV / 2
-
-# define CEIL_COLOR		0x00333333
-# define FLOOR_COLOR	0x00666666
-# define WALL_COLOR		0x00000066
-
+# define DEF_CEIL_COLOR		0x00333333
+# define DEF_FLOOR_COLOR	0x00666666
+# define DEF_WALL_COLOR		0x00000066
 
 typedef struct	s_tex {
 	char		*file;
@@ -160,21 +172,28 @@ typedef struct	s_vars {
 //	}			pl;
 
 	int			color;
+	int			hcolor;
+	int			vcolor;
 
 //	struct {
 	t_tex		w[4];
 	t_tex		sprite;
-	double		wall_x;
 //	}			textures;
 
+	double		dpp;
 //	struct {
-	double		d;
+	double		ray_ang;
+	double		ray_d;
+	double		hit;
 	double		hit_x;
 	double		hit_y;
-	int			hit;
+	int			side;
 	int			vhit;
 	int			hhit;
 //	}			rays;
+
+	int			mouse_x;
+	int			mouse_y;
 
 //	struct {
 	t_list		*map_lst;	
@@ -184,6 +203,12 @@ typedef struct	s_vars {
 	int			map_lines;
 	int			pl_count;
 //	}			parser;
+
+//	struct {
+	int			use_one_color;
+	int			use_many_colors;
+	int			use_textures;
+//	}			settings;
 }				t_vars;
 
 int				parse_params(int argc, char **argv, t_vars *e);
@@ -207,6 +232,8 @@ int				repaint(t_vars *e);
 int				eq(char *s1, char *s2);
 int				err_exit(char *err);
 void			free_split(char **s);
+double			cos_ang(double ang);
+double			sin_ang(double ang);
 
 int				create_trgb(int t, int r, int g, int b);
 void			img_pixel_put(t_img *img, double x, double y, int color);
@@ -216,6 +243,7 @@ void			display_2d_map(t_vars *e);
 //void			display_2d_wall_box(int x, int y, t_vars *e);
 //void			display_2d_pl(t_vars *e);
 //void			display_2d_look_line(t_vars *e);
+void			display_2d_ray(t_vars *e);
 
 void			log_map(t_vars *e);
 void			log_map2(t_vars *e);

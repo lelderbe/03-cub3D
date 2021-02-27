@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:58:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/25 18:34:36 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/27 20:40:50 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,9 @@
 void	init_vars(t_vars *e)
 {
 	ft_memset(e, 0, sizeof(*e));
-	/*
-	e->cub_filename = 0;
-	e->save_option = 0;
-	e->mlx = 0;
-	e->win = 0;
-	e->img = 0;
-	e->addr = 0;
-	e->bits_per_pixel = 0;
-	e->line_length = 0;
-	e->endian = 0;
-	*/
-	e->wall_color = WALL_COLOR;
-	e->floor_color = FLOOR_COLOR;
-	e->ceil_color = CEIL_COLOR;
+	e->wall_color = DEF_WALL_COLOR;
+	e->floor_color = DEF_FLOOR_COLOR;
+	e->ceil_color = DEF_CEIL_COLOR;
 }
 
 int		hook_events(t_vars *e)
@@ -47,42 +36,24 @@ int		main(int argc, char **argv)
 	t_vars	e;
 
 	init_vars(&e);
-	// parse params
-	if (parse_params(argc, argv, &e) == FAIL)
-		return (-1);
-	// parse .cub-file
-	if (parse_cub_file(&e) == FAIL)
-		return (-1);
+	parse_params(argc, argv, &e);
+	parse_cub_file(&e);
 	log_map2(&e);
 	log_pl(&e);
-
-	// mlx init
 	if (!(e.mlx = mlx_init()))
-		return (-1);
-	// window create
+		err_exit(ERR_MLX_INIT);
 	if (!(e.win = mlx_new_window(e.mlx, e.width, e.height, APP_NAME)))
-	{
-		printf("error creating window ( \n");
-		return (-1);
-	}
-
-	// texture load
+		err_exit(ERR_MLX_WINDOW);
 	texture_load(&e);
 	// window img prepare
-	//e.img = mlx_new_image(e.mlx, e.width, e.height);
-	//e.addr = mlx_get_data_addr(e.img, &e.bits_per_pixel, &e.line_length, &e.endian);
-	//log_img(e.addr, e.bits_per_pixel, e.line_length, e.endian);
 	e.main.img = mlx_new_image(e.mlx, e.width, e.height);
 	e.main.addr = mlx_get_data_addr(e.main.img, &e.main.bpp, &e.main.len, &e.main.endian);
 	log_img(e.main.addr, e.main.bpp, e.main.len, e.main.endian);
-
 	// 2d map img prepare
 	e.mp.img = mlx_new_image(e.mlx, e.width, e.height);
 	e.mp.addr = mlx_get_data_addr(e.mp.img, &e.mp.bpp, &e.mp.len, &e.mp.endian);
 	log_img(e.mp.addr, e.mp.bpp, e.mp.len, e.mp.endian);
-
 	repaint(&e);
-
 	if (e.save_option)
 	{
 		// save bmp and exit
@@ -91,7 +62,6 @@ int		main(int argc, char **argv)
 	//mlx_clear_window(e.mlx, e.window);
 	// hook events create
 	hook_events(&e);
-
 	// game start
 	//mlx_loop_hook(e.mlx, repaint, &e);
 	mlx_loop(e.mlx);

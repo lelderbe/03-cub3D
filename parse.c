@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 13:46:54 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/25 16:44:58 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/27 20:37:51 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,18 @@
 
 int		parse_params(int argc, char **argv, t_vars *e)
 {
-	(void)argv;
-
-	if (argc < 2 || argc > 3)	//error
-		err_exit(ERROR_ARGS_COUNT);
+	if (argc < 2 || argc > 3)
+		err_exit(ERR_ARGS_COUNT);
 	e->cub_filename = argv[1];
 	e->fd = open(e->cub_filename, O_RDONLY);
-	if (e->fd == -1)	//error
+	if (e->fd == -1)
 		err_exit(ERR_OPEN_FILE);
 	if (argc == 3)
 	{
-		if (ft_strncmp(argv[2], SAVE_OPTION, 10) == 0)
-		{
+		if (eq(argv[2], SAVE_OPTION))
 			e->save_option = 1;
-			printf("save_option = 1\n");
-		}
 		else
-		{
-			//error argument
-			printf("wrong second option\n");
-			return (FAIL);
-		}
+			err_exit(ERR_INVALID_ARG);
 	}
 	return (OK);
 }
@@ -81,9 +72,6 @@ static int	parse_color(t_vars *e, unsigned int *value, char **parts)
 		{
 			*value = create_trgb(0,
 				ft_atoi(rgb[0]), ft_atoi(rgb[1]), ft_atoi(rgb[2]));
-			//*value = (ft_atoi(rgb[0]) << 16) +
-			//		(ft_atoi(rgb[1]) << 8) +
-			//		(ft_atoi(rgb[2]));
 			free_split(rgb);
 			return (OK);
 		}
@@ -113,7 +101,7 @@ static int	parse_line(t_vars *e, char *line)
 		e->parsed |= WE_BIT;
 	else if (eq(parts[0], SO_SOUTH) && parse_texture(e, &e->w[3], parts))
 		e->parsed |= SO_BIT;
-	else // should be a MAP
+	else
 		parse_map_line(e, line);
 	free_split(parts);
 	return (OK);
@@ -132,15 +120,15 @@ int		parse_cub_file(t_vars *e)
 	if (ft_strlen(line) > 0)
 		parse_line(e, line);
 	free(line);
-	if ((unsigned char)e->parsed != PARSE_COMPLETE)
-		return err_exit(ERR_PARSE_FILE);
+	if ((unsigned char)e->parsed != PARSE_OPT_COMPLETE)
+		err_exit(ERR_PARSE_FILE);
 	parse_map(e);
 	printf("e->width: %d, e->height: %d\n", e->width, e->height);
 	e->half_w = e->width / 2;
 	e->half_h = e->height / 2;
-	e->d = 1.0 * e->half_w / tan((FOV / 2) * M_PI / 180) / 1;
+	e->dpp = 1.0 * e->half_w / tan((FOV / 2) * M_PI / 180) / 1;
 	//e->d = (1.0 * e->half_w / TILE) / tan((FOV / 2) * M_PI / 180);
-	printf("e->d: %6.2f\n", e->d);
-	e->map_visible = 1;
+	printf("e->dpp: %6.2f\n", e->dpp);
+	e->map_visible = 0;
 	return (OK);
 }

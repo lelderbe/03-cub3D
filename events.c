@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:51:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/25 15:20:05 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/27 15:53:41 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	pl_check_and_move(t_vars *e, double dx, double dy)
 	y = e->pl_y;
 	printf("x: %6.2f, y: %6.2f\n", x, y);
 
-	if (e->map[(int)y][(int)x] == WALL)
+	if (e->map[(int)y][(int)x] == MAP_WALL)
 	{
 		if (dx > 0)
 			x = (int)(x) - BODY / 2;
@@ -86,7 +86,7 @@ void	pl_check_and_move(t_vars *e, double dx, double dy)
 		y -= BODY / 2;
 	printf("x: %6.2f, y: %6.2f\n", x, y);
 
-	if (e->map[(int)y][(int)x] == WALL)
+	if (e->map[(int)y][(int)x] == MAP_WALL)
 	{
 		if (dy > 0)
 			y = (int)(y) - BODY / 2;

@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 14:02:55 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/25 14:12:23 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/02/27 20:32:07 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,3 +42,14 @@ void	free_split(char **s)
 		free(s[i++]);
 	free(s);
 }
+
+double		cos_ang(double ang)
+{
+	return (cos(ang / 180 * M_PI));
+}
+
+double		sin_ang(double ang)
+{
+	return (-sin(ang / 180 * M_PI));
+}
+
