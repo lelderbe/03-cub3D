@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-int		event_window_destroy(t_vars *e)
+int		event_window_destroy(t_cub *e)
 {
 	(void)e;
 	printf("%s triggered\n", __FUNCTION__);
@@ -20,7 +20,7 @@ int		event_window_destroy(t_vars *e)
 	return (0);
 }
 
-int		event_window_create(t_vars *e)
+int		event_window_create(t_cub *e)
 {
 	(void)e;
 	printf("window create event\n");
@@ -28,7 +28,7 @@ int		event_window_create(t_vars *e)
 	return (0);
 }
 
-void	check_pl_coords(t_vars *e)
+void	check_pl_coords(t_cub *e)
 {
 	(void)e;
 	//if (e->pl_x * SCALE < BODY / 2)
@@ -51,7 +51,7 @@ void	check_pl_coords(t_vars *e)
 */
 }
 
-void	pl_check_and_move(t_vars *e, double dx, double dy)
+void	pl_check_and_move(t_cub *e, double dx, double dy)
 {
 	double x;
 	double y;
@@ -104,7 +104,7 @@ void	pl_check_and_move(t_vars *e, double dx, double dy)
 	e->pl_y = y;
 }
 
-int		event_key_press(int keycode, t_vars *e)
+int		event_key_press(int keycode, t_cub *e)
 {
 	double dx;
 	double dy;
@@ -199,7 +199,7 @@ int		event_key_press(int keycode, t_vars *e)
 	return (0);
 }
 
-int		event_key_release(int keycode, t_vars *e)
+int		event_key_release(int keycode, t_cub *e)
 {
 
 	if (keycode == KEYCODE_A)
@@ -231,7 +231,7 @@ int		event_key_release(int keycode, t_vars *e)
 	return (0);
 }
 
-int		event_m(int button, int x, int y, t_vars *e)
+int		event_m(int button, int x, int y, t_cub *e)
 {
 	int color;
 
@@ -245,7 +245,7 @@ int		event_m(int button, int x, int y, t_vars *e)
 	return (0);
 }
 
-int		event_motion(int x, int y, t_vars *e)
+int		event_motion(int x, int y, t_cub *e)
 {
 	//int x;
 	//int y;

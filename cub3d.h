@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/27 20:39:50 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/01 14:30:19 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@
 # define ERR_INVALID_MAP	"Invalid map data"
 # define ERR_MLX_INIT		"Error mlx init"
 # define ERR_MLX_WINDOW		"Error window create"
+# define ERR_LOAD_TEXTURE	"Error load texture from file"
+# define ERR_LOAD_SPRITE	"Error load sprite from file"
 
 # define R_RES				"R"
 # define NO_NORTH			"NO"
@@ -130,12 +132,18 @@ typedef struct	s_img {
 	int			endian;
 }				t_img;
 
-typedef struct	s_vars {
+typedef struct	s_cub {
 //	struct {
 	char		*cub_filename;
 	int			fd;
 	int			save_option;
 //	}			args;
+
+//	struct {
+	char		parsed;
+	int			map_parse_started;
+	int			pl_count;
+//	}			parser;
 
 //	struct {
 	void		*mlx;
@@ -148,8 +156,12 @@ typedef struct	s_vars {
 
 	t_img		main;
 	t_img		mp;
+
 //	struct {
+	t_list		*map_lst;	
 	char		**map;
+	unsigned	map_width;
+	unsigned	map_height;
 	int			map_visible;
 //	}			map;
 
@@ -196,38 +208,26 @@ typedef struct	s_vars {
 	int			mouse_y;
 
 //	struct {
-	t_list		*map_lst;	
-	char		parsed;
-	int			map_parse_started;
-	size_t		map_max;
-	int			map_lines;
-	int			pl_count;
-//	}			parser;
-
-//	struct {
 	int			use_one_color;
 	int			use_many_colors;
 	int			use_textures;
 //	}			settings;
-}				t_vars;
+}				t_cub;
 
-int				parse_params(int argc, char **argv, t_vars *e);
-int				parse_cub_file(t_vars *e);
-int				parse_map_line(t_vars *e, char *line);
-//void			parse_pl_pos(t_vars *e, const char *pl_allowed_chars);
-void			parse_map(t_vars *e);
+int				parse_arguments(int argc, char **argv, t_cub *e);
+int				parse_cub_file(t_cub *e);
+int				parse_line(t_cub *e, char *line);
+void			parse_map(t_cub *e);
 
-void			texture_load(t_vars *e);
+int				event_window_create(t_cub *e);
+int				event_window_destroy(t_cub *e);
+int				event_m(int button, int x, int y, t_cub *e);
+int				event_motion(int x, int y, t_cub *e);
+int				event_key_press(int keycode, t_cub *e);
+int				event_key_release(int keycode, t_cub *e);
+void			pl_check_and_move(t_cub *e, double dx, double dy);
 
-int				event_window_create(t_vars *e);
-int				event_window_destroy(t_vars *e);
-int				event_m(int button, int x, int y, t_vars *e);
-int				event_motion(int x, int y, t_vars *e);
-int				event_key_press(int keycode, t_vars *e);
-int				event_key_release(int keycode, t_vars *e);
-void			pl_check_and_move(t_vars *e, double dx, double dy);
-
-int				repaint(t_vars *e);
+int				repaint(t_cub *e);
 
 int				eq(char *s1, char *s2);
 int				err_exit(char *err);
@@ -237,17 +237,15 @@ double			sin_ang(double ang);
 
 int				create_trgb(int t, int r, int g, int b);
 void			img_pixel_put(t_img *img, double x, double y, int color);
+void			textures_load(t_cub *e);
 
-void			clear_2d_map_window(t_vars *e);
-void			display_2d_map(t_vars *e);
-//void			display_2d_wall_box(int x, int y, t_vars *e);
-//void			display_2d_pl(t_vars *e);
-//void			display_2d_look_line(t_vars *e);
-void			display_2d_ray(t_vars *e);
+void			clear_2d_map_window(t_cub *e);
+void			display_2d_map(t_cub *e);
+void			display_2d_ray(t_cub *e);
 
-void			log_map(t_vars *e);
-void			log_map2(t_vars *e);
-void			log_pl(t_vars *e);
+void			log_map(t_cub *e);
+void			log_map2(t_cub *e);
+void			log_pl(t_cub *e);
 void			log_img(void *addr, int bpp, int len, int endian);
 void			log_lst(t_list *lst);
 void			log_eq(char *s1, char *s2);

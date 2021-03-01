@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-int		validate_data(t_vars *e)
+int		validate_data(t_cub *e)
 {
 	validate_pl(e);
 	validate_map(e);

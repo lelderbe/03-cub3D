@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   graphics_2d.c                                      :+:      :+:    :+:   */
+/*   graphics_2d_p1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 14:36:35 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/27 17:57:02 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/01 14:13:50 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	display_2d_look_line(t_vars *e)
+static void	display_2d_look_line(t_cub *e)
 {
 	int		d;
 	double	x;
@@ -38,7 +38,7 @@ static void	display_2d_look_line(t_vars *e)
 	}
 }
 
-static void	display_2d_pl(t_vars *e)
+static void	display_2d_pl(t_cub *e)
 {
 	int		i;
 	int		angle;
@@ -66,7 +66,7 @@ static void	display_2d_pl(t_vars *e)
 	display_2d_look_line(e);
 }
 
-static void	display_2d_wall_box(int x, int y, t_vars *e)
+static void	display_2d_wall_box(int x, int y, t_cub *e)
 {
 	int i;
 	int j;
@@ -88,7 +88,7 @@ static void	display_2d_wall_box(int x, int y, t_vars *e)
 	}
 }
 
-void		display_2d_map(t_vars *e)
+void		display_2d_map(t_cub *e)
 {
 	int	x;
 	int	y;
@@ -110,7 +110,7 @@ void		display_2d_map(t_vars *e)
 	display_2d_pl(e);
 }
 
-void		display_2d_ray(t_vars *e)
+void		display_2d_ray(t_cub *e)
 {
 	double	d;
 	double	x;

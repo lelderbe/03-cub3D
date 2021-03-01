@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-void	log_map(t_vars *e)
+void	log_map(t_cub *e)
 {
 	int	i;
 
@@ -24,7 +24,7 @@ void	log_map(t_vars *e)
 	}
 }
 
-void	log_map2(t_vars *e)
+void	log_map2(t_cub *e)
 {
 	int	i;
 	int	j;
@@ -43,7 +43,7 @@ void	log_map2(t_vars *e)
 	}
 }
 
-void	log_pl(t_vars *e)
+void	log_pl(t_cub *e)
 {
 	//printf("x: %d y: %d angle: %6.2f\n", e->pl_x, e->pl_y, e->pl_ang);
 	printf("x: %6.2f (%d) y: %6.2f (%d) angle: %6.2f\n",

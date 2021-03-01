@@ -6,13 +6,13 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:15:32 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/27 20:36:14 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/01 14:30:07 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	display_3d_floor_ceil(t_vars *e)
+static void	display_3d_floor_ceil(t_cub *e)
 {
 	int x;
 	int y;
@@ -33,7 +33,7 @@ static void	display_3d_floor_ceil(t_vars *e)
 	}
 }
 
-double	check_vert_lines(t_vars *e, double cos_a, double sin_a)
+double	check_vert_lines(t_cub *e, double cos_a, double sin_a)
 {
 	double d;
 	double x;
@@ -45,44 +45,30 @@ double	check_vert_lines(t_vars *e, double cos_a, double sin_a)
 	x = (cos_a >= 0) ? (int)(e->pl_x + 1) : (int)e->pl_x - 0.000001;
 	d = (x - e->pl_x) / cos_a;
 	y = e->pl_y + d * sin_a;
-	y = y < 0 ? 0 : y;
 //	printf("v= new x: %6.2f, new y: %6.2f, d: %6.2f\n", x, y, d);
-	if (fabs(d) > 1000)
-		return (fabs(d));
-	//dy = -(dx) * tan(ang / 180 * M_PI);
 	dx = cos_a >= 0 ? 1 : -1;
-	e->vhit = dx > 0 ? 0 : 2;
-	d = cos_a == 0 ? 1 : dx / cos_a;
-	dy = d * sin_a;
+	dy = (dx / cos_a) * sin_a;
 //	printf("v= d: %6.2f, dx: %6.2f, dy: %6.2f\n", d, dx, dy);
-
-	if (x >= e->map_max || y >= e->map_lines || x < 0 || y < 0)
-		return (fabs(d));
-
-	while (e->map[(int)y][(int)x] != MAP_WALL)
+	while (x >= 0 && x < e->map_width && y >= 0 && y < e->map_height &&
+				e->map[(int)y][(int)x] != MAP_WALL)
 	{
 		x += dx;
 		y += dy;
 //		printf("v= new x: %6.2f, new y: %6.2f\n", x, y);
-		y = y < 0 ? 0 : y;
-		if (x >= e->map_max || y >= e->map_lines || x < 0 || y < 0)
-			break ;
 	}
-
-	e->hit_y = (y) - (int)(y);
-	e->vcolor = (int)(y) * 30;
-
+	e->vhit = dx > 0 ? E_WALL : W_WALL;
+	e->hit_y = y - (int)(y);
+	e->vcolor = (int)y * 30;
 	//d = (x - e->pl_x) * cos(e->pl_ang / 180 * M_PI) -
 	//	(y - e->pl_y) * sin(e->pl_ang / 180 * M_PI);
 	//printf("v NEW d: %6.2f\n", d);
-	
-	d = cos_a == 0 ? fabs(x - e->pl_x) : fabs(x - e->pl_x) / cos_a;
+	//d = cos_a == 0 ? fabs(x - e->pl_x) : fabs(x - e->pl_x) / cos_a;
+	d = (x - e->pl_x) / cos_a;
 	//printf("v= ang: %6.2f, x: %d, y: %d, d: %6.3f\n", ang, (int)x, (int)y, d);
-	//printf("v= ang: %6.2f, x: %6.2f, y: %6.2f, d: %6.3f\n", ang, x, y, d);
 	return (fabs(d));
 }
 
-double	check_horiz_lines(t_vars *e, double cos_a, double sin_a)
+double	check_horiz_lines(t_cub *e, double cos_a, double sin_a)
 {
 	double d;
 	double x;
@@ -93,43 +79,31 @@ double	check_horiz_lines(t_vars *e, double cos_a, double sin_a)
 //	printf("h= pl_x: %6.2f, pl_y: %6.2f, cos_a: %6.2f, sin_a: %6.2f\n", e->pl_x, e->pl_y, cos_a, sin_a);
 	y = (sin_a >= 0) ? (int)(e->pl_y + 1) :	(int)e->pl_y - 0.000001;
 	d = (y - e->pl_y) / sin_a;
-	//printf("d: %6.2f\n", d);
-	//x = mod(d) > 1000 ? 1 : 2;
 	x = e->pl_x + d * cos_a;
-	//printf("x: %6.2f\n", x);
-	//x = x < 0 ? 0 : x;
 //	printf("h= new x: %6.2f, new y: %6.2f, d: %6.2f\n", x, y, d);
-	if (fabs(d) > 1000)
-		return (fabs(d));
 	dy = sin_a >= 0 ? 1 : -1;
-	e->hhit = dy > 0 ? S_WALL : N_WALL;
-	d = sin_a == 0 ? 1 : dy / sin_a;
-	dx = d * cos_a;
+	dx = (dy / sin_a) * cos_a;
 //	printf("h= d: %6.2f, dx: %6.2f, dy: %6.2f\n", d, dx, dy);
-	if (x >= e->map_max || y >= e->map_lines || x < 0 || y < 0)
-		return (fabs(d));
-	//if (x >= e->map_max || y >= e->map_lines || x < 0 || y < 0)
-	while (e->map[(int)y][(int)x] != MAP_WALL)
+	while (x >= 0 && x < e->map_width && y >= 0 && y < e->map_height &&
+				e->map[(int)y][(int)x] != MAP_WALL)
 	{
 		x += dx;
 		y += dy;
 //		printf("h= new x: %6.2f, new y: %6.2f\n", x, y);
-		//x = x < 0 ? 0 : x;
-		//y = y < 0 ? 0 : y;
-		if (x >= e->map_max || y >= e->map_lines || x < 0 || y < 0)
-			break ;
 	}
-	e->hit_x = (x) - (int)(x);
-	e->hcolor = (int)(x) * 30;
+	e->hhit = dy > 0 ? S_WALL : N_WALL;
+	e->hit_x = x - (int)(x);
+	e->hcolor = (int)x * 30;
 	//d = (x - e->pl_x) * cos(e->pl_ang / 180 * M_PI) -
 	//	(y - e->pl_y) * sin(e->pl_ang / 180 * M_PI);
 	//printf("h NEW d: %6.2f\n", d);
-	d = sin_a == 0 ? fabs(y - e->pl_y) : fabs(y - e->pl_y) / sin_a;
+	//d = sin_a == 0 ? fabs(y - e->pl_y) : fabs(y - e->pl_y) / sin_a;
+	d = (y - e->pl_y) / sin_a;
 //	printf("h= ang: %6.2f, x: %d, y: %d, d: %6.3f\n", ang, (int)x, (int)y, d);
 	return (fabs(d));
 }
 
-double		cast_ray(double ang, t_vars *e)
+double		cast_ray(double ang, t_cub *e)
 {
 	double	d;
 	double	dh;
@@ -147,7 +121,7 @@ double		cast_ray(double ang, t_vars *e)
 	return (d);
 }
 
-static int	get_color(t_vars *e, int dx, int dy)
+static int	get_color(t_cub *e, int dx, int dy)
 {
 	unsigned	color;
 	int 		addr;
@@ -162,7 +136,7 @@ static int	get_color(t_vars *e, int dx, int dy)
 	return (color);
 }
 
-void		display_3d_column(t_vars *e, int x, double d)
+void		display_3d_column(t_cub *e, int x, double d)
 {
 	int		i;
 	int		height;
@@ -190,7 +164,7 @@ void		display_3d_column(t_vars *e, int x, double d)
 	}
 }
 
-void	render(t_vars *e)
+void	render(t_cub *e)
 {
 	double	ang;
 	double	fov_step;
@@ -216,7 +190,7 @@ void	render(t_vars *e)
 	display_2d_map(e);
 }
 
-void	world_update(t_vars *e)
+void	world_update(t_cub *e)
 {
 	double dx;
 	double dy;
@@ -280,39 +254,7 @@ void	world_update(t_vars *e)
 	}
 }
 
-void	texture_load(t_vars *e)
-{
-	int i;
-
-	i = 0;
-	while (i < 4)
-	{
-		if (e->w[i].file)
-		{
-			e->w[i].img = mlx_xpm_file_to_image(
-					e->mlx, e->w[i].file, &e->w[i].width, &e->w[i].height);
-			//printf("tex width: %d, height: %d\n", e->w[i].width, e->w[i].height);
-			if (e->w[i].img)
-			{
-				e->w[i].addr = mlx_get_data_addr(
-						e->w[i].img, &e->w[i].bpp, &e->w[i].len, &e->w[i].endian);
-				//log_img(e->w[i].addr, e->w[i].bpp, e->w[i].len, e->w[i].endian);
-			}
-		}
-		i++;
-	}
-	e->sprite.img = mlx_xpm_file_to_image(
-				e->mlx, e->sprite.file, &e->sprite.width, &e->sprite.height);
-	//printf("tex width: %d, height: %d\n", e->sprite.width, e->sprite.height);
-	if (e->sprite.img)
-	{
-		e->sprite.addr = mlx_get_data_addr(
-				e->sprite.img, &e->sprite.bpp, &e->sprite.len, &e->sprite.endian);
-		//log_img(e->sprite.addr, e->sprite.bpp, e->sprite.len, e->sprite.endian);
-	}
-}
-
-int		repaint(t_vars *e)
+int		repaint(t_cub *e)
 {
 	world_update(e);
 	render(e);

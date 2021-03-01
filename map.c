@@ -6,13 +6,14 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 15:33:45 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/25 19:33:48 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/01 14:09:31 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		parse_map_line(t_vars *e, char *line)
+/*
+int		parse_map_line(t_cub *e, char *line)
 {
 	int		i;
 	t_list	*new;
@@ -21,26 +22,26 @@ int		parse_map_line(t_vars *e, char *line)
 	if (ft_strlen(line) == 0 && !e->map_parse_started)
 		return (OK);
 	e->map_parse_started = 1;
-	e->map_lines++;
-	// empty -> error
+	e->map_height++;
 	if (ft_strlen(line) == 0)
-		return err_exit(ERR_INVALID_MAP);
-	// wrong symbols -> error
+		err_exit(ERR_INVALID_MAP);
 	i = 0;
 	while (line[i])
 	{
 		if (!ft_strchr(MAP_ALLOWED_CHARS, line[i]))
-			return err_exit(ERR_INVALID_MAP);
+			err_exit(ERR_INVALID_MAP);
 		i++;
 	}
-	e->map_max = ft_strlen(line) > e->map_max ? ft_strlen(line) : e->map_max;
+	e->map_width = ft_strlen(line) > e->map_width ?
+									ft_strlen(line) : e->map_width;
 	if (!(content = ft_strdup(line)) || !(new = ft_lstnew(content)))
 		return err_exit(ERR_OUT_OF_MEM);
 	ft_lstadd_back(&e->map_lst, new);
 	return (OK);
 }
+*/
 
-void	parse_pl_pos(t_vars *e, const char *pl_allowed_chars)
+void	parse_pl_pos(t_cub *e, const char *pl_allowed_chars)
 {
 	int			x;
 	int			y;
@@ -67,15 +68,15 @@ void	parse_pl_pos(t_vars *e, const char *pl_allowed_chars)
 		err_exit(ERR_INVALID_MAP);
 }
 
-void	parse_map(t_vars *e)
+void	parse_map(t_cub *e)
 {
 	int		i;
 	t_list	*lst;
 
 	//log_lst(e->map_lst);
-	//printf("map max line len: %d\n", (int)e->map_max);
-	//printf("map lines: %d\n", e->map_lines);
-	if (!(e->map = malloc(sizeof(*e->map) * (e->map_lines + 1))))
+	//printf("map max line len: %d\n", (int)e->map_w);
+	//printf("map lines: %d\n", e->map_h);
+	if (!(e->map = malloc(sizeof(*e->map) * (e->map_height + 1))))
 		err_exit(ERR_OUT_OF_MEM);
 	i = 0;
 	lst = e->map_lst;
