@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:20:39 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/02/25 14:05:34 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/02 10:28:41 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,10 @@ void	log_lst(t_list *lst)
 void	log_eq(char *s1, char *s2)
 {
 	printf("compare: |%s| vs |%s|\n", s1, s2);
+}
+
+void	log_bmp(t_bmp *bmp)
+{
+	printf("width: %d, height: %d, bpp: %d\n",
+		bmp->info.image_width, bmp->info.image_height, bmp->info.bpp);
 }

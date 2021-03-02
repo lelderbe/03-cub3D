@@ -6,13 +6,14 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/01 14:30:19 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/02 11:49:49 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include "bmp.h"
 # include "libft.h"
 # include "mlx.h"
 # include "get_next_line.h"
@@ -29,6 +30,7 @@
 # define OK					1
 
 # define SAVE_OPTION		"--save"
+# define SAVE_FILENAME		"screenshot.bmp"
 # define ERROR				"Error"
 # define ERR_ARGS_COUNT		"Invalid arguments count"
 # define ERR_INVALID_ARG	"Invalid argument"
@@ -43,6 +45,7 @@
 # define ERR_MLX_WINDOW		"Error window create"
 # define ERR_LOAD_TEXTURE	"Error load texture from file"
 # define ERR_LOAD_SPRITE	"Error load sprite from file"
+# define ERR_SAVE_BMP		"Error save bmp file"
 
 # define R_RES				"R"
 # define NO_NORTH			"NO"
@@ -125,7 +128,10 @@ typedef struct	s_tex {
 }				t_tex;
 
 typedef struct	s_img {
+	char		*file;
 	void		*img;
+	int			width;
+	int			height;
 	char		*addr;
 	int			bpp;
 	int			len;
@@ -249,5 +255,8 @@ void			log_pl(t_cub *e);
 void			log_img(void *addr, int bpp, int len, int endian);
 void			log_lst(t_list *lst);
 void			log_eq(char *s1, char *s2);
+void			log_bmp(t_bmp *bmp);
+
+void			save_img_to_bmp(t_img *img);
 
 #endif

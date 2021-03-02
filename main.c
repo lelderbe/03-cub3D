@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:58:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/01 14:44:08 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/02 11:39:55 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,15 @@ static void	init_mlx(t_cub *e)
 	e->main.img = mlx_new_image(e->mlx, e->width, e->height);
 	e->main.addr = mlx_get_data_addr(e->main.img,
 				&e->main.bpp, &e->main.len, &e->main.endian);
+	e->main.width = e->width;
+	e->main.height = e->height;
 	log_img(e->main.addr, e->main.bpp, e->main.len, e->main.endian);
 	// mini-map img prepare
 	e->mp.img = mlx_new_image(e->mlx, e->width, e->height);
 	e->mp.addr = mlx_get_data_addr(e->mp.img,
 				&e->mp.bpp, &e->mp.len, &e->mp.endian);
+	e->mp.width = e->width;
+	e->mp.height = e->height;
 	log_img(e->mp.addr, e->mp.bpp, e->mp.len, e->mp.endian);
 	textures_load(e);
 }
@@ -62,10 +66,9 @@ int			main(int argc, char **argv)
 	repaint(&e);
 	if (e.save_option)
 	{
-		// save bmp and exit
-		printf("will save BMP here\n");
+		save_img_to_bmp(&e.main);
+		exit (0);
 	}
-	//mlx_clear_window(e.mlx, e.window);
 	hook_events(&e);
 	// game start
 	//mlx_loop_hook(e.mlx, repaint, &e);
