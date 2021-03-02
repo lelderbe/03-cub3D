@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 14:36:35 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/01 14:13:50 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/02 16:23:40 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@ static void	display_2d_look_line(t_cub *e)
 	int		d;
 	double	x;
 	double	y;
-	double	cos_a;
-	double	sin_a;
+	double	cosa;
+	double	sina;
 
 	if (!e->map_visible)
 		return ;
-	cos_a = cos_ang(e->pl_ang);
-	sin_a = sin_ang(e->pl_ang);
+	cosa = cos_a(e->pl_a);
+	sina = sin_a(e->pl_a);
 	d = 0;
 	while (d < (e->width * 2))
 	{
-		x = (e->pl_x * MAP_TILE + cos_a * d);
-		y = (e->pl_y * MAP_TILE + sin_a * d);
+		x = (e->pl_x * MAP_TILE + cosa * d);
+		y = (e->pl_y * MAP_TILE + sina * d);
 		if (x >= e->width || y >= e->height || x < 0 || y < 0)
 			break ;
 		if (e->map[(int)(y / MAP_TILE)][(int)(x / MAP_TILE)] == MAP_WALL)
@@ -53,8 +53,8 @@ static void	display_2d_pl(t_cub *e)
 		angle = 0;
 		while (angle < 360)
 		{
-			dx = round(cos_ang(angle) * i);
-			dy = -round(sin_ang(angle) * i);
+			dx = round(cos_a(angle) * i);
+			dy = -round(sin_a(angle) * i);
 			if (e->pl_x * MAP_TILE + dx < e->width &&
 					e->pl_y * MAP_TILE + dy < e->height)
 				img_pixel_put(&e->mp, e->pl_x * MAP_TILE + dx,
@@ -110,23 +110,23 @@ void		display_2d_map(t_cub *e)
 	display_2d_pl(e);
 }
 
-void		display_2d_ray(t_cub *e)
+void		display_2d_ray(t_cub *e, double ray_ang, double ray_d)
 {
 	double	d;
 	double	x;
 	double	y;
-	double	cos_a;
-	double	sin_a;
+	double	cosa;
+	double	sina;
 
 	if (!e->map_visible || !MAP_RAYS_SHOW)
 		return ;
-	cos_a = cos_ang(e->ray_ang);
-	sin_a = sin_ang(e->ray_ang);
+	cosa = cos_a(ray_ang);
+	sina = sin_a(ray_ang);
 	d = 0;
-	while (d <= e->ray_d)
+	while (d <= ray_d)
 	{
-		x = (e->pl_x + cos_a * d) * MAP_TILE;
-		y = (e->pl_y + sin_a * d) * MAP_TILE;
+		x = (e->pl_x + cosa * d) * MAP_TILE;
+		y = (e->pl_y + sina * d) * MAP_TILE;
 		if ((int)x < e->width && (int)y < e->height)
 			img_pixel_put(&e->mp, x, y, MAP_RAY_COLOR);
 		d = d + MAP_RAY_STEP;

@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 14:11:01 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/01 14:22:19 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/02 16:37:35 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	parse_r(t_cub *e, char **parts)
 {
 	if (e->map_parse_started)
-		return err_exit(ERR_PARSE_FILE);
+		err_exit(ERR_PARSE_FILE);
 	if (parts[1] && parts[2] && !parts[3])
 	{
 		// TODO: if > MAX then = MAX
@@ -24,20 +24,20 @@ static int	parse_r(t_cub *e, char **parts)
 		if (!(e->width <= 0 || e->height <= 0))
 			return (OK);
 	}
-	return err_exit(ERR_WRONG_RES);
+	return (err_exit(ERR_WRONG_RES));
 }
 
-static int	parse_texture(t_cub *e, t_tex *tex, char **parts)
+static int	parse_texture(t_cub *e, t_img *tex, char **parts)
 {
 	if (e->map_parse_started)
-		return err_exit(ERR_PARSE_FILE);
+		err_exit(ERR_PARSE_FILE);
 	if (parts[1] && !parts[2])
 	{
 		if (!(tex->file = ft_strdup(parts[1])))
-			return err_exit(ERR_OUT_OF_MEM);
+			err_exit(ERR_OUT_OF_MEM);
 		return (OK);
 	}
-	return err_exit(ERR_WRONG_TEXTURE);
+	return (err_exit(ERR_WRONG_TEXTURE));
 }
 
 static int	parse_color(t_cub *e, unsigned int *value, char **parts)
@@ -45,11 +45,11 @@ static int	parse_color(t_cub *e, unsigned int *value, char **parts)
 	char	**rgb;
 
 	if (e->map_parse_started)
-		return err_exit(ERR_PARSE_FILE);
+		err_exit(ERR_PARSE_FILE);
 	if (parts[1] != 0)
 	{
 		if (!(rgb = ft_split(parts[1], ',')))
-			return err_exit(ERR_OUT_OF_MEM);
+			err_exit(ERR_OUT_OF_MEM);
 		if (rgb[0] && rgb[1] && rgb[2] && !rgb[3])
 		{
 			*value = create_trgb(0,
@@ -58,7 +58,7 @@ static int	parse_color(t_cub *e, unsigned int *value, char **parts)
 			return (OK);
 		}
 	}
-	return err_exit(ERR_WRONG_COLOR);
+	return (err_exit(ERR_WRONG_COLOR));
 }
 
 static int	parse_map_line(t_cub *e, char *line)
@@ -82,18 +82,19 @@ static int	parse_map_line(t_cub *e, char *line)
 	}
 	e->map_width = ft_strlen(line) > e->map_width ?
 									ft_strlen(line) : e->map_width;
-	if (!(content = ft_strdup(line)) || !(new = ft_lstnew(content)))
-		return err_exit(ERR_OUT_OF_MEM);
+	content = ft_strdup(line);
+	if (!content || !(new = ft_lstnew(content)))
+		return (err_exit(ERR_OUT_OF_MEM));
 	ft_lstadd_back(&e->map_lst, new);
 	return (OK);
 }
 
-int		parse_line(t_cub *e, char *line)
+int			parse_line(t_cub *e, char *line)
 {
 	char	**parts;
 
 	if (!(parts = ft_split(line, ' ')))
-		return err_exit(ERR_OUT_OF_MEM);
+		err_exit(ERR_OUT_OF_MEM);
 	if (eq(parts[0], R_RES) && parse_r(e, parts))
 		e->parsed |= R_BIT;
 	else if (eq(parts[0], S_SPRITE) && parse_texture(e, &e->sprite, parts))

@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 11:49:49 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/02 17:33:44 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,14 @@
 
 # define MAP_TILE			20
 # define MAP_COLOR			0x00999999
-# define MAP_PL_BODY		10
+# define MAP_PL_BODY		20 * BODY
 # define MAP_PL_BODY_COLOR	0x0000FF00
 # define MAP_RAY_COLOR		0x000000FF
 # define MAP_RAY_STEP		0.01
 # define MAP_RAYS_SHOW		1
 # define TILE				100
 //# define SCALE				100
-# define BODY				1.0 / 8
+# define BODY				1.0 / 2
 # define STEP				1.0 / 8
 # define ANGLE_STEP			10
 //# define MAP_RAY_COLOR		0x0000FF00
@@ -105,27 +105,16 @@
 # define EV_KEY_RELEASE		3
 # define EV_MOTION_NOTIFY	6
 # define EV_CREATE_NOTIFY	16
-# define EV_DESTROY_NOTIFY	17
+# define EV_DESTR_NOTIFY	17
 
-# define MASK_NO_EVENT			0L<<0
-# define MASK_KEY_PRESS			1L<<0
-# define MASK_KEY_RELEASE		1L<<1
-# define MASK_POINTER_MOTION	1L<<6
+# define MASK_NO_EVENT		0L<<0
+# define MASK_KEY_PRESS		1L<<0
+# define MASK_KEY_RELEASE	1L<<1
+# define MASK_PTR_MOTION	1L<<6
 
 # define DEF_CEIL_COLOR		0x00333333
 # define DEF_FLOOR_COLOR	0x00666666
 # define DEF_WALL_COLOR		0x00000066
-
-typedef struct	s_tex {
-	char		*file;
-	void		*img;
-	int			width;
-	int			height;
-	void		*addr;
-	int			bpp;
-	int			len;
-	int			endian;
-}				t_tex;
 
 typedef struct	s_img {
 	char		*file;
@@ -180,13 +169,13 @@ typedef struct	s_cub {
 //	struct {
 	double		pl_x;
 	double		pl_y;
-	double		pl_ang;
-	int			pl_a;
-	int			pl_w;
-	int			pl_s;
-	int			pl_d;
-	int			pl_left;
-	int			pl_right;
+	double		pl_a;
+	int			pl_key_a;
+	int			pl_key_w;
+	int			pl_key_s;
+	int			pl_key_d;
+	int			pl_key_left;
+	int			pl_key_right;
 //	}			pl;
 
 	int			color;
@@ -194,30 +183,23 @@ typedef struct	s_cub {
 	int			vcolor;
 
 //	struct {
-	t_tex		w[4];
-	t_tex		sprite;
+	t_img		w[4];
+	t_img		sprite;
 //	}			textures;
 
 	double		dpp;
 //	struct {
-	double		ray_ang;
-	double		ray_d;
 	double		hit;
 	double		hit_x;
 	double		hit_y;
 	int			side;
-	int			vhit;
-	int			hhit;
+	int			side_h;
+	int			side_v;
 //	}			rays;
 
 	int			mouse_x;
 	int			mouse_y;
 
-//	struct {
-	int			use_one_color;
-	int			use_many_colors;
-	int			use_textures;
-//	}			settings;
 }				t_cub;
 
 int				parse_arguments(int argc, char **argv, t_cub *e);
@@ -225,29 +207,33 @@ int				parse_cub_file(t_cub *e);
 int				parse_line(t_cub *e, char *line);
 void			parse_map(t_cub *e);
 
-int				event_window_create(t_cub *e);
-int				event_window_destroy(t_cub *e);
-int				event_m(int button, int x, int y, t_cub *e);
-int				event_motion(int x, int y, t_cub *e);
-int				event_key_press(int keycode, t_cub *e);
-int				event_key_release(int keycode, t_cub *e);
-void			pl_check_and_move(t_cub *e, double dx, double dy);
+//int				ev_window_create();
+int				ev_window_destroy();
+int				ev_m(int button, int x, int y, t_cub *e);
+int				ev_mouse_motion(int x, int y, t_cub *e);
+int				ev_key_press(int keycode, t_cub *e);
+int				ev_key_release(int keycode, t_cub *e);
 
+void			pl_move(t_cub *e, double dx, double dy);
+void			render(t_cub *e);
 int				repaint(t_cub *e);
 
 int				eq(char *s1, char *s2);
 int				err_exit(char *err);
 void			free_split(char **s);
-double			cos_ang(double ang);
-double			sin_ang(double ang);
+double			cos_a(double ang);
+double			sin_a(double ang);
 
 int				create_trgb(int t, int r, int g, int b);
+int				add_shade(double d, unsigned color);
 void			img_pixel_put(t_img *img, double x, double y, int color);
 void			textures_load(t_cub *e);
 
 void			clear_2d_map_window(t_cub *e);
 void			display_2d_map(t_cub *e);
-void			display_2d_ray(t_cub *e);
+void			display_2d_ray(t_cub *e, double ray_ang, double ray_d);
+void			display_3d_floor_ceil(t_cub *e);
+void			display_3d_column(t_cub *e, int column, double d);
 
 void			log_map(t_cub *e);
 void			log_map2(t_cub *e);

@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:58:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 11:39:55 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/02 17:50:38 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ static void	init_game(t_cub *e)
 
 static void	hook_events(t_cub *e)
 {
-	mlx_mouse_hook(e->win, event_m, e); 
-	mlx_hook(e->win, EV_MOTION_NOTIFY, MASK_POINTER_MOTION, event_motion, e);
-	mlx_hook(e->win, EV_KEY_PRESS, MASK_KEY_PRESS, event_key_press, e);
-	mlx_hook(e->win, EV_KEY_RELEASE, MASK_KEY_RELEASE, event_key_release, e);
-	mlx_hook(e->win, EV_CREATE_NOTIFY, 0, event_window_create, e);
-	mlx_hook(e->win, EV_DESTROY_NOTIFY, MASK_NO_EVENT, event_window_destroy, e);
+	mlx_mouse_hook(e->win, ev_m, e);
+	mlx_hook(e->win, EV_MOTION_NOTIFY, MASK_PTR_MOTION, ev_mouse_motion, e);
+	mlx_hook(e->win, EV_KEY_PRESS, MASK_KEY_PRESS, ev_key_press, e);
+	mlx_hook(e->win, EV_KEY_RELEASE, MASK_KEY_RELEASE, ev_key_release, e);
+	//mlx_hook(e->win, EV_CREATE_NOTIFY, 0, ev_window_create, e);
+	mlx_hook(e->win, EV_DESTR_NOTIFY, MASK_NO_EVENT, ev_window_destroy, e);
 }
 
 static void	init_mlx(t_cub *e)
@@ -67,10 +67,9 @@ int			main(int argc, char **argv)
 	if (e.save_option)
 	{
 		save_img_to_bmp(&e.main);
-		exit (0);
+		exit(0);
 	}
 	hook_events(&e);
-	// game start
 	//mlx_loop_hook(e.mlx, repaint, &e);
 	mlx_loop(e.mlx);
 	return (0);

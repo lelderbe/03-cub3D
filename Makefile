@@ -6,30 +6,32 @@
 #    By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/12 12:10:28 by lelderbe          #+#    #+#              #
-#    Updated: 2021/03/02 10:22:14 by lelderbe         ###   ########.fr        #
+#    Updated: 2021/03/02 17:22:54 by lelderbe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		= main.c parse.c parse_cub.c events.c display.c graphics_2d_p1.c graphics_2d_p2.c map.c graphics.c logs.c utils.c bmp.c ${GNL_DIR}/get_next_line.c ${GNL_DIR}/get_next_line_utils.c
+SRCS		= main.c \
+			  parse.c parse_cub.c parse_map.c \
+			  events.c engine_p1.c engine_p2.c \
+			  graphics_2d_p1.c graphics_2d_p2.c \
+			  graphics_3d.c \
+			  graphics_utils_p1.c graphics_utils_p2.c \
+			  logs.c utils.c bmp.c \
+			  ${GNL_DIR}/get_next_line.c ${GNL_DIR}/get_next_line_utils.c
 
-HEADERS		= cub3d.h
+HEADERS		= cub3d.h bmp.h
 
 OBJS		= ${SRCS:.c=.o}
 
-NAME		= a.out
-#NAME		= cub3D.out
+NAME		= cub3D
 
 LIBFT_DIR	= libft
-LIBFT_NAME	= libft.a
 MLX_DIR		= minilibx
-MLX_NAME	= libmlx.a
 GNL_DIR		= gnl
 
 INCLUDES	= -I${LIBFT_DIR} -I${MLX_DIR} -I${GNL_DIR}
 
 CC			= gcc
-
-AR			= ar
 
 RM			= rm -f
 
@@ -43,14 +45,10 @@ all:		${NAME}
 
 #${NAME}:	${OBJS}
 ${NAME}:	LIBFT MLX ${OBJS}
-			#${CC} ${OBJS} -o ${NAME}
 			${CC} ${OBJS} ${INCLUDES} -L${LIBFT_DIR} -lft -L${MLX_DIR} -lmlx ${MLXFLAGS} -o ${NAME}
-			#cp ${LIBFT_DIR}/${LIBFT_NAME} ${NAME}
-			#${AR} rc ${NAME} ${OBJS}
 
 LIBFT:		RULE
 			${MAKE} -C ${LIBFT_DIR} bonus
-#			${MAKE} -C ${LIBFT_DIR} all
 
 MLX:		RULE
 			${MAKE} -C ${MLX_DIR} all
@@ -67,7 +65,6 @@ clean:
 fclean:		clean
 			${RM} ${NAME}
 			${MAKE} -C ${LIBFT_DIR} fclean
-#			${MAKE} -C ${MLX_DIR} fclean
 #			cd libft && ${MAKE} fclean
 
 re:			fclean all

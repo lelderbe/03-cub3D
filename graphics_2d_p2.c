@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 17:56:33 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/01 14:13:19 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/02 13:03:43 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void		clear_2d_map_window(t_cub *e)
 		x = 0;
 		while (x < e->width)
 		{
-			// TODO: optimize
 			img_pixel_put(&e->mp, x, y, 0xFF000000);
 			x++;
 		}
