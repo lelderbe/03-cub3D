@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:58:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 17:50:38 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/02 22:05:10 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static void	init_game(t_cub *e)
 	e->wall_color = DEF_WALL_COLOR;
 	e->floor_color = DEF_FLOOR_COLOR;
 	e->ceil_color = DEF_CEIL_COLOR;
+	mlx_get_screen_size(&e->sys_width, &e->sys_height);
+	printf("SYSTEM width: %d, height: %d\n", e->sys_width, e->sys_height);
 }
 
 static void	hook_events(t_cub *e)
@@ -42,14 +44,14 @@ static void	init_mlx(t_cub *e)
 				&e->main.bpp, &e->main.len, &e->main.endian);
 	e->main.width = e->width;
 	e->main.height = e->height;
-	log_img(e->main.addr, e->main.bpp, e->main.len, e->main.endian);
+	log_img(&e->main);
 	// mini-map img prepare
 	e->mp.img = mlx_new_image(e->mlx, e->width, e->height);
 	e->mp.addr = mlx_get_data_addr(e->mp.img,
 				&e->mp.bpp, &e->mp.len, &e->mp.endian);
 	e->mp.width = e->width;
 	e->mp.height = e->height;
-	log_img(e->mp.addr, e->mp.bpp, e->mp.len, e->mp.endian);
+	log_img(&e->mp);
 	textures_load(e);
 }
 
@@ -70,7 +72,7 @@ int			main(int argc, char **argv)
 		exit(0);
 	}
 	hook_events(&e);
-	//mlx_loop_hook(e.mlx, repaint, &e);
+	mlx_loop_hook(e.mlx, repaint, &e);
 	mlx_loop(e.mlx);
 	return (0);
 }

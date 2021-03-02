@@ -6,13 +6,13 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 14:08:25 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/01 14:21:00 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/02 22:29:49 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		parse_arguments(int argc, char **argv, t_cub *e)
+void		parse_arguments(int argc, char **argv, t_cub *e)
 {
 	if (argc < 2 || argc > 3)
 		err_exit(ERR_ARGS_COUNT);
@@ -27,10 +27,26 @@ int		parse_arguments(int argc, char **argv, t_cub *e)
 		else
 			err_exit(ERR_INVALID_ARG);
 	}
-	return (OK);
 }
 
-int		parse_cub_file(t_cub *e)
+static void	prepare_cub(t_cub *e)
+{
+	int i;
+	e->half_w = e->width / 2;
+	e->half_h = e->height / 2;
+	e->dpp = 1.0 * e->half_w / tan((FOV / 2) * M_PI / 180) / 1;
+	if (!(e->atans = malloc(sizeof(*e->atans) * e->width)))
+		err_exit(ERR_OUT_OF_MEM);
+	i = 0;
+	while (i < e->width)
+	{
+		e->atans[i] = atan((i - e->half_w) / e->dpp) / M_PI * 180;
+		i++;
+	}
+	e->map_visible = 0;
+}
+
+void		parse_cub_file(t_cub *e)
 {
 	char	*line;
 	int		result;
@@ -46,12 +62,7 @@ int		parse_cub_file(t_cub *e)
 	if ((unsigned char)e->parsed != PARSE_OPT_COMPLETE)
 		err_exit(ERR_PARSE_FILE);
 	parse_map(e);
+	prepare_cub(e);
 	printf("e->width: %d, e->height: %d\n", e->width, e->height);
-	e->half_w = e->width / 2;
-	e->half_h = e->height / 2;
-	e->dpp = 1.0 * e->half_w / tan((FOV / 2) * M_PI / 180) / 1;
-	//e->d = (1.0 * e->half_w / TILE) / tan((FOV / 2) * M_PI / 180);
 	printf("e->dpp: %6.2f\n", e->dpp);
-	e->map_visible = 0;
-	return (OK);
 }

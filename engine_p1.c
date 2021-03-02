@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:14:50 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 18:30:57 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/02 20:59:00 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,29 +117,21 @@ void			pl_move(t_cub *e, double dx, double dy)
 
 void			render(t_cub *e)
 {
-	double	ang;
-	double	fov_step;
 	double	d;
+	double	ang;
 	int		column;
 
 	clear_2d_map_window(e);
-	display_3d_floor_ceil(e);
-	fov_step = 1.0 * FOV / e->width;
-	ang = -HALF_FOV;
-	//ang = 0;
+	//display_3d_floor_ceil(e);
 	column = 0;
 	while (column < e->width)
 	{
+		ang = e->atans[column];
 		d = cast_ray(e->pl_a - ang, e);
-		//ang = e->pl_a - HALF_FOV + fov_step * column;
-		//d = cast_ray(ang, e);
 		display_2d_ray(e, e->pl_a - ang, d);
-		//display_2d_ray(e, ang, d);
-		//printf("ang: %6.2f, old d: %6.3f\n", e->pl_a - i, d);
-		//d = d * cos_a(ang);
-		//printf("ang: %6.2f, corrected d: %6.3f\n", i, d);
-		display_3d_column(e, column, d);
-		ang += fov_step;
+		d = d * cos_a(ang);
+		//display_3d_column(e, column, d);
+		display_3d_column_v2(e, column, d);
 		column++;
 	}
 	display_2d_map(e);

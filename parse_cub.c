@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 14:11:01 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 16:37:35 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/02 21:27:54 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ static int	parse_r(t_cub *e, char **parts)
 		err_exit(ERR_PARSE_FILE);
 	if (parts[1] && parts[2] && !parts[3])
 	{
-		// TODO: if > MAX then = MAX
 		e->width = ft_atoi(parts[1]);
 		e->height = ft_atoi(parts[2]);
+		e->width = e->width > e->sys_width ? e->sys_width : e->width;
+		e->height = e->height > e->sys_height ? e->sys_height : e->height;
 		if (!(e->width <= 0 || e->height <= 0))
 			return (OK);
 	}

@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 12:55:23 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 16:37:29 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/02 22:21:33 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,39 @@ void		display_3d_floor_ceil(t_cub *e)
 	}
 }
 
+void		display_3d_column_v2(t_cub *e, int column, double d)
+{
+	int		height;
+	double	step;
+	int		dx;
+	double	dy;
+	int		y;
+	int		y_ceil;
+	int		y_floor;
+
+	height = (int)(e->dpp / d);
+	step = 1.0 * e->w[e->side].height / height;
+	dy = height >= e->height ? step * (height - e->height) / 2 : 0;
+	height = height >= e->height ? e->height : height;
+	dx = (int)(e->w[e->side].width * e->hit);
+	y_ceil = (e->height - height) >> 1;
+	y_floor = e->height - y_ceil;
+	y = 0;
+	while (y < e->height)
+	{
+		if (y < y_ceil)
+			img_pixel_put(&e->main, column, y, e->ceil_color);
+		if (y >= y_ceil && y <= y_floor)
+		{
+			img_pixel_put(&e->main, column, y, get_color(e, dx, floor(dy)));
+			dy = dy + step < e->w[e->side].height ? dy + step : dy;
+		}
+		if (y > y_floor)
+			img_pixel_put(&e->main, column, y, e->floor_color);
+		y++;
+	}
+}
+
 void		display_3d_column(t_cub *e, int column, double d)
 {
 	int		i;
@@ -56,7 +89,6 @@ void		display_3d_column(t_cub *e, int column, double d)
 	double	dy;
 
 	height = (int)(e->dpp / d);
-	e->hit = e->side == E_WALL || e->side == W_WALL ? e->hit_y : e->hit_x;
 	dy = 0;
 	step = 1.0 * e->w[e->side].height / height;
 	if (height >= e->height)
@@ -74,3 +106,4 @@ void		display_3d_column(t_cub *e, int column, double d)
 		i++;
 	}
 }
+

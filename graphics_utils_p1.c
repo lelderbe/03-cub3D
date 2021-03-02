@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 16:39:50 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 17:10:08 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/02 22:05:22 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	textures_load(t_cub *e)
 				err_exit(ERR_LOAD_TEXTURE);
 			e->w[i].addr = mlx_get_data_addr(
 					e->w[i].img, &e->w[i].bpp, &e->w[i].len, &e->w[i].endian);
-			//log_img(e->w[i].addr, e->w[i].bpp, e->w[i].len, e->w[i].endian);
+			log_img(&e->w[i]);
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:51:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 17:53:23 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/02 21:40:16 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		event_window_create()
 
 int		ev_key_press(int keycode, t_cub *e)
 {
-	printf("keycode: %d\n", keycode);
+	//printf("keycode: %d\n", keycode);
 	if (keycode == KEYCODE_ESC)
 		exit(0);
 	else if (keycode == KEYCODE_TAB)
@@ -45,7 +45,7 @@ int		ev_key_press(int keycode, t_cub *e)
 		e->pl_key_left = 1;
 	else if (keycode == KEYCODE_RIGHT)
 		e->pl_key_right = 1;
-	repaint(e);
+	//repaint(e);
 	return (0);
 }
 
@@ -63,7 +63,7 @@ int		ev_key_release(int keycode, t_cub *e)
 		e->pl_key_left = 0;
 	else if (keycode == KEYCODE_RIGHT)
 		e->pl_key_right = 0;
-	repaint(e);
+	//repaint(e);
 	return (0);
 }
 

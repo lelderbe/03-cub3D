@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:20:39 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 17:32:00 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/02 22:03:00 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,14 @@ void	log_pl(t_cub *e)
 		e->pl_y, (int)round(e->pl_y * TILE), e->pl_a);
 }
 
-void	log_img(void *addr, int bpp, int len, int endian)
+void	log_img(t_img *img)
 {
-	printf("addr: %p\n", addr);
-	printf("bits_per_pixel: %d\n", bpp);
-	printf("line_length: %d\n", len);
-	printf("endian: %d\n", endian);
+	printf("addr: %p\n", img->addr);
+	printf("bits_per_pixel: %d\n", img->bpp);
+	printf("line_length: %d\n", img->len);
+	printf("endian: %d\n", img->endian);
+	printf("width: %d\n", img->width);
+	printf("height: %d\n", img->height);
 }
 
 void	log_lst(t_list *lst)

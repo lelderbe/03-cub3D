@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 17:33:44 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/02 22:30:17 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@
 # define PL_ALLOWED_CHARS	"ENWS"
 
 # define PARSE_OPT_COMPLETE	255
+//# define PARSE_CHECK		0
 # define R_BIT				1
 # define NO_BIT				1<<1
 # define SO_BIT				1<<2
@@ -82,7 +83,7 @@
 //# define SCALE				100
 # define BODY				1.0 / 2
 # define STEP				1.0 / 8
-# define ANGLE_STEP			10
+# define ANGLE_STEP			5
 //# define MAP_RAY_COLOR		0x0000FF00
 # define FOV				60
 # define HALF_FOV			FOV / 2
@@ -132,6 +133,8 @@ typedef struct	s_cub {
 	char		*cub_filename;
 	int			fd;
 	int			save_option;
+	int			sys_width;
+	int			sys_height;
 //	}			args;
 
 //	struct {
@@ -200,10 +203,12 @@ typedef struct	s_cub {
 	int			mouse_x;
 	int			mouse_y;
 
+	double		*atans;
+
 }				t_cub;
 
-int				parse_arguments(int argc, char **argv, t_cub *e);
-int				parse_cub_file(t_cub *e);
+void			parse_arguments(int argc, char **argv, t_cub *e);
+void			parse_cub_file(t_cub *e);
 int				parse_line(t_cub *e, char *line);
 void			parse_map(t_cub *e);
 
@@ -234,11 +239,12 @@ void			display_2d_map(t_cub *e);
 void			display_2d_ray(t_cub *e, double ray_ang, double ray_d);
 void			display_3d_floor_ceil(t_cub *e);
 void			display_3d_column(t_cub *e, int column, double d);
+void			display_3d_column_v2(t_cub *e, int column, double d);
 
 void			log_map(t_cub *e);
 void			log_map2(t_cub *e);
 void			log_pl(t_cub *e);
-void			log_img(void *addr, int bpp, int len, int endian);
+void			log_img(t_img *img);
 void			log_lst(t_list *lst);
 void			log_eq(char *s1, char *s2);
 void			log_bmp(t_bmp *bmp);

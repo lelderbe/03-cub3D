@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:15:32 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 17:34:42 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/02 21:38:53 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ int		repaint(t_cub *e)
 	mlx_put_image_to_window(e->mlx, e->win, e->main.img, 0, 0);
 	if (e->map_visible)
 		mlx_put_image_to_window(e->mlx, e->win, e->mp.img, 0, 0);
+	//mlx_do_sync(e->mlx);
 	return (0);
 }
