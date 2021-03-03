@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 14:08:25 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 22:29:49 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/03 14:19:34 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static void	prepare_cub(t_cub *e)
 	e->half_h = e->height / 2;
 	e->dpp = 1.0 * e->half_w / tan((FOV / 2) * M_PI / 180) / 1;
 	if (!(e->atans = malloc(sizeof(*e->atans) * e->width)))
+		err_exit(ERR_OUT_OF_MEM);
+	if (!(e->z = malloc(sizeof(*e->z) * e->width)))
 		err_exit(ERR_OUT_OF_MEM);
 	i = 0;
 	while (i < e->width)

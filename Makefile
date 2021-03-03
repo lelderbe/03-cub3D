@@ -6,7 +6,7 @@
 #    By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/12 12:10:28 by lelderbe          #+#    #+#              #
-#    Updated: 2021/03/02 17:22:54 by lelderbe         ###   ########.fr        #
+#    Updated: 2021/03/03 14:39:15 by lelderbe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ SRCS		= main.c \
 			  parse.c parse_cub.c parse_map.c \
 			  events.c engine_p1.c engine_p2.c \
 			  graphics_2d_p1.c graphics_2d_p2.c \
-			  graphics_3d.c \
+			  graphics_3d.c sprites.c \
 			  graphics_utils_p1.c graphics_utils_p2.c \
 			  logs.c utils.c bmp.c \
 			  ${GNL_DIR}/get_next_line.c ${GNL_DIR}/get_next_line_utils.c

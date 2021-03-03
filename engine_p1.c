@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:14:50 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 20:59:00 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/03 14:39:37 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,11 +128,13 @@ void			render(t_cub *e)
 	{
 		ang = e->atans[column];
 		d = cast_ray(e->pl_a - ang, e);
+		e->z[column] = d;
 		display_2d_ray(e, e->pl_a - ang, d);
 		d = d * cos_a(ang);
 		//display_3d_column(e, column, d);
 		display_3d_column_v2(e, column, d);
 		column++;
 	}
+	draw_sprites(e);
 	display_2d_map(e);
 }

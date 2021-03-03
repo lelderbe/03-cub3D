@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:15:32 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 21:38:53 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/03 19:18:56 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,21 @@ void	update_world(t_cub *e)
 	if (e->pl_key_left)
 	{
 		e->pl_a += ANGLE_STEP;
+		//if (e->pl_a >= 180)
+		//	e->pl_a -= 360;
 		if (e->pl_a >= 360)
-			e->pl_a -= 360;
+			e->pl_a += -360;
 	}
 	if (e->pl_key_right)
 	{
 		e->pl_a -= ANGLE_STEP;
-		if (e->pl_a < 0)
-			e->pl_a = 360 + e->pl_a;
+		//if (e->pl_a < 0)
+		//	e->pl_a = 360 + e->pl_a;
+		//if (e->pl_a < -180)
+		//	e->pl_a += 360;
+		if (e->pl_a < -360)
+			e->pl_a += 360;
+			//e->pl_a = 360 + e->pl_a;
 	}
 	//log_pl(e);
 }

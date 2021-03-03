@@ -6,11 +6,23 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 15:33:45 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/03 12:43:26 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/03 15:24:55 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+static void	parse_sprites(t_cub *e)
+{
+	t_spr *spr;
+
+	spr = malloc(sizeof(*spr));
+	spr->x = 29.5;
+	spr->y = 2.5;
+	e->s = malloc(sizeof(*e->s) * (1 + 1));
+	e->s[0] = spr;
+	e->s[1] = 0;
+}
 
 static void	parse_pl_pos(t_cub *e, const char *pl_allowed_chars)
 {
@@ -103,4 +115,5 @@ void		parse_map(t_cub *e)
 	free_split(map);
 	if (!valid)
 		err_exit(ERR_INVALID_MAP);
+	parse_sprites(e);
 }

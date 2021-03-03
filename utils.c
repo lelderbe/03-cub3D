@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 14:02:55 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 15:11:27 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/03 17:51:08 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ double	cos_a(double ang)
 {
 	if (ang >= 360)
 		ang = ang - 360;
-	if (ang < 0)
+	//if (ang < 0)
+	//	ang = 360 + ang;
+	if (ang < -360)
 		ang = 360 + ang;
 	return (cos(ang / 180 * M_PI));
 }
@@ -54,7 +56,9 @@ double	sin_a(double ang)
 {
 	if (ang >= 360)
 		ang = ang - 360;
-	if (ang < 0)
+	//if (ang < 0)
+	//	ang = 360 + ang;
+	if (ang < -360)
 		ang = 360 + ang;
 	return (-sin(ang / 180 * M_PI));
 }

@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:20:39 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/03 11:46:01 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/03 16:32:28 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,18 @@ void	log_bmp(t_bmp *bmp)
 {
 	printf("width: %d, height: %d, bpp: %d\n",
 		bmp->info.image_width, bmp->info.image_height, bmp->info.bpp);
+}
+
+void	log_sprites(t_spr **s)
+{
+	int i;
+
+	printf("======== Sprites =============\n");
+	i = 0;
+	while(s[i])
+	{
+		//printf("sprite x: %d, y: %d\n", (int)s[i]->x, (int)s[i]->y);
+		printf("sprite x: %6.2f, y: %6.2f\n", s[i]->x, s[i]->y);
+		i++;
+	}
 }

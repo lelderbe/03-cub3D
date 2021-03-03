@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/03 11:49:39 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/03 17:15:38 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@
 # define DEF_CEIL_COLOR		0x00333333
 # define DEF_FLOOR_COLOR	0x00666666
 # define DEF_WALL_COLOR		0x00000066
+# define TRANSPARENT_COLOR	0x00980088
 
 typedef struct	s_img {
 	char		*file;
@@ -127,6 +128,12 @@ typedef struct	s_img {
 	int			len;
 	int			endian;
 }				t_img;
+
+typedef struct	s_spr {
+	double		x;
+	double		y;
+
+}				t_spr;
 
 typedef struct	s_cub {
 //	struct {
@@ -158,7 +165,6 @@ typedef struct	s_cub {
 //	struct {
 	t_list		*map_lst;	
 	char		**map;
-	char		**map2;
 	unsigned	map_width;
 	unsigned	map_height;
 	int			map_visible;
@@ -205,6 +211,8 @@ typedef struct	s_cub {
 	int			mouse_y;
 
 	double		*atans;
+	double		*z;
+	t_spr		**s;
 
 }				t_cub;
 
@@ -241,6 +249,7 @@ void			display_2d_ray(t_cub *e, double ray_ang, double ray_d);
 void			display_3d_floor_ceil(t_cub *e);
 void			display_3d_column(t_cub *e, int column, double d);
 void			display_3d_column_v2(t_cub *e, int column, double d);
+void			draw_sprites(t_cub *e);
 
 void			log_map(char **map);
 void			log_map2(char **map);
@@ -249,6 +258,7 @@ void			log_img(t_img *img);
 void			log_lst(t_list *lst);
 void			log_eq(char *s1, char *s2);
 void			log_bmp(t_bmp *bmp);
+void			log_sprites(t_spr **s);
 
 void			save_img_to_bmp(t_img *img);
 
