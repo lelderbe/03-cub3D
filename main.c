@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:58:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 22:05:10 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/03 11:45:21 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int			main(int argc, char **argv)
 	init_game(&e);
 	parse_arguments(argc, argv, &e);
 	parse_cub_file(&e);
-	log_map2(&e);
+	log_map2(e.map);
 	log_pl(&e);
 	init_mlx(&e);
 	repaint(&e);

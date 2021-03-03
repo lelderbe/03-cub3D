@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 14:11:01 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 21:27:54 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/03 11:51:06 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static int	parse_texture(t_cub *e, t_img *tex, char **parts)
 		err_exit(ERR_PARSE_FILE);
 	if (parts[1] && !parts[2])
 	{
+		if (tex->file)
+			free(tex->file);
 		if (!(tex->file = ft_strdup(parts[1])))
 			err_exit(ERR_OUT_OF_MEM);
 		return (OK);

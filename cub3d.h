@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 22:30:17 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/03 11:49:39 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ typedef struct	s_cub {
 //	struct {
 	t_list		*map_lst;	
 	char		**map;
+	char		**map2;
 	unsigned	map_width;
 	unsigned	map_height;
 	int			map_visible;
@@ -241,8 +242,8 @@ void			display_3d_floor_ceil(t_cub *e);
 void			display_3d_column(t_cub *e, int column, double d);
 void			display_3d_column_v2(t_cub *e, int column, double d);
 
-void			log_map(t_cub *e);
-void			log_map2(t_cub *e);
+void			log_map(char **map);
+void			log_map2(char **map);
 void			log_pl(t_cub *e);
 void			log_img(t_img *img);
 void			log_lst(t_list *lst);

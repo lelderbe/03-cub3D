@@ -6,36 +6,36 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 11:20:39 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 22:03:00 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/03 11:46:01 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	log_map(t_cub *e)
+void	log_map(char **map)
 {
 	int	i;
 
 	i = 0;
-	while (e->map[i])
+	while (map[i])
 	{
-		printf("%s\n", e->map[i]);
+		printf("%s\n", map[i]);
 		i++;
 	}
 }
 
-void	log_map2(t_cub *e)
+void	log_map2(char **map)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (e->map[i])
+	while (map[i])
 	{
 		j = 0;
-		while (e->map[i][j])
+		while (map[i][j])
 		{
-			printf("%c ", e->map[i][j]);
+			printf("%c ", map[i][j]);
 			j++;
 		}
 		printf("\n");

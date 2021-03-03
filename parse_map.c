@@ -6,13 +6,13 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 15:33:45 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/02 17:35:14 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/03 12:43:26 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	parse_pl_pos(t_cub *e, const char *pl_allowed_chars)
+static void	parse_pl_pos(t_cub *e, const char *pl_allowed_chars)
 {
 	int			x;
 	int			y;
@@ -39,14 +39,52 @@ void	parse_pl_pos(t_cub *e, const char *pl_allowed_chars)
 		err_exit(ERR_INVALID_MAP);
 }
 
-void	parse_map(t_cub *e)
+static int	validate_map(char **map, int x, int y, int width, int height)
+{
+	if (x < 0 || x >= width || y < 0 || y >= height)
+		return (FAIL);
+	if (map[y][x] == '1')
+		return (OK);
+	if (map[y][x] == ' ')
+		return (FAIL);
+	map[y][x] = '1';
+	return (validate_map(map, x - 1, y - 1, width, height) &&
+		validate_map(map, x - 0, y - 1, width, height) &&
+		validate_map(map, x + 1, y - 1, width, height) &&
+		validate_map(map, x - 1, y - 0, width, height) &&
+		validate_map(map, x + 1, y - 0, width, height) &&
+		validate_map(map, x - 1, y + 1, width, height) &&
+		validate_map(map, x - 0, y + 1, width, height) &&
+		validate_map(map, x + 1, y + 1, width, height));
+}
+
+static char	**copy_map(char **map, unsigned height)
+{
+	int		i;
+	char	**result;
+
+	if (!(result = malloc(sizeof(*result) * (height + 1))))
+		err_exit(ERR_OUT_OF_MEM);
+	i = 0;
+	while (map[i])
+	{
+		result[i] = ft_strdup(map[i]);
+		if (!result[i])
+			err_exit(ERR_OUT_OF_MEM);
+		i++;
+	}
+	result[i] = 0;
+	log_map(result);
+	return (result);
+}
+
+void		parse_map(t_cub *e)
 {
 	int		i;
 	t_list	*lst;
+	char	**map;
+	int		valid;
 
-	//log_lst(e->map_lst);
-	//printf("map max line len: %d\n", (int)e->map_w);
-	//printf("map lines: %d\n", e->map_h);
 	if (!(e->map = malloc(sizeof(*e->map) * (e->map_height + 1))))
 		err_exit(ERR_OUT_OF_MEM);
 	i = 0;
@@ -59,4 +97,10 @@ void	parse_map(t_cub *e)
 	}
 	e->map[i] = 0;
 	parse_pl_pos(e, PL_ALLOWED_CHARS);
+	map = copy_map(e->map, e->map_height);
+	valid = validate_map(map, (int)e->pl_x, (int)e->pl_y,
+										e->map_width, e->map_height);
+	free_split(map);
+	if (!valid)
+		err_exit(ERR_INVALID_MAP);
 }
