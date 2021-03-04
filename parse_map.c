@@ -6,23 +6,11 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 15:33:45 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/03 15:24:55 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/04 21:02:00 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-static void	parse_sprites(t_cub *e)
-{
-	t_spr *spr;
-
-	spr = malloc(sizeof(*spr));
-	spr->x = 29.5;
-	spr->y = 2.5;
-	e->s = malloc(sizeof(*e->s) * (1 + 1));
-	e->s[0] = spr;
-	e->s[1] = 0;
-}
 
 static void	parse_pl_pos(t_cub *e, const char *pl_allowed_chars)
 {
@@ -51,23 +39,23 @@ static void	parse_pl_pos(t_cub *e, const char *pl_allowed_chars)
 		err_exit(ERR_INVALID_MAP);
 }
 
-static int	validate_map(char **map, int x, int y, int width, int height)
+static int	validate_map(t_cub *e, char **map, int x, int y)
 {
-	if (x < 0 || x >= width || y < 0 || y >= height)
+	if (x < 0 || x >= (int)e->map_width || y < 0 || y >= (int)e->map_height)
 		return (FAIL);
 	if (map[y][x] == '1')
 		return (OK);
 	if (map[y][x] == ' ')
 		return (FAIL);
 	map[y][x] = '1';
-	return (validate_map(map, x - 1, y - 1, width, height) &&
-		validate_map(map, x - 0, y - 1, width, height) &&
-		validate_map(map, x + 1, y - 1, width, height) &&
-		validate_map(map, x - 1, y - 0, width, height) &&
-		validate_map(map, x + 1, y - 0, width, height) &&
-		validate_map(map, x - 1, y + 1, width, height) &&
-		validate_map(map, x - 0, y + 1, width, height) &&
-		validate_map(map, x + 1, y + 1, width, height));
+	return (validate_map(e, map, x - 1, y - 1) &&
+		validate_map(e, map, x - 0, y - 1) &&
+		validate_map(e, map, x + 1, y - 1) &&
+		validate_map(e, map, x - 1, y - 0) &&
+		validate_map(e, map, x + 1, y - 0) &&
+		validate_map(e, map, x - 1, y + 1) &&
+		validate_map(e, map, x - 0, y + 1) &&
+		validate_map(e, map, x + 1, y + 1));
 }
 
 static char	**copy_map(char **map, unsigned height)
@@ -86,7 +74,26 @@ static char	**copy_map(char **map, unsigned height)
 		i++;
 	}
 	result[i] = 0;
-	log_map(result);
+	return (result);
+}
+
+static char	**gen_vis_map(unsigned height, unsigned width)
+{
+	unsigned	i;
+	char		**result;
+
+	if (!(result = malloc(sizeof(*result) * (height + 1))))
+		err_exit(ERR_OUT_OF_MEM);
+	i = 0;
+	while (i < height + 1)
+	{
+		result[i] = malloc(sizeof(*result[i]) * (width + 1));
+		if (!result[i])
+			err_exit(ERR_OUT_OF_MEM);
+		result[i][width] = '\0';
+		i++;
+	}
+	result[i] = 0;
 	return (result);
 }
 
@@ -109,9 +116,9 @@ void		parse_map(t_cub *e)
 	}
 	e->map[i] = 0;
 	parse_pl_pos(e, PL_ALLOWED_CHARS);
+	e->vis = gen_vis_map(e->map_height, e->map_width);
 	map = copy_map(e->map, e->map_height);
-	valid = validate_map(map, (int)e->pl_x, (int)e->pl_y,
-										e->map_width, e->map_height);
+	valid = validate_map(e, map, (int)e->pl_x, (int)e->pl_y);
 	free_split(map);
 	if (!valid)
 		err_exit(ERR_INVALID_MAP);

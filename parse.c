@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 14:08:25 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/04 11:24:05 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/04 21:11:46 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void		parse_arguments(int argc, char **argv, t_cub *e)
 static void	prepare_cub(t_cub *e)
 {
 	int i;
+
 	e->half_w = e->width / 2;
 	e->half_h = e->height / 2;
 	e->dpp = 1.0 * e->half_w / tan((FOV / 2) * M_PI / 180) / 1;

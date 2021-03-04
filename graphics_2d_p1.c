@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 14:36:35 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/03 19:02:06 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/04 21:24:45 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,28 +64,6 @@ static void	display_2d_pl(t_cub *e)
 		i++;
 	}
 	display_2d_look_line(e);
-}
-
-static void	display_2d_barrel(int x, int y, t_cub *e)
-{
-	int i;
-	int j;
-	int border;
-
-	border = 1;
-	j = 0 + border;
-	while (j < MAP_TILE - border)
-	{
-		i = 0 + border;
-		while (i < MAP_TILE - border)
-		{
-			if (x * MAP_TILE + i < e->width && y * MAP_TILE + j < e->height)
-				img_pixel_put(&e->mp,
-						x * MAP_TILE + i, y * MAP_TILE + j, 0x00FFFF00);
-			i++;
-		}
-		j++;
-	}
 }
 
 static void	display_2d_wall_box(int x, int y, t_cub *e)

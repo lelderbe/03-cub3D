@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:14:50 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/04 12:42:33 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/04 21:19:09 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,22 @@ static double	check_vert_lines(t_cub *e, double cos_a, double sin_a)
 	double dx;
 	double dy;
 
-//	printf("v= pl_x: %6.2f, pl_y: %6.2f, cos_a: %6.2f, sin_a: %6.2f\n", e->pl_x, e->pl_y, cos_a, sin_a);
 	x = cos_a >= 0 ? (int)(e->pl_x + 1) : (int)e->pl_x - 0.000001;
 	d = (x - e->pl_x) / cos_a;
 	y = e->pl_y + d * sin_a;
-//	printf("v= new x: %6.2f, new y: %6.2f, d: %6.2f\n", x, y, d);
 	dx = cos_a >= 0 ? 1 : -1;
 	dy = (dx / cos_a) * sin_a;
-//	printf("v= d: %6.2f, dx: %6.2f, dy: %6.2f\n", d, dx, dy);
 	while (x >= 0 && x < e->map_width && y >= 0 && y < e->map_height &&
 				e->map[(int)y][(int)x] != MAP_WALL)
 	{
+		e->vis[(int)y][(int)x] = '1';
 		x += dx;
 		y += dy;
-//		printf("v= new x: %6.2f, new y: %6.2f\n", x, y);
 	}
 	e->side_v = dx > 0 ? E_WALL : W_WALL;
 	e->hit_y = y - (int)(y);
 	e->vcolor = (int)y * 30;
-	//d = (x - e->pl_x) * cos(e->pl_a / 180 * M_PI) -
-	//	(y - e->pl_y) * sin(e->pl_a / 180 * M_PI);
-	//printf("v NEW d: %6.2f\n", d);
-	//d = cos_a == 0 ? fabs(x - e->pl_x) : fabs(x - e->pl_x) / cos_a;
 	d = (x - e->pl_x) / cos_a;
-	//printf("v= ang: %6.2f, x: %d, y: %d, d: %6.3f\n", ang, (int)x, (int)y, d);
 	return (fabs(d));
 }
 
@@ -56,15 +48,14 @@ static double	check_horiz_lines(t_cub *e, double cos_a, double sin_a)
 	double dy;
 
 	y = sin_a >= 0 ? (int)(e->pl_y + 1) : (int)e->pl_y - 0.000001;
-	//y = sin_a >= 0 ? (int)e->pl_y - 0.000001 : (int)(e->pl_y + 1);
 	d = (y - e->pl_y) / sin_a;
 	x = e->pl_x + d * cos_a;
-	//dy = sin_a >= 0 ? -1 : 1;
 	dy = sin_a >= 0 ? 1 : -1;
 	dx = (dy / sin_a) * cos_a;
 	while (x >= 0 && x < e->map_width && y >= 0 && y < e->map_height &&
 				e->map[(int)y][(int)x] != MAP_WALL)
 	{
+		e->vis[(int)y][(int)x] = '1';
 		x += dx;
 		y += dy;
 	}
@@ -98,29 +89,40 @@ void			pl_move(t_cub *e, double dx, double dy)
 	x = e->pl_x + dx;
 	x = dx > 0 ? x + BODY / 2 : x - BODY / 2;
 	y = e->pl_y;
-	//printf("x: %6.2f, y: %6.2f\n", x, y);
 	if (e->map[(int)y][(int)x] == MAP_WALL)
 		x = dx > 0 ? (int)(x) - BODY / 2 : (int)(x + 1) + BODY / 2;
 	else
 		x = e->pl_x + dx;
 	y = e->pl_y + dy;
 	y = dy > 0 ? y + BODY / 2 : y - BODY / 2;
-	//printf("x: %6.2f, y: %6.2f\n", x, y);
 	if (e->map[(int)y][(int)x] == MAP_WALL)
 		y = dy > 0 ? (int)(y) - BODY / 2 : (int)(y + 1) + BODY / 2;
 	else
 		y = e->pl_y + dy;
-	//printf("final x: %6.2f, y: %6.2f\n", x, y);
 	e->pl_x = x;
 	e->pl_y = y;
 }
 
 void			render(t_cub *e)
 {
-	double	d;
-	double	ang;
-	int		column;
+	double		d;
+	double		ang;
+	int			column;
+	unsigned	y;
+	unsigned	x;
 
+	y = 0;
+	while (y < e->map_height)
+	{
+		x = 0;
+		while (x < e->map_width)
+		{
+			e->vis[y][x] = '0';
+			x++;
+		}
+		y++;
+	}
+	//log_map(e->vis);
 	clear_2d_map_window(e);
 	//display_3d_floor_ceil(e);
 	column = 0;
@@ -135,6 +137,7 @@ void			render(t_cub *e)
 		display_3d_column_v2(e, column, d);
 		column++;
 	}
+	//log_map(e->vis);
 	draw_sprites(e);
 	display_2d_map(e);
 }

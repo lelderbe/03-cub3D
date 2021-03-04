@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 14:20:39 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/04 13:27:35 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/04 20:14:32 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,9 +174,9 @@ static void	disp(t_cub *e, t_spr *s, double d, double ang)
 		while (i < width / 2)
 		{
 			if (center + i >= 0 && center + i < e->width &&
-					e->half_h + y >= 0 && e->half_h + y < e->height)
+					e->half_h + y >= 0 && e->half_h + y < e->height &&
+					e->z[center + i] > d)
 			{
-				//img_pixel_put(&e->main, dx + i, e->half_h + y, 0x00000000);
 				color = get_color_sp(e, (int)dx, (int)dy);
 				if (color != TRANSPARENT_COLOR)
 					img_pixel_put(&e->main, center + i, e->half_h + y, color);
@@ -189,6 +189,49 @@ static void	disp(t_cub *e, t_spr *s, double d, double ang)
 	}
 }
 
+static void	sort_sprites(t_cub *e)
+{
+	int count;
+	int i;
+	int j;
+	t_spr *s;
+	
+	count = e->sc;
+	i = 0;
+	while (i < count - 1)
+	{
+		j = 0;
+		while (j < count - i - 1)
+		{
+			if (e->s[j]->d < e->s[j + 1]->d)
+			{
+				s = e->s[j];
+				e->s[j] = e->s[j + 1];
+				e->s[j + 1] = s;
+			}
+			j++;
+		}
+		i++;
+	}
+
+}
+
+static void	calc_sprite_distances(t_cub *e)
+{
+	int	i;
+	double	dx;
+	double	dy;
+
+	i = 0;
+	while (e->s[i])
+	{
+		dx = e->s[i]->x - e->pl_x;
+		dy = -(e->s[i]->y - e->pl_y);
+		e->s[i]->d = hypot(dx, dy);
+		i++;	
+	}
+}
+
 void		draw_sprites(t_cub *e)
 {
 	double	d;
@@ -197,24 +240,22 @@ void		draw_sprites(t_cub *e)
 	double	dy;
 	int		i;
 
+	calc_sprite_distances(e);
+	sort_sprites(e);
 	i = 0;
 	while (e->s[i])
 	{
 		dx = e->s[i]->x - e->pl_x;
 		dy = -(e->s[i]->y - e->pl_y);
-		d = sqrt(dx * dx + dy * dy);
+		d = e->s[i]->d;
 		ang = atan2(dy, dx) * 180 / M_PI;
 		ang = ang - e->pl_a > 180 ? ang - 360 : ang;
 		ang = ang - e->pl_a < -180 ? ang + 360 : ang;
-		//printf("ANG: %6.2f\n", dy / dx * 180 / M_PI);
-		printf("atan: %6.2f, pl_x: %6.2f, pl_y: %6.2f, s_x: %6.2f, s_y: %6.2f\n",
-			atan2(dy, dx) * 180 / M_PI, e->pl_x, e->pl_y, e->s[i]->x, e->s[i]->y);
+		//printf("atan: %6.2f, pl_x: %6.2f, pl_y: %6.2f, s_x: %6.2f, s_y: %6.2f\n",
+		//	atan2(dy, dx) * 180 / M_PI, e->pl_x, e->pl_y, e->s[i]->x, e->s[i]->y);
 		//printf("dx: %6.2f, dy: %6.2f, d: %6.2f, ang: %6.2f\n", dx, dy, d, ang);
 		if (d > 1.0 / 2)
 			disp(e, e->s[i], d, ang);
-
 		i++;
-
 	}
-
 }

@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:51:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/03 15:23:12 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/04 21:08:04 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,6 @@ int		ev_window_destroy(void)
 {
 	exit(0);
 }
-
-/*
-int		event_window_create()
-{
-	printf("window create event\n");
-	//repaint(e);
-	return (0);
-}
-*/
 
 int		ev_key_press(int keycode, t_cub *e)
 {
@@ -81,8 +72,6 @@ int		ev_m(int button, int x, int y, t_cub *e)
 
 int		ev_mouse_motion(int x, int y, t_cub *e)
 {
-	//(void)x;
-	//(void)y;
 	ev_m(0, x, y, e);
 	return (0);
 }

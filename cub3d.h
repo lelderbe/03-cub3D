@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/04 13:24:55 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/04 21:28:33 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@
 # define MAP_WALL			'1'
 # define MAP_EMPTY			'0'
 # define PL_ALLOWED_CHARS	"ENWS"
+# define SPRITE_SYMBOLS		"2"
 
 # define PARSE_OPT_COMPLETE	255
-//# define PARSE_CHECK		0
 # define R_BIT				1
 # define NO_BIT				1<<1
 # define SO_BIT				1<<2
@@ -80,11 +80,9 @@
 # define MAP_RAY_STEP		0.01
 # define MAP_RAYS_SHOW		1
 # define TILE				100
-//# define SCALE				100
 # define BODY				1.0 / 2
 # define STEP				1.0 / 8
 # define ANGLE_STEP			5
-//# define MAP_RAY_COLOR		0x0000FF00
 # define FOV				60
 # define HALF_FOV			FOV / 2
 
@@ -105,7 +103,6 @@
 # define EV_KEY_PRESS		2
 # define EV_KEY_RELEASE		3
 # define EV_MOTION_NOTIFY	6
-# define EV_CREATE_NOTIFY	16
 # define EV_DESTR_NOTIFY	17
 
 # define MASK_NO_EVENT		0L<<0
@@ -132,51 +129,41 @@ typedef struct	s_img {
 typedef struct	s_spr {
 	double		x;
 	double		y;
-
+	double		d;
 }				t_spr;
 
 typedef struct	s_cub {
-//	struct {
 	char		*cub_filename;
 	int			fd;
 	int			save_option;
 	int			sys_width;
 	int			sys_height;
-//	}			args;
 
-//	struct {
 	char		parsed;
 	int			map_parse_started;
 	int			pl_count;
-//	}			parser;
 
-//	struct {
 	void		*mlx;
 	void		*win;
 	int			width;
 	int			height;
 	int			half_w;
 	int			half_h;
-//	}			mlx;
 
 	t_img		main;
 	t_img		mp;
 
-//	struct {
-	t_list		*map_lst;	
+	t_list		*map_lst;
 	char		**map;
+	char		**vis;
 	unsigned	map_width;
 	unsigned	map_height;
 	int			map_visible;
-//	}			map;
 
-//	struct {
 	int			wall_color;
 	unsigned	floor_color;
 	unsigned	ceil_color;
-//	}			defaults;
 
-//	struct {
 	double		pl_x;
 	double		pl_y;
 	double		pl_a;
@@ -186,26 +173,21 @@ typedef struct	s_cub {
 	int			pl_key_d;
 	int			pl_key_left;
 	int			pl_key_right;
-//	}			pl;
 
 	int			color;
 	int			hcolor;
 	int			vcolor;
 
-//	struct {
 	t_img		w[4];
 	t_img		sprite;
-//	}			textures;
 
 	double		dpp;
-//	struct {
 	double		hit;
 	double		hit_x;
 	double		hit_y;
 	int			side;
 	int			side_h;
 	int			side_v;
-//	}			rays;
 
 	int			mouse_x;
 	int			mouse_y;
@@ -213,15 +195,17 @@ typedef struct	s_cub {
 	double		*atans;
 	double		*z;
 	t_spr		**s;
-
+	t_list		*ss;
+	int			sc;
+	t_list		*sp_list;
 }				t_cub;
 
 void			parse_arguments(int argc, char **argv, t_cub *e);
 void			parse_cub_file(t_cub *e);
 int				parse_line(t_cub *e, char *line);
 void			parse_map(t_cub *e);
+void			parse_sprites(t_cub *e);
 
-//int				ev_window_create();
 int				ev_window_destroy();
 int				ev_m(int button, int x, int y, t_cub *e);
 int				ev_mouse_motion(int x, int y, t_cub *e);
@@ -246,6 +230,7 @@ void			textures_load(t_cub *e);
 void			clear_2d_map_window(t_cub *e);
 void			display_2d_map(t_cub *e);
 void			display_2d_ray(t_cub *e, double ray_ang, double ray_d);
+void			display_2d_sprite(int x, int y, t_cub *e);
 void			display_3d_floor_ceil(t_cub *e);
 void			display_3d_column(t_cub *e, int column, double d);
 void			display_3d_column_v2(t_cub *e, int column, double d);
