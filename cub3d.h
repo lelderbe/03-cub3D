@@ -250,7 +250,6 @@ void			display_3d_column(t_cub *e, int column, double d);
 void			display_3d_column_v2(t_cub *e, int column, double d);
 void			draw_sprites(t_cub *e);
 
-
 int				ev_m(int button, int x, int y, t_cub *e);
 int				ev_mouse_motion(int x, int y, t_cub *e);
 void			log_map(char **map);
