@@ -4,7 +4,7 @@ SO ./img/wood.xpm
 WE ./img/colorstone.xpm
 EA ./img/greystone.xpm
 
-S ./img/barrel.xpm
+S ./img/knight.xpm
 
 F 102,102,102
 C 51,51,51

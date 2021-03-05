@@ -88,6 +88,29 @@ static void	display_2d_wall_box(int x, int y, t_cub *e)
 	}
 }
 
+void		display_2d_ray(t_cub *e, double ray_ang, double ray_d)
+{
+	double	d;
+	double	x;
+	double	y;
+	double	cosa;
+	double	sina;
+
+	if (!e->map_visible || !MAP_RAYS_SHOW)
+		return ;
+	cosa = cos_a(ray_ang);
+	sina = sin_a(ray_ang);
+	d = 0;
+	while (d <= ray_d)
+	{
+		x = (e->pl_x + cosa * d) * MAP_TILE;
+		y = (e->pl_y + sina * d) * MAP_TILE;
+		if ((int)x < e->width && (int)y < e->height)
+			img_pixel_put(&e->mp, x, y, MAP_RAY_COLOR);
+		d = d + MAP_RAY_STEP;
+	}
+}
+
 void		display_2d_map(t_cub *e)
 {
 	int	x;
@@ -110,27 +133,4 @@ void		display_2d_map(t_cub *e)
 		y++;
 	}
 	display_2d_pl(e);
-}
-
-void		display_2d_ray(t_cub *e, double ray_ang, double ray_d)
-{
-	double	d;
-	double	x;
-	double	y;
-	double	cosa;
-	double	sina;
-
-	if (!e->map_visible || !MAP_RAYS_SHOW)
-		return ;
-	cosa = cos_a(ray_ang);
-	sina = sin_a(ray_ang);
-	d = 0;
-	while (d <= ray_d)
-	{
-		x = (e->pl_x + cosa * d) * MAP_TILE;
-		y = (e->pl_y + sina * d) * MAP_TILE;
-		if ((int)x < e->width && (int)y < e->height)
-			img_pixel_put(&e->mp, x, y, MAP_RAY_COLOR);
-		d = d + MAP_RAY_STEP;
-	}
 }

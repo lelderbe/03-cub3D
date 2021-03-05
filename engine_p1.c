@@ -66,7 +66,7 @@ static double	check_horiz_lines(t_cub *e, double cos_a, double sin_a)
 	return (fabs(d));
 }
 
-static double	cast_ray(double ang, t_cub *e)
+static double	cast_ray(t_cub *e, double ang)
 {
 	double	d;
 	double	dh;
@@ -81,28 +81,6 @@ static double	cast_ray(double ang, t_cub *e)
 	return (d);
 }
 
-void			pl_move(t_cub *e, double dx, double dy)
-{
-	double x;
-	double y;
-
-	x = e->pl_x + dx;
-	x = dx > 0 ? x + BODY / 2 : x - BODY / 2;
-	y = e->pl_y;
-	if (e->map[(int)y][(int)x] == MAP_WALL)
-		x = dx > 0 ? (int)(x) - BODY / 2 : (int)(x + 1) + BODY / 2;
-	else
-		x = e->pl_x + dx;
-	y = e->pl_y + dy;
-	y = dy > 0 ? y + BODY / 2 : y - BODY / 2;
-	if (e->map[(int)y][(int)x] == MAP_WALL)
-		y = dy > 0 ? (int)(y) - BODY / 2 : (int)(y + 1) + BODY / 2;
-	else
-		y = e->pl_y + dy;
-	e->pl_x = x;
-	e->pl_y = y;
-}
-
 void			render(t_cub *e)
 {
 	double		d;
@@ -114,7 +92,7 @@ void			render(t_cub *e)
 	while (column < e->width)
 	{
 		ang = e->atans[column];
-		d = cast_ray(e->pl_a - ang, e);
+		d = cast_ray(e, e->pl_a - ang);
 		e->z[column] = d;
 		display_2d_ray(e, e->pl_a - ang, d);
 		d = d * cos_a(ang);

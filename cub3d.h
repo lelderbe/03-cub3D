@@ -223,12 +223,9 @@ void			parse_map(t_cub *e);
 void			parse_sprites(t_cub *e);
 
 int				ev_window_destroy();
-int				ev_m(int button, int x, int y, t_cub *e);
-int				ev_mouse_motion(int x, int y, t_cub *e);
 int				ev_key_press(int keycode, t_cub *e);
 int				ev_key_release(int keycode, t_cub *e);
 
-void			pl_move(t_cub *e, double dx, double dy);
 void			render(t_cub *e);
 int				repaint(t_cub *e);
 
@@ -253,6 +250,9 @@ void			display_3d_column(t_cub *e, int column, double d);
 void			display_3d_column_v2(t_cub *e, int column, double d);
 void			draw_sprites(t_cub *e);
 
+
+int				ev_m(int button, int x, int y, t_cub *e);
+int				ev_mouse_motion(int x, int y, t_cub *e);
 void			log_map(char **map);
 void			log_map2(char **map);
 void			log_pl(t_cub *e);
