@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:14:50 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/04 21:19:09 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/05 15:10:25 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,23 +108,8 @@ void			render(t_cub *e)
 	double		d;
 	double		ang;
 	int			column;
-	unsigned	y;
-	unsigned	x;
 
-	y = 0;
-	while (y < e->map_height)
-	{
-		x = 0;
-		while (x < e->map_width)
-		{
-			e->vis[y][x] = '0';
-			x++;
-		}
-		y++;
-	}
-	//log_map(e->vis);
 	clear_2d_map_window(e);
-	//display_3d_floor_ceil(e);
 	column = 0;
 	while (column < e->width)
 	{
@@ -133,11 +118,9 @@ void			render(t_cub *e)
 		e->z[column] = d;
 		display_2d_ray(e, e->pl_a - ang, d);
 		d = d * cos_a(ang);
-		//display_3d_column(e, column, d);
 		display_3d_column_v2(e, column, d);
 		column++;
 	}
-	//log_map(e->vis);
 	draw_sprites(e);
 	display_2d_map(e);
 }

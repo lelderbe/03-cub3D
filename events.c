@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:51:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/04 21:08:04 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/05 15:32:21 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int		ev_window_destroy(void)
 
 int		ev_key_press(int keycode, t_cub *e)
 {
-	//printf("keycode: %d\n", keycode);
 	if (keycode == KEYCODE_ESC)
 		exit(0);
 	else if (keycode == KEYCODE_TAB)
@@ -36,7 +35,6 @@ int		ev_key_press(int keycode, t_cub *e)
 		e->pl_key_left = 1;
 	else if (keycode == KEYCODE_RIGHT)
 		e->pl_key_right = 1;
-	repaint(e);
 	return (0);
 }
 
@@ -54,24 +52,5 @@ int		ev_key_release(int keycode, t_cub *e)
 		e->pl_key_left = 0;
 	else if (keycode == KEYCODE_RIGHT)
 		e->pl_key_right = 0;
-	repaint(e);
-	return (0);
-}
-
-int		ev_m(int button, int x, int y, t_cub *e)
-{
-	int color;
-
-	(void)button;
-	color = 0x0000FF00;
-	mlx_pixel_put(e->mlx, e->win, x, y, color);
-	//printf("x: %d, y: %d, button: %d\n", x, y, button);
-	//repaint(e);
-	return (0);
-}
-
-int		ev_mouse_motion(int x, int y, t_cub *e)
-{
-	ev_m(0, x, y, e);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 16:39:50 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/04 21:11:01 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/05 15:35:36 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,18 @@ void	img_pixel_put(t_img *img, double x, double y, int color)
 	*(unsigned int*)dst = color;
 }
 
+int		get_color_sp(t_cub *e, int dx, int dy)
+{
+	unsigned	color;
+	int			addr;
+	t_img		sp;
+
+	sp = e->sprite;
+	addr = dy * sp.len + dx * (sp.bpp / 8);
+	color = *((unsigned int*)(sp.addr + addr));
+	return (color);
+}
+
 void	textures_load(t_cub *e)
 {
 	int i;
@@ -39,7 +51,6 @@ void	textures_load(t_cub *e)
 				err_exit(ERR_LOAD_TEXTURE);
 			e->w[i].addr = mlx_get_data_addr(
 					e->w[i].img, &e->w[i].bpp, &e->w[i].len, &e->w[i].endian);
-			log_img(&e->w[i]);
 		}
 		i++;
 	}

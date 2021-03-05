@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:58:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/04 21:10:22 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/05 15:35:58 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ static void	init_game(t_cub *e)
 
 static void	hook_events(t_cub *e)
 {
-	mlx_mouse_hook(e->win, ev_m, e);
-	mlx_hook(e->win, EV_MOTION_NOTIFY, MASK_PTR_MOTION, ev_mouse_motion, e);
 	mlx_hook(e->win, EV_KEY_PRESS, MASK_KEY_PRESS, ev_key_press, e);
 	mlx_hook(e->win, EV_KEY_RELEASE, MASK_KEY_RELEASE, ev_key_release, e);
 	mlx_hook(e->win, EV_DESTR_NOTIFY, MASK_NO_EVENT, ev_window_destroy, e);
@@ -41,13 +39,11 @@ static void	init_mlx(t_cub *e)
 				&e->main.bpp, &e->main.len, &e->main.endian);
 	e->main.width = e->width;
 	e->main.height = e->height;
-	//log_img(&e->main);
 	e->mp.img = mlx_new_image(e->mlx, e->width, e->height);
 	e->mp.addr = mlx_get_data_addr(e->mp.img,
 				&e->mp.bpp, &e->mp.len, &e->mp.endian);
 	e->mp.width = e->width;
 	e->mp.height = e->height;
-	//log_img(&e->mp);
 	textures_load(e);
 }
 
@@ -58,8 +54,6 @@ int			main(int argc, char **argv)
 	init_game(&e);
 	parse_arguments(argc, argv, &e);
 	parse_cub_file(&e);
-	log_map2(e.map);
-	log_pl(&e);
 	init_mlx(&e);
 	repaint(&e);
 	if (e.save_option)
@@ -68,8 +62,7 @@ int			main(int argc, char **argv)
 		exit(0);
 	}
 	hook_events(&e);
-	log_sprites(e.s);
-	//mlx_loop_hook(e.mlx, repaint, &e);
+	mlx_loop_hook(e.mlx, repaint, &e);
 	mlx_loop(e.mlx);
 	return (0);
 }

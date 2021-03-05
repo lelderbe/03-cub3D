@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/04 21:28:33 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/05 15:35:21 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ typedef struct	s_spr {
 	double		x;
 	double		y;
 	double		d;
+	double		ang;
 }				t_spr;
 
 typedef struct	s_cub {
@@ -198,6 +199,21 @@ typedef struct	s_cub {
 	t_list		*ss;
 	int			sc;
 	t_list		*sp_list;
+
+	int			s_h;
+	int			s_w;
+	double		s_dx;
+	double		s_dy;
+	double		s_st_x;
+	double		s_st_y;
+	int			s_c;
+
+	int			t_h;
+	int			t_w;
+	double		t_st;
+	int			y_ceil;
+	int			y_floor;
+
 }				t_cub;
 
 void			parse_arguments(int argc, char **argv, t_cub *e);
@@ -225,6 +241,7 @@ double			sin_a(double ang);
 int				create_trgb(int t, int r, int g, int b);
 int				add_shade(double d, unsigned color);
 void			img_pixel_put(t_img *img, double x, double y, int color);
+int				get_color_sp(t_cub *e, int dx, int dy);
 void			textures_load(t_cub *e);
 
 void			clear_2d_map_window(t_cub *e);

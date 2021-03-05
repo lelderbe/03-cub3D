@@ -6,7 +6,7 @@
 #    By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/12 12:10:28 by lelderbe          #+#    #+#              #
-#    Updated: 2021/03/04 20:44:09 by lelderbe         ###   ########.fr        #
+#    Updated: 2021/03/05 15:31:09 by lelderbe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,9 @@ SRCS		= main.c \
 			  graphics_2d_p1.c graphics_2d_p2.c \
 			  graphics_3d.c sprites.c \
 			  graphics_utils_p1.c graphics_utils_p2.c \
-			  logs.c utils.c bmp.c \
+			  utils.c bmp.c \
 			  ${GNL_DIR}/get_next_line.c ${GNL_DIR}/get_next_line_utils.c
+#				logs.c
 
 HEADERS		= cub3d.h bmp.h
 
@@ -35,8 +36,8 @@ CC			= gcc
 
 RM			= rm -f
 
-CFLAGS		= -Wall -Wextra -Werror
-MLXFLAGS	= -framework OpenGL -framework Appkit
+CFLAGS		= -Wall -Wextra -Werror -O2
+MLXFLAGS	= -framework OpenGL -framework Appkit -O2
 
 %.o:		%.c ${HEADERS}
 			${CC} ${CFLAGS} ${INCLUDES} -c $< -o ${<:.c=.o}

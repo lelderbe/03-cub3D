@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 14:08:25 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/04 21:11:46 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/05 15:36:50 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,4 @@ void		parse_cub_file(t_cub *e)
 		err_exit(ERR_PARSE_FILE);
 	parse_map(e);
 	prepare_cub(e);
-	printf("e->width: %d, e->height: %d\n", e->width, e->height);
-	printf("e->dpp: %6.2f\n", e->dpp);
 }

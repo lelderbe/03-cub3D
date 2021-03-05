@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 14:36:35 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/04 21:24:45 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/04 21:30:43 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void		display_2d_map(t_cub *e)
 			if (e->map[y][x] == '1')
 				display_2d_wall_box(x, y, e);
 			if (e->map[y][x] == '2')
-				display_2d_barrel(x, y, e);
+				display_2d_sprite(x, y, e);
 			x++;
 		}
 		y++;

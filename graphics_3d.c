@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 12:55:23 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/04 21:25:53 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/05 15:26:54 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static int	get_color(t_cub *e, int dx, int dy)
 	color = USE_MANY_COLORS ? e->color : color;
 	addr = dy * wall.len + dx * (wall.bpp / 8);
 	color = USE_TEXTURES ? *((unsigned int*)(wall.addr + addr)) : color;
-	//color = USE_FOG ? (int)(255 / (1 + d * d * 0.1)) : color;
 	return (color);
 }
 
@@ -49,32 +48,28 @@ void		display_3d_floor_ceil(t_cub *e)
 
 void		display_3d_column_v2(t_cub *e, int column, double d)
 {
-	int		height;
-	double	step;
 	int		dx;
 	double	dy;
 	int		y;
-	int		y_ceil;
-	int		y_floor;
 
-	height = (int)(e->dpp / d);
-	step = 1.0 * e->w[e->side].height / height;
-	dy = height >= e->height ? step * (height - e->height) / 2 : 0;
-	height = height >= e->height ? e->height : height;
+	e->t_h = (int)(e->dpp / d);
+	e->t_st = 1.0 * e->w[e->side].height / e->t_h;
+	dy = e->t_h >= e->height ? e->t_st * (e->t_h - e->height) / 2 : 0;
+	e->t_h = e->t_h >= e->height ? e->height : e->t_h;
 	dx = (int)(e->w[e->side].width * e->hit);
-	y_ceil = (e->height - height) >> 1;
-	y_floor = e->height - y_ceil;
+	e->y_ceil = (e->height - e->t_h) >> 1;
+	e->y_floor = e->height - e->y_ceil;
 	y = 0;
 	while (y < e->height)
 	{
-		if (y < y_ceil)
+		if (y < e->y_ceil)
 			img_pixel_put(&e->main, column, y, e->ceil_color);
-		if (y >= y_ceil && y <= y_floor)
+		if (y >= e->y_ceil && y <= e->y_floor)
 		{
 			img_pixel_put(&e->main, column, y, get_color(e, dx, floor(dy)));
-			dy = dy + step < e->w[e->side].height ? dy + step : dy;
+			dy = dy + e->t_st < e->w[e->side].height ? dy + e->t_st : dy;
 		}
-		if (y > y_floor)
+		if (y > e->y_floor)
 			img_pixel_put(&e->main, column, y, e->floor_color);
 		y++;
 	}
