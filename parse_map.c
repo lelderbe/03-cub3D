@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 15:33:45 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/04 21:02:00 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/06 21:02:25 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ static void	parse_pl_pos(t_cub *e, const char *pl_allowed_chars)
 
 static int	validate_map(t_cub *e, char **map, int x, int y)
 {
-	if (x < 0 || x >= (int)e->map_width || y < 0 || y >= (int)e->map_height)
+	if (y < 0 || y >= (int)e->map_height)
+		return (FAIL);
+	if (x < 0 || x >= (int)ft_strlen(map[y]))
 		return (FAIL);
 	if (map[y][x] == '1')
 		return (OK);

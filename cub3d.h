@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/05 15:35:21 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/06 20:59:15 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@
 # define STEP				1.0 / 8
 # define ANGLE_STEP			5
 # define FOV				60
-# define HALF_FOV			FOV / 2
 
 # define ___COLOR_DEFS___	"default color values"
 # define DEF_CEIL_COLOR		0x00333333
@@ -201,9 +200,7 @@ typedef struct	s_cub {
 
 	double		*atans;
 	double		*z;
-	t_list		*spr_list;
 	t_spr		**s;
-	t_list		*ss;
 	int			s_count;
 
 	int			s_h;
@@ -255,7 +252,6 @@ void			display_2d_ray(t_cub *e, double ray_ang, double ray_d);
 void			display_2d_sprites(int x, int y, t_cub *e);
 void			display_3d_column(t_cub *e, int column, double d);
 void			display_3d_sprites(t_cub *e);
-void			draw_sprites(t_cub *e);
 
 void			save_img_to_bmp(t_img *img);
 

@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 14:08:25 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/06 19:34:34 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/06 20:09:54 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static void	prepare_cub(t_cub *e)
 		e->atans[i] = atan((i - e->main.half_w) / e->dpp) / M_PI * 180;
 		i++;
 	}
-	printf("\n");
 	e->map_visible = 0;
 }
 
