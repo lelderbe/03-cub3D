@@ -17,7 +17,9 @@ static void	parse_pl_pos(t_cub *e, const char *pl_allowed_chars)
 	int			x;
 	int			y;
 	char		*ptr;
+	int			count;
 
+	count = 0;
 	y = 0;
 	while (e->map[y])
 	{
@@ -29,13 +31,13 @@ static void	parse_pl_pos(t_cub *e, const char *pl_allowed_chars)
 				e->pl_x = x + 0.5;
 				e->pl_y = y + 0.5;
 				e->pl_a = (ptr - pl_allowed_chars) * 90;
-				e->pl_count++;
+				count++;
 			}
 			x++;
 		}
 		y++;
 	}
-	if (e->pl_count != 1)
+	if (count != 1)
 		err_exit(ERR_INVALID_MAP);
 }
 

@@ -35,6 +35,7 @@ int		ev_key_press(int keycode, t_cub *e)
 		e->pl_key_left = 1;
 	else if (keycode == KEYCODE_RIGHT)
 		e->pl_key_right = 1;
+	// repaint(e);
 	return (0);
 }
 
@@ -52,5 +53,6 @@ int		ev_key_release(int keycode, t_cub *e)
 		e->pl_key_left = 0;
 	else if (keycode == KEYCODE_RIGHT)
 		e->pl_key_right = 0;
+	// repaint(e);
 	return (0);
 }

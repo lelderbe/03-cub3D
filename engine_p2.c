@@ -62,7 +62,7 @@ int			repaint(t_cub *e)
 {
 	update_world(e);
 	render(e);
-	mlx_put_image_to_window(e->mlx, e->win, e->main.img, 0, 0);
+	mlx_put_image_to_window(e->mlx, e->win, e->main.img, -e->of, 0);
 	if (e->map_visible)
 		mlx_put_image_to_window(e->mlx, e->win, e->mp.img, 0, 0);
 	return (0);

@@ -30,7 +30,7 @@ static void	print_img_data(t_img *img, int fd)
 {
 	int	y;
 
-	y = img->height - 1;
+	y = img->h - 1;
 	while (y >= 0)
 	{
 		write(fd, img->addr + y * img->len, img->len);
@@ -42,11 +42,11 @@ static void	init_bmp(t_bmp *bmp, t_img *img)
 {
 	ft_memset(bmp, 0, sizeof(*bmp));
 	bmp->file.file_type = 0x4D42;
-	bmp->file.file_size = 54 + img->len * img->height;
+	bmp->file.file_size = 54 + img->len * img->h;
 	bmp->file.pixel_offset = 54;
 	bmp->info.header_size = 40;
-	bmp->info.image_width = img->width;
-	bmp->info.image_height = img->height;
+	bmp->info.image_width = img->w;
+	bmp->info.image_height = img->h;
 	bmp->info.planes = 1;
 	bmp->info.bpp = img->bpp;
 }

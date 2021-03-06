@@ -89,7 +89,7 @@ void			render(t_cub *e)
 
 	clear_2d_map_window(e);
 	column = 0;
-	while (column < e->width)
+	while (column < e->main.w)
 	{
 		ang = e->atans[column];
 		d = cast_ray(e, e->pl_a - ang);

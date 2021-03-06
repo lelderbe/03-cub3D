@@ -34,16 +34,16 @@ static void	init_mlx(t_cub *e)
 		err_exit(ERR_MLX_INIT);
 	if (!(e->win = mlx_new_window(e->mlx, e->width, e->height, APP_NAME)))
 		err_exit(ERR_MLX_WINDOW);
-	e->main.img = mlx_new_image(e->mlx, e->width, e->height);
+	e->main.img = mlx_new_image(e->mlx, e->main.w, e->main.h);
 	e->main.addr = mlx_get_data_addr(e->main.img,
 				&e->main.bpp, &e->main.len, &e->main.endian);
-	e->main.width = e->width;
-	e->main.height = e->height;
+	// e->main.w = e->width + 2 * e->of;
+	// e->main.h = e->height;
 	e->mp.img = mlx_new_image(e->mlx, e->width, e->height);
 	e->mp.addr = mlx_get_data_addr(e->mp.img,
 				&e->mp.bpp, &e->mp.len, &e->mp.endian);
-	e->mp.width = e->width;
-	e->mp.height = e->height;
+	e->mp.w = e->width;
+	e->mp.h = e->height;
 	textures_load(e);
 }
 

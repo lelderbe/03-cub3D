@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-static void	draw_sprite(t_cub *e, double d)
+static void	draw_sprite(t_cub *e, int col, double d)
 {
 	int			y;
 	int			x;
@@ -26,12 +26,12 @@ static void	draw_sprite(t_cub *e, double d)
 		dx = e->s_dx;
 		while (x < e->s_w / 2)
 		{
-			if (e->s_c + x >= 0 && e->s_c + x < e->width && e->half_h + y >= 0
-					&& e->half_h + y < e->height && e->z[e->s_c + x] > d)
+			if (col + x >= 0 && col + x < e->main.w && e->main.half_h + y >= 0
+					&& e->main.half_h + y < e->main.h && e->z[col + x] > d)
 			{
-				color = get_color_sp(e, (int)dx, (int)e->s_dy);
-				if (color != TRANSPARENT_COLOR)
-					img_pixel_put(&e->main, e->s_c + x, e->half_h + y, color);
+					color = get_color_sp(e, (int)dx, (int)e->s_dy);
+					if (color != TRANSPARENT_COLOR)
+						img_pixel_put(&e->main, col + x, e->main.half_h + y, color);
 			}
 			x++;
 			dx = dx + e->s_st_x;
@@ -44,28 +44,28 @@ static void	draw_sprite(t_cub *e, double d)
 static void	disp(t_cub *e, t_spr *s, double d, double ang)
 {
 	(void)s;
-	e->s_st_y = 1.0 * e->sprite.height / e->s_h;
-	e->s_st_x = 1.0 * e->sprite.width / e->s_w;
-	if (e->s_h >= e->height)
+	e->s_st_y = 1.0 * e->sprite.h / e->s_h;
+	e->s_st_x = 1.0 * e->sprite.w / e->s_w;
+	if (e->s_h >= e->main.h)
 	{
-		e->s_dy = e->s_st_y * (e->s_h - e->height) / 2;
-		e->s_h = e->height - 1;
+		e->s_dy = e->s_st_y * (e->s_h - e->main.h) / 2;
+		e->s_h = e->main.h - 1;
 	}
-	if (e->s_w >= e->width)
+	if (e->s_w >= e->main.w)
 	{
-		e->s_dx = e->s_st_y * (e->s_w - e->width) / 2;
-		e->s_w = e->width - 1;
+		e->s_dx = e->s_st_y * (e->s_w - e->main.w) / 2;
+		e->s_w = e->main.w - 1;
 	}
 	e->s_c = 0;
-	while (e->s_c < e->width)
+	while (e->s_c < e->main.w)
 	{
 		if (e->pl_a - e->atans[e->s_c] < ang)
 			break ;
 		e->s_c++;
 	}
-	if (e->s_c == e->width || e->s_c == 0)
+	if (e->s_c == e->main.w || e->s_c == 0)
 		return ;
-	draw_sprite(e, d);
+	draw_sprite(e, e->s_c, d);
 }
 
 static void	sort_sprites(t_cub *e)

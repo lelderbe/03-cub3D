@@ -20,8 +20,8 @@ void		parse_arguments(int argc, char **argv, t_cub *e)
 		ft_strncmp(argv[1] + ft_strlen(argv[1]) - 4, ".cub", 4) == 0))
 		err_exit(ERR_NO_CUB_FILE);
 	e->cub_filename = argv[1];
-	e->fd = open(e->cub_filename, O_RDONLY);
-	if (e->fd == -1)
+	e->cub_fd = open(e->cub_filename, O_RDONLY);
+	if (e->cub_fd == -1)
 		err_exit(ERR_OPEN_FILE);
 	if (argc >= 3)
 	{
@@ -34,19 +34,25 @@ static void	prepare_cub(t_cub *e)
 {
 	int i;
 
-	e->half_w = e->width / 2;
-	e->half_h = e->height / 2;
-	e->dpp = 1.0 * e->half_w / tan((FOV / 2) * M_PI / 180) / 1;
-	if (!(e->atans = malloc(sizeof(*e->atans) * e->width)))
+	e->of = e->width / 5;
+	e->main.w = e->width + 2 * e->of;
+	e->main.h = e->height;
+	e->main.half_w = e->main.w / 2;
+	e->main.half_h = e->main.h / 2;
+	// orig dpp
+	e->dpp = 1.0 * e->width / 2 / tan((FOV / 2) * M_PI / 180) / 1;
+	if (!(e->atans = malloc(sizeof(*e->atans) * e->main.w)))
 		err_exit(ERR_OUT_OF_MEM);
-	if (!(e->z = malloc(sizeof(*e->z) * e->width)))
+	if (!(e->z = malloc(sizeof(*e->z) * e->main.w)))
 		err_exit(ERR_OUT_OF_MEM);
 	i = 0;
-	while (i < e->width)
+	while (i < e->main.w)
 	{
-		e->atans[i] = atan((i - e->half_w) / e->dpp) / M_PI * 180;
+		e->atans[i] = atan((i - e->main.half_w) / e->dpp) / M_PI * 180;
+		printf("%6.2f ", e->atans[i]);
 		i++;
 	}
+	printf("\n");
 	e->map_visible = 0;
 }
 
@@ -55,7 +61,7 @@ void		parse_cub_file(t_cub *e)
 	char	*line;
 	int		result;
 
-	while ((result = get_next_line(e->fd, &line)))
+	while ((result = get_next_line(e->cub_fd, &line)))
 	{
 		if (result == -1)
 			err_exit(ERR_PARSE_FILE);
