@@ -38,7 +38,7 @@ void		display_3d_floor_ceil(t_cub *e)
 		x = 0;
 		while (x < e->width)
 		{
-			color = y < e->height / 2 ? e->ceil_color : e->floor_color;
+			color = y < e->height / 2 ? e->c_clr : e->f_clr;
 			img_pixel_put(&e->main, x, y, color);
 			x++;
 		}
@@ -63,14 +63,14 @@ void		display_3d_column_v2(t_cub *e, int column, double d)
 	while (y < e->height)
 	{
 		if (y < e->y_ceil)
-			img_pixel_put(&e->main, column, y, e->ceil_color);
+			img_pixel_put(&e->main, column, y, e->c_clr);
 		if (y >= e->y_ceil && y <= e->y_floor)
 		{
 			img_pixel_put(&e->main, column, y, get_color(e, dx, floor(dy)));
 			dy = dy + e->t_st < e->w[e->side].height ? dy + e->t_st : dy;
 		}
 		if (y > e->y_floor)
-			img_pixel_put(&e->main, column, y, e->floor_color);
+			img_pixel_put(&e->main, column, y, e->f_clr);
 		y++;
 	}
 }

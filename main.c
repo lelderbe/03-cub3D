@@ -16,8 +16,8 @@ static void	init_game(t_cub *e)
 {
 	ft_memset(e, 0, sizeof(*e));
 	e->wall_color = DEF_WALL_COLOR;
-	e->floor_color = DEF_FLOOR_COLOR;
-	e->ceil_color = DEF_CEIL_COLOR;
+	e->f_clr = DEF_FLOOR_COLOR;
+	e->c_clr = DEF_CEIL_COLOR;
 	mlx_get_screen_size(&e->sys_width, &e->sys_height);
 }
 

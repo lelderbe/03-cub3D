@@ -16,6 +16,8 @@ static int	parse_r(t_cub *e, char **parts)
 {
 	if (e->map_parse_started)
 		err_exit(ERR_PARSE_FILE);
+	if (e->parsed & R_BIT)
+		err_exit(ERR_DUPLICATE_OPT);
 	if (parts[1] && parts[2] && !parts[3])
 	{
 		e->width = ft_atoi(parts[1]);
@@ -28,10 +30,12 @@ static int	parse_r(t_cub *e, char **parts)
 	return (err_exit(ERR_WRONG_RES));
 }
 
-static int	parse_texture(t_cub *e, t_img *tex, char **parts)
+static int	parse_tex(t_cub *e, t_img *tex, char **parts, int bit)
 {
 	if (e->map_parse_started)
 		err_exit(ERR_PARSE_FILE);
+	if (e->parsed & bit)
+		err_exit(ERR_DUPLICATE_OPT);
 	if (parts[1] && !parts[2])
 	{
 		if (tex->file)
@@ -43,12 +47,14 @@ static int	parse_texture(t_cub *e, t_img *tex, char **parts)
 	return (err_exit(ERR_WRONG_TEXTURE));
 }
 
-static int	parse_color(t_cub *e, unsigned int *value, char **parts)
+static int	parse_color(t_cub *e, unsigned int *value, char **parts, int bit)
 {
 	char	**rgb;
 
 	if (e->map_parse_started)
 		err_exit(ERR_PARSE_FILE);
+	if (e->parsed & bit)
+		err_exit(ERR_DUPLICATE_OPT);
 	if (parts[1] != 0)
 	{
 		if (!(rgb = ft_split(parts[1], ',')))
@@ -100,19 +106,19 @@ int			parse_line(t_cub *e, char *line)
 		err_exit(ERR_OUT_OF_MEM);
 	if (eq(parts[0], R_RES) && parse_r(e, parts))
 		e->parsed |= R_BIT;
-	else if (eq(parts[0], S_SPRITE) && parse_texture(e, &e->sprite, parts))
+	else if (eq(parts[0], S_SPRITE) && parse_tex(e, &e->sprite, parts, S_BIT))
 		e->parsed |= S_BIT;
-	else if (eq(parts[0], F_COLOR) && parse_color(e, &e->floor_color, parts))
+	else if (eq(parts[0], F_COLOR) && parse_color(e, &e->f_clr, parts, F_BIT))
 		e->parsed |= F_BIT;
-	else if (eq(parts[0], C_COLOR) && parse_color(e, &e->ceil_color, parts))
+	else if (eq(parts[0], C_COLOR) && parse_color(e, &e->c_clr, parts, C_BIT))
 		e->parsed |= C_BIT;
-	else if (eq(parts[0], EA_EAST) && parse_texture(e, &e->w[0], parts))
+	else if (eq(parts[0], EA_EAST) && parse_tex(e, &e->w[0], parts, EA_BIT))
 		e->parsed |= EA_BIT;
-	else if (eq(parts[0], NO_NORTH) && parse_texture(e, &e->w[1], parts))
+	else if (eq(parts[0], NO_NORTH) && parse_tex(e, &e->w[1], parts, NO_BIT))
 		e->parsed |= NO_BIT;
-	else if (eq(parts[0], WE_WEST) && parse_texture(e, &e->w[2], parts))
+	else if (eq(parts[0], WE_WEST) && parse_tex(e, &e->w[2], parts, WE_BIT))
 		e->parsed |= WE_BIT;
-	else if (eq(parts[0], SO_SOUTH) && parse_texture(e, &e->w[3], parts))
+	else if (eq(parts[0], SO_SOUTH) && parse_tex(e, &e->w[3], parts, SO_BIT))
 		e->parsed |= SO_BIT;
 	else
 		parse_map_line(e, line);

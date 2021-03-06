@@ -1,7 +1,6 @@
 R 1920 1080
 NO ./img/bluestone128.xpm
 SO ./img/wood.xpm
-WE ./img/colorstone.xpm
 WE ./img/bluestone.xpm
 EA ./img/greystone.xpm
 

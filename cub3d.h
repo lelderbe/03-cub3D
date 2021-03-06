@@ -29,13 +29,16 @@
 # define FAIL				0
 # define OK					1
 
+# define ___ERRORS___		"All errors is here"
 # define SAVE_OPTION		"--save"
 # define SAVE_FILENAME		"screenshot.bmp"
 # define ERROR				"Error"
+# define ERR_NO_CUB_FILE	"No .cub file given"
 # define ERR_ARGS_COUNT		"Invalid arguments count"
 # define ERR_INVALID_ARG	"Invalid argument"
 # define ERR_OPEN_FILE		"Can't open .cub file"
 # define ERR_PARSE_FILE		"Error parse .cub file"
+# define ERR_DUPLICATE_OPT	"Duplicate option"
 # define ERR_WRONG_RES		"Wrong resolution option"
 # define ERR_WRONG_TEXTURE	"Wrong texture option"
 # define ERR_WRONG_COLOR	"Wrong color option"
@@ -47,6 +50,7 @@
 # define ERR_LOAD_SPRITE	"Error load sprite from file"
 # define ERR_SAVE_BMP		"Error save bmp file"
 
+# define ___OPTIONS___		".cub file options"
 # define R_RES				"R"
 # define NO_NORTH			"NO"
 # define SO_SOUTH			"SO"
@@ -56,12 +60,14 @@
 # define F_COLOR			"F"
 # define C_COLOR			"C"
 
+# define ___MAP_SYMBOLS___	"all allowed map symbols, grouped by types"
 # define MAP_ALLOWED_CHARS	" 012ENWS"
 # define MAP_WALL			'1'
 # define MAP_EMPTY			'0'
 # define PL_ALLOWED_CHARS	"ENWS"
 # define SPRITE_SYMBOLS		"2"
 
+# define ___PARSE___		"parse options, set bit when option is parsed"
 # define PARSE_OPT_COMPLETE	255
 # define R_BIT				1
 # define NO_BIT				1<<1
@@ -72,6 +78,7 @@
 # define F_BIT				1<<6
 # define C_BIT				1<<7
 
+# define ___2D_DEFAULTS___	"2D mini-map defaults"
 # define MAP_TILE			20
 # define MAP_COLOR			0x00999999
 # define MAP_PL_BODY		20 * BODY
@@ -79,6 +86,8 @@
 # define MAP_RAY_COLOR		0x000000FF
 # define MAP_RAY_STEP		0.01
 # define MAP_RAYS_SHOW		1
+
+# define ___3D_DEFAULTS___	"3D defaults"
 # define TILE				100
 # define BODY				1.0 / 2
 # define STEP				1.0 / 8
@@ -86,11 +95,19 @@
 # define FOV				60
 # define HALF_FOV			FOV / 2
 
+# define ___COLOR_DEFS___	"default color values"
+# define DEF_CEIL_COLOR		0x00333333
+# define DEF_FLOOR_COLOR	0x00666666
+# define DEF_WALL_COLOR		0x00000066
+# define TRANSPARENT_COLOR	0x00980088
+
+# define ___WALL_SIDE___	"index of walls side"
 # define E_WALL				0
 # define N_WALL				1
 # define W_WALL				2
 # define S_WALL				3
 
+# define ___KEYCODES___		"keys and their keycodes"
 # define KEYCODE_ESC		53
 # define KEYCODE_W			13
 # define KEYCODE_A			0
@@ -100,6 +117,7 @@
 # define KEYCODE_RIGHT		124
 # define KEYCODE_TAB		48
 
+# define ___EVENTS___		"events and masks for hooks"
 # define EV_KEY_PRESS		2
 # define EV_KEY_RELEASE		3
 # define EV_MOTION_NOTIFY	6
@@ -109,11 +127,6 @@
 # define MASK_KEY_PRESS		1L<<0
 # define MASK_KEY_RELEASE	1L<<1
 # define MASK_PTR_MOTION	1L<<6
-
-# define DEF_CEIL_COLOR		0x00333333
-# define DEF_FLOOR_COLOR	0x00666666
-# define DEF_WALL_COLOR		0x00000066
-# define TRANSPARENT_COLOR	0x00980088
 
 typedef struct	s_img {
 	char		*file;
@@ -162,8 +175,8 @@ typedef struct	s_cub {
 	int			map_visible;
 
 	int			wall_color;
-	unsigned	floor_color;
-	unsigned	ceil_color;
+	unsigned	f_clr;
+	unsigned	c_clr;
 
 	double		pl_x;
 	double		pl_y;

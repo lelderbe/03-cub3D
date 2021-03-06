@@ -14,18 +14,19 @@
 
 void		parse_arguments(int argc, char **argv, t_cub *e)
 {
-	if (argc < 2 || argc > 3)
-		err_exit(ERR_ARGS_COUNT);
+	if (argc < 2)
+		err_exit(ERR_NO_CUB_FILE);
+	if (!(ft_strlen(argv[1]) > 4 &&
+		ft_strncmp(argv[1] + ft_strlen(argv[1]) - 4, ".cub", 4) == 0))
+		err_exit(ERR_NO_CUB_FILE);
 	e->cub_filename = argv[1];
 	e->fd = open(e->cub_filename, O_RDONLY);
 	if (e->fd == -1)
 		err_exit(ERR_OPEN_FILE);
-	if (argc == 3)
+	if (argc >= 3)
 	{
 		if (eq(argv[2], SAVE_OPTION))
 			e->save_option = 1;
-		else
-			err_exit(ERR_INVALID_ARG);
 	}
 }
 
@@ -56,6 +57,8 @@ void		parse_cub_file(t_cub *e)
 
 	while ((result = get_next_line(e->fd, &line)))
 	{
+		if (result == -1)
+			err_exit(ERR_PARSE_FILE);
 		parse_line(e, line);
 		free(line);
 	}
