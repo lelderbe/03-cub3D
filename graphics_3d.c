@@ -53,10 +53,10 @@ void		display_3d_column_v2(t_cub *e, int column, double d)
 	int		y;
 
 	e->t_h = (int)(e->dpp / d);
-	e->t_st = 1.0 * e->w[e->side].height / e->t_h;
+	e->t_st = 1.0 * e->w[e->side].h / e->t_h;
 	dy = e->t_h >= e->height ? e->t_st * (e->t_h - e->height) / 2 : 0;
 	e->t_h = e->t_h >= e->height ? e->height : e->t_h;
-	dx = (int)(e->w[e->side].width * e->hit);
+	dx = (int)(e->w[e->side].w * e->hit);
 	e->y_ceil = (e->height - e->t_h) >> 1;
 	e->y_floor = e->height - e->y_ceil;
 	y = 0;
@@ -67,7 +67,7 @@ void		display_3d_column_v2(t_cub *e, int column, double d)
 		if (y >= e->y_ceil && y <= e->y_floor)
 		{
 			img_pixel_put(&e->main, column, y, get_color(e, dx, floor(dy)));
-			dy = dy + e->t_st < e->w[e->side].height ? dy + e->t_st : dy;
+			dy = dy + e->t_st < e->w[e->side].h ? dy + e->t_st : dy;
 		}
 		if (y > e->y_floor)
 			img_pixel_put(&e->main, column, y, e->f_clr);
@@ -85,13 +85,13 @@ void		display_3d_column(t_cub *e, int column, double d)
 
 	height = (int)(e->dpp / d);
 	dy = 0;
-	step = 1.0 * e->w[e->side].height / height;
+	step = 1.0 * e->w[e->side].h / height;
 	if (height >= e->height)
 	{
 		dy = step * (height - e->height) / 2;
 		height = e->height - 1;
 	}
-	dx = (int)(e->w[e->side].width * e->hit);
+	dx = (int)(e->w[e->side].w * e->hit);
 	i = -height / 2;
 	while (i < height / 2)
 	{

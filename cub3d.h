@@ -131,8 +131,10 @@
 typedef struct	s_img {
 	char		*file;
 	void		*img;
-	int			width;
-	int			height;
+	int			w;
+	int			h;
+	int			half_w;
+	int			half_h;
 	char		*addr;
 	int			bpp;
 	int			len;
@@ -148,24 +150,22 @@ typedef struct	s_spr {
 
 typedef struct	s_cub {
 	char		*cub_filename;
-	int			fd;
+	int			cub_fd;
 	int			save_option;
 	int			sys_width;
 	int			sys_height;
-
-	char		parsed;
 	int			map_parse_started;
-	int			pl_count;
+	char		parsed;
 
 	void		*mlx;
 	void		*win;
 	int			width;
 	int			height;
-	int			half_w;
-	int			half_h;
 
 	t_img		main;
 	t_img		mp;
+	t_img		w[4];
+	t_img		sprite;
 
 	t_list		*map_lst;
 	char		**map;
@@ -191,9 +191,6 @@ typedef struct	s_cub {
 	int			color;
 	int			hcolor;
 	int			vcolor;
-
-	t_img		w[4];
-	t_img		sprite;
 
 	double		dpp;
 	double		hit;
@@ -226,6 +223,8 @@ typedef struct	s_cub {
 	double		t_st;
 	int			y_ceil;
 	int			y_floor;
+
+	int			of;
 
 }				t_cub;
 
