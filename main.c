@@ -37,8 +37,6 @@ static void	init_mlx(t_cub *e)
 	e->main.img = mlx_new_image(e->mlx, e->main.w, e->main.h);
 	e->main.addr = mlx_get_data_addr(e->main.img,
 				&e->main.bpp, &e->main.len, &e->main.endian);
-	// e->main.w = e->width + 2 * e->of;
-	// e->main.h = e->height;
 	e->mp.img = mlx_new_image(e->mlx, e->width, e->height);
 	e->mp.addr = mlx_get_data_addr(e->mp.img,
 				&e->mp.bpp, &e->mp.len, &e->mp.endian);

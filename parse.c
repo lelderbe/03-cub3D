@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 14:08:25 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/05 15:36:50 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/06 19:34:34 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,13 @@ static void	prepare_cub(t_cub *e)
 {
 	int i;
 
+	e->of = e->width / 5;
 	if (e->save_option)
 		e->of = 0;
-	e->of = e->width / 5;
-	//printf("e->of: %d\n", e->of);
 	e->main.w = e->width + 2 * e->of;
 	e->main.h = e->height;
 	e->main.half_w = e->main.w / 2;
 	e->main.half_h = e->main.h / 2;
-	// orig dpp
 	e->dpp = 1.0 * e->width / 2 / tan((FOV / 2) * M_PI / 180) / 1;
 	if (!(e->atans = malloc(sizeof(*e->atans) * e->main.w)))
 		err_exit(ERR_OUT_OF_MEM);
@@ -52,7 +50,6 @@ static void	prepare_cub(t_cub *e)
 	while (i < e->main.w)
 	{
 		e->atans[i] = atan((i - e->main.half_w) / e->dpp) / M_PI * 180;
-		// printf("%6.2f ", e->atans[i]);
 		i++;
 	}
 	printf("\n");

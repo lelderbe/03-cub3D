@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 14:20:39 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/05 16:25:53 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/06 19:33:44 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ static void	draw_sprite(t_cub *e, int col, double d)
 			if (col + x >= 0 && col + x < e->main.w && e->main.half_h + y >= 0
 					&& e->main.half_h + y < e->main.h && e->z[col + x] > d)
 			{
-					color = get_color_sp(e, (int)dx, (int)e->s_dy);
-					if (color != TRANSPARENT_COLOR)
-						img_pixel_put(&e->main, col + x, e->main.half_h + y, color);
+				color = get_color_sp(e, (int)dx, (int)e->s_dy);
+				if (color != TRANSPARENT_COLOR)
+					img_pixel_put(&e->main, col + x, e->main.half_h + y, color);
 			}
 			x++;
 			dx = dx + e->s_st_x;
