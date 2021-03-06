@@ -79,26 +79,6 @@ static char	**copy_map(char **map, unsigned height)
 	return (result);
 }
 
-static char	**gen_vis_map(unsigned height, unsigned width)
-{
-	unsigned	i;
-	char		**result;
-
-	if (!(result = malloc(sizeof(*result) * (height + 1))))
-		err_exit(ERR_OUT_OF_MEM);
-	i = 0;
-	while (i < height + 1)
-	{
-		result[i] = malloc(sizeof(*result[i]) * (width + 1));
-		if (!result[i])
-			err_exit(ERR_OUT_OF_MEM);
-		result[i][width] = '\0';
-		i++;
-	}
-	result[i] = 0;
-	return (result);
-}
-
 void		parse_map(t_cub *e)
 {
 	int		i;
@@ -118,7 +98,6 @@ void		parse_map(t_cub *e)
 	}
 	e->map[i] = 0;
 	parse_pl_pos(e, PL_ALLOWED_CHARS);
-	e->vis = gen_vis_map(e->map_height, e->map_width);
 	map = copy_map(e->map, e->map_height);
 	valid = validate_map(e, map, (int)e->pl_x, (int)e->pl_y);
 	free_split(map);

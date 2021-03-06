@@ -28,7 +28,6 @@ static double	check_vert_lines(t_cub *e, double cos_a, double sin_a)
 	while (x >= 0 && x < e->map_width && y >= 0 && y < e->map_height &&
 				e->map[(int)y][(int)x] != MAP_WALL)
 	{
-		e->vis[(int)y][(int)x] = '1';
 		x += dx;
 		y += dy;
 	}
@@ -55,7 +54,6 @@ static double	check_horiz_lines(t_cub *e, double cos_a, double sin_a)
 	while (x >= 0 && x < e->map_width && y >= 0 && y < e->map_height &&
 				e->map[(int)y][(int)x] != MAP_WALL)
 	{
-		e->vis[(int)y][(int)x] = '1';
 		x += dx;
 		y += dy;
 	}
@@ -96,9 +94,9 @@ void			render(t_cub *e)
 		e->z[column] = d;
 		display_2d_ray(e, e->pl_a - ang, d);
 		d = d * cos_a(ang);
-		display_3d_column_v2(e, column, d);
+		display_3d_column(e, column, d);
 		column++;
 	}
-	draw_sprites(e);
+	display_3d_sprites(e);
 	display_2d_map(e);
 }

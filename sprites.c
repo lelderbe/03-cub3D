@@ -41,9 +41,8 @@ static void	draw_sprite(t_cub *e, int col, double d)
 	}
 }
 
-static void	disp(t_cub *e, t_spr *s, double d, double ang)
+static void	disp(t_cub *e, double d, double ang)
 {
-	(void)s;
 	e->s_st_y = 1.0 * e->sprite.h / e->s_h;
 	e->s_st_x = 1.0 * e->sprite.w / e->s_w;
 	if (e->s_h >= e->main.h)
@@ -75,7 +74,7 @@ static void	sort_sprites(t_cub *e)
 	int		j;
 	t_spr	*s;
 
-	count = e->sc;
+	count = e->s_count;
 	i = 0;
 	while (i < count - 1)
 	{
@@ -115,7 +114,7 @@ static void	calc_sprite_distances(t_cub *e)
 	}
 }
 
-void		draw_sprites(t_cub *e)
+void		display_3d_sprites(t_cub *e)
 {
 	int		i;
 
@@ -126,10 +125,11 @@ void		draw_sprites(t_cub *e)
 	{
 		e->s_dy = 0;
 		e->s_dx = 0;
+		e->s[i]->d = e->s[i]->d * cos_a(e->s[i]->ang - e->pl_a);
 		e->s_h = (int)(e->dpp / e->s[i]->d);
 		e->s_w = e->s_h;
 		if (e->s[i]->d > 1.0 / 2)
-			disp(e, e->s[i], e->s[i]->d, e->s[i]->ang);
+			disp(e, e->s[i]->d, e->s[i]->ang);
 		i++;
 	}
 }

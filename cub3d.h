@@ -169,12 +169,11 @@ typedef struct	s_cub {
 
 	t_list		*map_lst;
 	char		**map;
-	char		**vis;
 	unsigned	map_width;
 	unsigned	map_height;
 	int			map_visible;
 
-	int			wall_color;
+	int			w_clr;
 	unsigned	f_clr;
 	unsigned	c_clr;
 
@@ -200,15 +199,12 @@ typedef struct	s_cub {
 	int			side_h;
 	int			side_v;
 
-	int			mouse_x;
-	int			mouse_y;
-
 	double		*atans;
 	double		*z;
+	t_list		*spr_list;
 	t_spr		**s;
 	t_list		*ss;
-	int			sc;
-	t_list		*sp_list;
+	int			s_count;
 
 	int			s_h;
 	int			s_w;
@@ -256,22 +252,10 @@ void			textures_load(t_cub *e);
 void			clear_2d_map_window(t_cub *e);
 void			display_2d_map(t_cub *e);
 void			display_2d_ray(t_cub *e, double ray_ang, double ray_d);
-void			display_2d_sprite(int x, int y, t_cub *e);
-void			display_3d_floor_ceil(t_cub *e);
+void			display_2d_sprites(int x, int y, t_cub *e);
 void			display_3d_column(t_cub *e, int column, double d);
-void			display_3d_column_v2(t_cub *e, int column, double d);
+void			display_3d_sprites(t_cub *e);
 void			draw_sprites(t_cub *e);
-
-int				ev_m(int button, int x, int y, t_cub *e);
-int				ev_mouse_motion(int x, int y, t_cub *e);
-void			log_map(char **map);
-void			log_map2(char **map);
-void			log_pl(t_cub *e);
-void			log_img(t_img *img);
-void			log_lst(t_list *lst);
-void			log_eq(char *s1, char *s2);
-void			log_bmp(t_bmp *bmp);
-void			log_sprites(t_spr **s);
 
 void			save_img_to_bmp(t_img *img);
 

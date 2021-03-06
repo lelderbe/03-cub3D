@@ -33,7 +33,7 @@ static void	get_sprites_list(t_cub *e, const char *allowed_chars)
 				s->y = y + 0.5;
 				if (!(new = ft_lstnew(s)))
 					err_exit(ERR_OUT_OF_MEM);
-				ft_lstadd_back(&e->sp_list, new);
+				ft_lstadd_back(&e->spr_list, new);
 			}
 			x++;
 		}
@@ -47,11 +47,11 @@ void		parse_sprites(t_cub *e)
 	int		i;
 
 	get_sprites_list(e, SPRITE_SYMBOLS);
-	e->sc = ft_lstsize(e->sp_list);
-	if (!(e->s = malloc(sizeof(*e->s) * (ft_lstsize(e->sp_list) + 1))))
+	e->s_count = ft_lstsize(e->spr_list);
+	if (!(e->s = malloc(sizeof(*e->s) * (e->s_count + 1))))
 		err_exit(ERR_OUT_OF_MEM);
 	i = 0;
-	lst = e->sp_list;
+	lst = e->spr_list;
 	while (lst)
 	{
 		e->s[i] = lst->content;

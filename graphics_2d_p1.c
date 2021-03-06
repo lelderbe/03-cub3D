@@ -127,7 +127,7 @@ void		display_2d_map(t_cub *e)
 			if (e->map[y][x] == '1')
 				display_2d_wall_box(x, y, e);
 			if (e->map[y][x] == '2')
-				display_2d_sprite(x, y, e);
+				display_2d_sprites(x, y, e);
 			x++;
 		}
 		y++;

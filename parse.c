@@ -34,7 +34,10 @@ static void	prepare_cub(t_cub *e)
 {
 	int i;
 
+	if (e->save_option)
+		e->of = 0;
 	e->of = e->width / 5;
+	//printf("e->of: %d\n", e->of);
 	e->main.w = e->width + 2 * e->of;
 	e->main.h = e->height;
 	e->main.half_w = e->main.w / 2;
@@ -49,7 +52,7 @@ static void	prepare_cub(t_cub *e)
 	while (i < e->main.w)
 	{
 		e->atans[i] = atan((i - e->main.half_w) / e->dpp) / M_PI * 180;
-		printf("%6.2f ", e->atans[i]);
+		// printf("%6.2f ", e->atans[i]);
 		i++;
 	}
 	printf("\n");

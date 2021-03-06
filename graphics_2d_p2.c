@@ -32,7 +32,7 @@ void		clear_2d_map_window(t_cub *e)
 	}
 }
 
-void		display_2d_sprite(int x, int y, t_cub *e)
+void		display_2d_sprites(int x, int y, t_cub *e)
 {
 	int i;
 	int j;
