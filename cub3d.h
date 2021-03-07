@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/07 11:51:16 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/07 12:13:35 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@
 
 # define ___3D_DEFAULTS___	"3D defaults"
 # define BODY				1.0 / 2
-# define STEP				1.0 / 8 
+# define STEP				1.0 / 8
 # define ANGLE_STEP			5
 # define FOV				60
 # define MAX_VIEW			200
