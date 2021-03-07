@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/06 20:59:15 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/07 10:30:53 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@
 # define MAP_RAYS_SHOW		1
 
 # define ___3D_DEFAULTS___	"3D defaults"
-# define TILE				100
 # define BODY				1.0 / 2
 # define STEP				1.0 / 8
 # define ANGLE_STEP			5
