@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:14:50 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/05 15:10:25 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/07 11:55:25 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,15 @@ static double	check_vert_lines(t_cub *e, double cos_a, double sin_a)
 	y = e->pl_y + d * sin_a;
 	dx = cos_a >= 0 ? 1 : -1;
 	dy = (dx / cos_a) * sin_a;
-	while (x >= 0 && x < e->map_width && y >= 0 && y < e->map_height &&
-				e->map[(int)y][(int)x] != MAP_WALL)
+	while (abs((int)(x - e->pl_x)) < MAX_VIEW)
 	{
+		if (y >= 0 && y < e->map_h && x >= 0 && x < ft_strlen(e->map[(int)y]) &&
+				e->map[(int)y][(int)x] == MAP_WALL)
+			break ;
 		x += dx;
 		y += dy;
 	}
+	e->wall_v = (y < 0 || y >= e->map_h || x < 0 || x >= e->map_w) ? 0 : 1;
 	e->side_v = dx > 0 ? E_WALL : W_WALL;
 	e->hit_y = y - (int)(y);
 	e->vcolor = (int)y * 30;
@@ -51,12 +54,15 @@ static double	check_horiz_lines(t_cub *e, double cos_a, double sin_a)
 	x = e->pl_x + d * cos_a;
 	dy = sin_a >= 0 ? 1 : -1;
 	dx = (dy / sin_a) * cos_a;
-	while (x >= 0 && x < e->map_width && y >= 0 && y < e->map_height &&
-				e->map[(int)y][(int)x] != MAP_WALL)
+	while (abs((int)(y - e->pl_y)) < MAX_VIEW)
 	{
+		if (y >= 0 && y < e->map_h && x >= 0 && x < ft_strlen(e->map[(int)y]) &&
+				e->map[(int)y][(int)x] == MAP_WALL)
+			break ;
 		x += dx;
 		y += dy;
 	}
+	e->wall_h = (y < 0 || y >= e->map_h || x < 0 || x >= e->map_w) ? 0 : 1;
 	e->side_h = dy > 0 ? S_WALL : N_WALL;
 	e->hit_x = x - (int)(x);
 	e->hcolor = (int)x * 30;
@@ -76,6 +82,7 @@ static double	cast_ray(t_cub *e, double ang)
 	e->side = dh < dv ? e->side_h : e->side_v;
 	e->hit = dh < dv ? e->hit_x : e->hit_y;
 	e->color = dh < dv ? e->hcolor : e->vcolor;
+	e->wall = dh < dv ? e->wall_h : e->wall_v;
 	return (d);
 }
 
@@ -91,9 +98,9 @@ void			render(t_cub *e)
 	{
 		ang = e->atans[column];
 		d = cast_ray(e, e->pl_a - ang);
-		e->z[column] = d;
 		display_2d_ray(e, e->pl_a - ang, d);
 		d = d * cos_a(ang);
+		e->z[column] = d;
 		display_3d_column(e, column, d);
 		column++;
 	}

@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 14:36:35 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/04 21:30:43 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/07 11:48:34 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ static void	display_2d_look_line(t_cub *e)
 		y = (e->pl_y * MAP_TILE + sina * d);
 		if (x >= e->width || y >= e->height || x < 0 || y < 0)
 			break ;
-		if (e->map[(int)(y / MAP_TILE)][(int)(x / MAP_TILE)] == MAP_WALL)
+		if ((int)(y / MAP_TILE) < (int)e->map_h &&
+			(int)(x / MAP_TILE) < (int)ft_strlen(e->map[(int)(y / MAP_TILE)]) &&
+				e->map[(int)(y / MAP_TILE)][(int)(x / MAP_TILE)] == MAP_WALL)
 			break ;
 		img_pixel_put(&e->mp, x, y, 0x00FF0000);
 		d++;
@@ -42,8 +44,8 @@ static void	display_2d_pl(t_cub *e)
 {
 	int		i;
 	int		angle;
-	double	dx;
-	double	dy;
+	int		x;
+	int		y;
 
 	if (!e->map_visible)
 		return ;
@@ -53,12 +55,10 @@ static void	display_2d_pl(t_cub *e)
 		angle = 0;
 		while (angle < 360)
 		{
-			dx = round(cos_a(angle) * i);
-			dy = -round(sin_a(angle) * i);
-			if (e->pl_x * MAP_TILE + dx < e->width &&
-					e->pl_y * MAP_TILE + dy < e->height)
-				img_pixel_put(&e->mp, e->pl_x * MAP_TILE + dx,
-								e->pl_y * MAP_TILE + dy, MAP_PL_BODY_COLOR);
+			x = (int)(e->pl_x * MAP_TILE + round(cos_a(angle) * i));
+			y = (int)(e->pl_y * MAP_TILE - round(sin_a(angle) * i));
+			if (x >= 0 && x < e->width && y >= 0 && y < e->height)
+				img_pixel_put(&e->mp, x, y, MAP_PL_BODY_COLOR);
 			angle++;
 		}
 		i++;
@@ -96,7 +96,7 @@ void		display_2d_ray(t_cub *e, double ray_ang, double ray_d)
 	double	cosa;
 	double	sina;
 
-	if (!e->map_visible || !MAP_RAYS_SHOW)
+	if (!e->map_visible || !MAP_RAYS_SHOW || fabs(ray_ang - e->pl_a) > FOV / 2)
 		return ;
 	cosa = cos_a(ray_ang);
 	sina = sin_a(ray_ang);
@@ -105,7 +105,8 @@ void		display_2d_ray(t_cub *e, double ray_ang, double ray_d)
 	{
 		x = (e->pl_x + cosa * d) * MAP_TILE;
 		y = (e->pl_y + sina * d) * MAP_TILE;
-		if ((int)x < e->width && (int)y < e->height)
+		if ((int)x >= 0 && (int)x < e->width &&
+			(int)y >= 0 && (int)y < e->height)
 			img_pixel_put(&e->mp, x, y, MAP_RAY_COLOR);
 		d = d + MAP_RAY_STEP;
 	}

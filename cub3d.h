@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/07 10:30:53 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/07 11:51:16 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define USE_MANY_COLORS	1
 # define USE_TEXTURES		1
 # define USE_FOG			0
+# define WALL_COLLISION		0
 
 # define APP_NAME			"cub3D"
 # define FAIL				0
@@ -84,14 +85,15 @@
 # define MAP_PL_BODY		20 * BODY
 # define MAP_PL_BODY_COLOR	0x0000FF00
 # define MAP_RAY_COLOR		0x000000FF
-# define MAP_RAY_STEP		0.01
+# define MAP_RAY_STEP		0.05
 # define MAP_RAYS_SHOW		1
 
 # define ___3D_DEFAULTS___	"3D defaults"
 # define BODY				1.0 / 2
-# define STEP				1.0 / 8
+# define STEP				1.0 / 8 
 # define ANGLE_STEP			5
 # define FOV				60
+# define MAX_VIEW			200
 
 # define ___COLOR_DEFS___	"default color values"
 # define DEF_CEIL_COLOR		0x00333333
@@ -167,8 +169,8 @@ typedef struct	s_cub {
 
 	t_list		*map_lst;
 	char		**map;
-	unsigned	map_width;
-	unsigned	map_height;
+	unsigned	map_w;
+	unsigned	map_h;
 	int			map_visible;
 
 	int			w_clr;
@@ -196,6 +198,9 @@ typedef struct	s_cub {
 	int			side;
 	int			side_h;
 	int			side_v;
+	int			wall;
+	int			wall_h;
+	int			wall_v;
 
 	double		*atans;
 	double		*z;

@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 12:55:23 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/06 21:12:25 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/07 11:43:13 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void		display_3d_column(t_cub *e, int column, double d)
 	double	dy;
 	int		y;
 
-	e->t_h = (int)(e->dpp / d);
+	e->t_h = e->wall ? (int)(e->dpp / d) : 0;
 	e->t_st = 1.0 * e->w[e->side].h / e->t_h;
 	dy = e->t_h >= e->height ? e->t_st * (e->t_h - e->height) / 2 : 0;
 	e->t_h = e->t_h >= e->height ? e->height : e->t_h;
@@ -44,12 +44,12 @@ void		display_3d_column(t_cub *e, int column, double d)
 	{
 		if (y < e->y_ceil)
 			img_pixel_put(&e->main, column, y, e->c_clr);
-		if (y >= e->y_ceil && y <= e->y_floor)
+		if (y >= e->y_ceil && y < e->y_floor)
 		{
 			img_pixel_put(&e->main, column, y, get_color(e, dx, floor(dy)));
 			dy = dy + e->t_st < e->w[e->side].h ? dy + e->t_st : dy;
 		}
-		if (y > e->y_floor)
+		if (y >= e->y_floor)
 			img_pixel_put(&e->main, column, y, e->f_clr);
 		y++;
 	}

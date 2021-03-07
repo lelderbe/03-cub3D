@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 14:11:01 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/06 21:01:04 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/07 11:53:16 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	parse_map_line(t_cub *e, char *line)
 	if (ft_strlen(line) == 0 && !e->map_parse_started)
 		return (OK);
 	e->map_parse_started = 1;
-	e->map_height++;
+	e->map_h++;
 	if (ft_strlen(line) == 0)
 		err_exit(ERR_INVALID_MAP);
 	i = 0;
@@ -89,8 +89,7 @@ static int	parse_map_line(t_cub *e, char *line)
 			err_exit(ERR_INVALID_MAP);
 		i++;
 	}
-	e->map_width = ft_strlen(line) > e->map_width ?
-									ft_strlen(line) : e->map_width;
+	e->map_w = ft_strlen(line) > e->map_w ? ft_strlen(line) : e->map_w;
 	content = ft_strdup(line);
 	if (!content || !(new = ft_lstnew(content)))
 		return (err_exit(ERR_OUT_OF_MEM));

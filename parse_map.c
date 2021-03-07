@@ -43,7 +43,7 @@ static void	parse_pl_pos(t_cub *e, const char *pl_allowed_chars)
 
 static int	validate_map(t_cub *e, char **map, int x, int y)
 {
-	if (y < 0 || y >= (int)e->map_height)
+	if (y < 0 || y >= (int)e->map_h)
 		return (FAIL);
 	if (x < 0 || x >= (int)ft_strlen(map[y]))
 		return (FAIL);
@@ -88,7 +88,7 @@ void		parse_map(t_cub *e)
 	char	**map;
 	int		valid;
 
-	if (!(e->map = malloc(sizeof(*e->map) * (e->map_height + 1))))
+	if (!(e->map = malloc(sizeof(*e->map) * (e->map_h + 1))))
 		err_exit(ERR_OUT_OF_MEM);
 	i = 0;
 	lst = e->map_lst;
@@ -100,7 +100,7 @@ void		parse_map(t_cub *e)
 	}
 	e->map[i] = 0;
 	parse_pl_pos(e, PL_ALLOWED_CHARS);
-	map = copy_map(e->map, e->map_height);
+	map = copy_map(e->map, e->map_h);
 	valid = validate_map(e, map, (int)e->pl_x, (int)e->pl_y);
 	free_split(map);
 	if (!valid)
