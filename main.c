@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:58:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/05 16:43:51 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/08 09:46:02 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void	init_game(t_cub *e)
 	e->f_clr = DEF_FLOOR_COLOR;
 	e->c_clr = DEF_CEIL_COLOR;
 	mlx_get_screen_size(&e->sys_width, &e->sys_height);
+	e->m_x = -1;
+	e->m_y = -1;
 }
 
 static void	hook_events(t_cub *e)
@@ -26,6 +28,7 @@ static void	hook_events(t_cub *e)
 	mlx_hook(e->win, EV_KEY_PRESS, MASK_KEY_PRESS, ev_key_press, e);
 	mlx_hook(e->win, EV_KEY_RELEASE, MASK_KEY_RELEASE, ev_key_release, e);
 	mlx_hook(e->win, EV_DESTR_NOTIFY, MASK_NO_EVENT, ev_window_destroy, e);
+	mlx_hook(e->win, EV_MOTION_NOTIFY, MASK_PTR_MOTION, ev_mouse_motion, e);
 }
 
 static void	init_mlx(t_cub *e)

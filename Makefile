@@ -6,7 +6,7 @@
 #    By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/12 12:10:28 by lelderbe          #+#    #+#              #
-#    Updated: 2021/03/05 15:31:09 by lelderbe         ###   ########.fr        #
+#    Updated: 2021/03/08 10:14:16 by lelderbe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,6 @@ SRCS		= main.c \
 			  graphics_utils_p1.c graphics_utils_p2.c \
 			  utils.c bmp.c \
 			  ${GNL_DIR}/get_next_line.c ${GNL_DIR}/get_next_line_utils.c
-#				logs.c
 
 HEADERS		= cub3d.h bmp.h
 

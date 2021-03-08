@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:51:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/05 15:32:21 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/08 09:50:29 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,22 @@
 int		ev_window_destroy(void)
 {
 	exit(0);
+}
+
+int		ev_mouse_motion(int x, int y, t_cub *e)
+{
+	if (!MOUSE_ON)
+		return (0);
+	if (e->m_x != -1)
+	{
+		if (x < e->m_x)
+			e->pl_a += ANGLE_STEP;
+		if (x > e->m_x)
+			e->pl_a -= ANGLE_STEP;
+	}
+	e->m_x = x;
+	e->m_y = y;
+	return (0);
 }
 
 int		ev_key_press(int keycode, t_cub *e)

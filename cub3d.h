@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/07 12:13:35 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/08 09:56:18 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 # include "get_next_line.h"
 # include <math.h>
 # include <fcntl.h>
-# include <stdio.h>
 
 # define USE_MANY_COLORS	1
 # define USE_TEXTURES		1
 # define USE_FOG			0
 # define WALL_COLLISION		0
+# define MOUSE_ON			0
 
 # define APP_NAME			"cub3D"
 # define FAIL				0
@@ -223,6 +223,9 @@ typedef struct	s_cub {
 
 	int			of;
 
+	int			m_x;
+	int			m_y;
+
 }				t_cub;
 
 void			parse_arguments(int argc, char **argv, t_cub *e);
@@ -234,6 +237,7 @@ void			parse_sprites(t_cub *e);
 int				ev_window_destroy();
 int				ev_key_press(int keycode, t_cub *e);
 int				ev_key_release(int keycode, t_cub *e);
+int				ev_mouse_motion(int x, int y, t_cub *e);
 
 void			render(t_cub *e);
 int				repaint(t_cub *e);
