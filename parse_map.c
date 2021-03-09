@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 15:33:45 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/06 21:02:25 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 10:00:33 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ static int	validate_map(t_cub *e, char **map, int x, int y)
 {
 	if (y < 0 || y >= (int)e->map_h)
 		return (FAIL);
-	if (x < 0 || x >= (int)ft_strlen(map[y]))
+	if (x < 0 || x >= (int)e->map_w)
 		return (FAIL);
-	if (map[y][x] == '1')
+	if (map[y][x] == '1' || map[y][x] == 0)
 		return (OK);
 	if (map[y][x] == ' ')
 		return (FAIL);
@@ -94,8 +94,12 @@ void		parse_map(t_cub *e)
 	lst = e->map_lst;
 	while (lst)
 	{
-		e->map[i] = lst->content;
+		//e->map[i] = lst->content;
+		e->map[i] = ft_calloc(e->map_w + 1, sizeof(**e->map));
+		//printf("strlen: %d, size: %lu\n", (int)ft_strlen(lst->content), (e->map_w + 1) * sizeof(**e->map));
+		ft_strlcpy(e->map[i], lst->content, ft_strlen(lst->content) + 1);
 		lst = lst->next;
+		printf("%s\n", e->map[i]);
 		i++;
 	}
 	e->map[i] = 0;
