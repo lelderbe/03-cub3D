@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 09:48:24 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 11:25:05 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@
 # define STEP				1.0 / 8
 # define ANGLE_STEP			5
 # define FOV				60
-# define MAX_VIEW			100
+# define MAX_VIEW			200
 
 # define ___COLOR_DEFS___	"default color values"
 # define DEF_CEIL_COLOR		0x00333333

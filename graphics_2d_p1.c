@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 14:36:35 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/07 11:48:34 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 11:26:38 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	display_2d_look_line(t_cub *e)
 		if (x >= e->width || y >= e->height || x < 0 || y < 0)
 			break ;
 		if ((int)(y / MAP_TILE) < (int)e->map_h &&
-			(int)(x / MAP_TILE) < (int)ft_strlen(e->map[(int)(y / MAP_TILE)]) &&
+			(int)(x / MAP_TILE) < (int)e->map_w &&
 				e->map[(int)(y / MAP_TILE)][(int)(x / MAP_TILE)] == MAP_WALL)
 			break ;
 		img_pixel_put(&e->mp, x, y, 0x00FF0000);

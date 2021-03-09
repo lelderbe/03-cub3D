@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 12:55:23 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 09:55:43 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 10:54:26 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void		display_3d_column(t_cub *e, int column, double d)
 	int		y;
 
 	e->t_h = e->wall ? (int)(e->dpp / d) : 0;
-	//e->t_h = d < MAX_VIEW ? e->t_h : 0;
-	e->t_h = e->wall ? e->t_h : 0;
 	e->t_st = 1.0 * e->w[e->side].h / e->t_h;
 	dy = e->t_h >= e->height ? e->t_st * (e->t_h - e->height) / 2 : 0;
 	e->t_h = e->t_h >= e->height ? e->height : e->t_h;
