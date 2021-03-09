@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 15:33:45 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 14:12:49 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 15:07:48 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ static int	validate_map(t_cub *e, char **map, int x, int y)
 	if (map[y][x] == ' ')
 		return (FAIL);
 	map[y][x] = '1';
-	return (validate_map(e, map, x - 1, y - 1) &&
+	return (
+		validate_map(e, map, x - 1, y - 1) &&
 		validate_map(e, map, x - 0, y - 1) &&
 		validate_map(e, map, x + 1, y - 1) &&
 		validate_map(e, map, x - 1, y - 0) &&
