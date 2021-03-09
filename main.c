@@ -6,13 +6,13 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:58:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 14:16:02 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 19:55:57 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	init_game(t_cub *e)
+static void	init_cub(t_cub *e)
 {
 	ft_bzero(e, sizeof(*e));
 	e->w_clr = DEF_WALL_COLOR;
@@ -52,7 +52,7 @@ int			main(int argc, char **argv)
 {
 	t_cub	e;
 
-	init_game(&e);
+	init_cub(&e);
 	parse_arguments(argc, argv, &e);
 	parse_cub_file(&e);
 	init_mlx(&e);

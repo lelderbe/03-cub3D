@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 14:08:25 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 14:52:14 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 19:55:02 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,5 @@ void		parse_cub_file(t_cub *e)
 		exit_cub(e, ERR_PARSE_FILE);
 	parse_map(e);
 	prepare_cub(e);
+	parse_sprites(e);
 }

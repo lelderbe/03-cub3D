@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 15:33:45 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 15:07:48 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 19:55:00 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,4 @@ void		parse_map(t_cub *e)
 	free_split(map);
 	if (!valid)
 		exit_cub(e, ERR_INVALID_MAP);
-	parse_sprites(e);
 }

@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 14:02:55 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 14:32:44 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 18:43:46 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int		eq(char *s1, char *s2)
 
 int		exit_cub(t_cub *e, char *err)
 {
-	free_resources(e);
+	if (e)
+		free_resources(e);
 	if (err)
 	{
 		ft_putendl_fd(ERROR, 1);
