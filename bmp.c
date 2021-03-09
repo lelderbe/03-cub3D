@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 10:06:56 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 12:34:17 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 12:43:34 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void	init_bmp(t_bmp *bmp, t_img *img, int of)
 {
-	ft_memset(bmp, 0, sizeof(*bmp));
+	ft_bzero(bmp, sizeof(*bmp));
 	bmp->file.file_type = 0x4D42;
 	bmp->file.file_size = 54 + img->len * img->h -
-	   (img->h * of * (img->bpp / 8) * 2);
+		(img->h * of * (img->bpp / 8) * 2);
 	bmp->file.pixel_offset = 54;
 	bmp->info.header_size = 40;
 	bmp->info.image_width = img->w - 2 * of;
@@ -48,7 +48,7 @@ static void	print_img_data(t_img *img, int fd, int of)
 	while (y >= 0)
 	{
 		write(fd, img->addr + y * img->len + of * (img->bpp / 8),
-			   	img->len - 2 * of * (img->bpp / 8));
+				img->len - 2 * of * (img->bpp / 8));
 		y--;
 	}
 }
