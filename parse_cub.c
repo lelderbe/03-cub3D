@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 14:11:01 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 12:15:23 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 13:56:39 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static int	parse_r(t_cub *e, char **parts)
 {
 	if (e->map_parse_started)
-		err_exit(ERR_PARSE_FILE);
+		exit_cub(e, ERR_PARSE_FILE);
 	if (e->parsed & R_BIT)
-		err_exit(ERR_DUPLICATE_OPT);
+		exit_cub(e, ERR_DUPLICATE_OPT);
 	if (parts[1] && parts[2] && !parts[3] &&
 			check_atoi(parts[1], 1, INT_MAX) &&
 			check_atoi(parts[2], 1, INT_MAX))
@@ -29,24 +29,24 @@ static int	parse_r(t_cub *e, char **parts)
 		if (!(e->width <= 0 || e->height <= 0))
 			return (OK);
 	}
-	return (err_exit(ERR_WRONG_RES));
+	return (exit_cub(e, ERR_WRONG_RES));
 }
 
 static int	parse_tex(t_cub *e, t_img *tex, char **parts, int bit)
 {
 	if (e->map_parse_started)
-		err_exit(ERR_PARSE_FILE);
+		exit_cub(e, ERR_PARSE_FILE);
 	if (e->parsed & bit)
-		err_exit(ERR_DUPLICATE_OPT);
+		exit_cub(e, ERR_DUPLICATE_OPT);
 	if (parts[1] && !parts[2])
 	{
 		if (tex->file)
 			free(tex->file);
 		if (!(tex->file = ft_strdup(parts[1])))
-			err_exit(ERR_OUT_OF_MEM);
+			exit_cub(e, ERR_OUT_OF_MEM);
 		return (OK);
 	}
-	return (err_exit(ERR_WRONG_TEXTURE));
+	return (exit_cub(e, ERR_WRONG_TEXTURE));
 }
 
 static int	parse_color(t_cub *e, unsigned int *value, char **parts, int bit)
@@ -54,13 +54,13 @@ static int	parse_color(t_cub *e, unsigned int *value, char **parts, int bit)
 	char	**rgb;
 
 	if (e->map_parse_started)
-		err_exit(ERR_PARSE_FILE);
+		exit_cub(e, ERR_PARSE_FILE);
 	if (e->parsed & bit)
-		err_exit(ERR_DUPLICATE_OPT);
+		exit_cub(e, ERR_DUPLICATE_OPT);
 	if (parts[1] != 0)
 	{
 		if (!(rgb = ft_split(parts[1], ',')))
-			err_exit(ERR_OUT_OF_MEM);
+			exit_cub(e, ERR_OUT_OF_MEM);
 		if (rgb[0] && rgb[1] && rgb[2] && !rgb[3] &&
 			check_atoi(rgb[0], 0, 255) && check_atoi(rgb[1], 0, 255) &&
 			check_atoi(rgb[2], 0, 255))
@@ -71,7 +71,7 @@ static int	parse_color(t_cub *e, unsigned int *value, char **parts, int bit)
 			return (OK);
 		}
 	}
-	return (err_exit(ERR_WRONG_COLOR));
+	return (exit_cub(e, ERR_WRONG_COLOR));
 }
 
 static int	parse_map_line(t_cub *e, char *line)
@@ -85,18 +85,18 @@ static int	parse_map_line(t_cub *e, char *line)
 	e->map_parse_started = 1;
 	e->map_h++;
 	if (ft_strlen(line) == 0)
-		err_exit(ERR_INVALID_MAP);
+		exit_cub(e, ERR_INVALID_MAP);
 	i = 0;
 	while (line[i])
 	{
 		if (!ft_strchr(MAP_ALLOWED_CHARS, line[i]))
-			err_exit(ERR_INVALID_MAP);
+			exit_cub(e, ERR_INVALID_MAP);
 		i++;
 	}
 	e->map_w = ft_strlen(line) > e->map_w ? ft_strlen(line) : e->map_w;
 	content = ft_strdup(line);
 	if (!content || !(new = ft_lstnew(content)))
-		return (err_exit(ERR_OUT_OF_MEM));
+		return (exit_cub(e, ERR_OUT_OF_MEM));
 	ft_lstadd_back(&e->map_lst, new);
 	return (OK);
 }
@@ -106,7 +106,7 @@ int			parse_line(t_cub *e, char *line)
 	char	**parts;
 
 	if (!(parts = ft_split(line, ' ')))
-		err_exit(ERR_OUT_OF_MEM);
+		exit_cub(e, ERR_OUT_OF_MEM);
 	if (eq(parts[0], R_RES) && parse_r(e, parts))
 		e->parsed |= R_BIT;
 	else if (eq(parts[0], S_SPRITE) && parse_tex(e, &e->sprite, parts, S_BIT))

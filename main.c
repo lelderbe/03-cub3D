@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:58:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 12:36:31 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 14:16:02 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static void	hook_events(t_cub *e)
 static void	init_mlx(t_cub *e)
 {
 	if (!(e->mlx = mlx_init()))
-		err_exit(ERR_MLX_INIT);
+		exit_cub(e, ERR_MLX_INIT);
 	if (!(e->win = mlx_new_window(e->mlx, e->width, e->height, APP_NAME)))
-		err_exit(ERR_MLX_WINDOW);
+		exit_cub(e, ERR_MLX_WINDOW);
 	e->main.img = mlx_new_image(e->mlx, e->main.w, e->main.h);
 	e->main.addr = mlx_get_data_addr(e->main.img,
 				&e->main.bpp, &e->main.len, &e->main.endian);
@@ -59,8 +59,8 @@ int			main(int argc, char **argv)
 	repaint(&e);
 	if (e.save_option)
 	{
-		save_img_to_bmp(&e.main, e.of);
-		exit(0);
+		save_img_to_bmp(&e, &e.main, e.of);
+		exit_cub(&e, 0);
 	}
 	hook_events(&e);
 	mlx_loop_hook(e.mlx, repaint, &e);

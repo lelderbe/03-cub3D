@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:51:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 11:26:50 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 14:26:51 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		ev_mouse_motion(int x, int y, t_cub *e)
 int		ev_key_press(int keycode, t_cub *e)
 {
 	if (keycode == KEYCODE_ESC)
-		exit(0);
+		exit_cub(e, 0);
 	else if (keycode == KEYCODE_TAB)
 		e->map_visible = !e->map_visible;
 	else if (keycode == KEYCODE_A)

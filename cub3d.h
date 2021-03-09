@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 12:42:25 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 14:49:35 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@
 # define STEP				1.0 / 8
 # define ANGLE_STEP			5
 # define FOV				60
-# define MAX_VIEW			200
+# define MAX_VIEW			1200
 
 # define ___COLOR_DEFS___	"default color values"
 # define DEF_CEIL_COLOR		0x00333333
@@ -246,10 +246,11 @@ void			render(t_cub *e);
 int				repaint(t_cub *e);
 
 int				eq(char *s1, char *s2);
-int				err_exit(char *err);
+int				exit_cub(t_cub *e, char *err);
 void			free_split(char **s);
 double			cos_a(double ang);
 double			sin_a(double ang);
+void			free_resources(t_cub *e);
 
 int				create_trgb(int t, int r, int g, int b);
 int				add_shade(double d, unsigned color);
@@ -264,6 +265,6 @@ void			display_2d_sprites(int x, int y, t_cub *e);
 void			display_3d_column(t_cub *e, int column, double d);
 void			display_3d_sprites(t_cub *e);
 
-void			save_img_to_bmp(t_img *img, int of);
+void			save_img_to_bmp(t_cub *e, t_img *img, int of);
 
 #endif

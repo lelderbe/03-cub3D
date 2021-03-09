@@ -6,7 +6,7 @@
 #    By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/12 12:10:28 by lelderbe          #+#    #+#              #
-#    Updated: 2021/03/08 10:14:16 by lelderbe         ###   ########.fr        #
+#    Updated: 2021/03/09 13:04:55 by lelderbe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRCS		= main.c \
 			  graphics_2d_p1.c graphics_2d_p2.c \
 			  graphics_3d.c sprites.c \
 			  graphics_utils_p1.c graphics_utils_p2.c \
-			  utils.c bmp.c \
+			  utils_p1.c utils_p2.c bmp.c \
 			  ${GNL_DIR}/get_next_line.c ${GNL_DIR}/get_next_line_utils.c
 
 HEADERS		= cub3d.h bmp.h

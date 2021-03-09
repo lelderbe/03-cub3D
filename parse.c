@@ -6,47 +6,29 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 14:08:25 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 12:34:23 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 14:52:14 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int			check_atoi(char *s, int min, int max)
-{
-	int	value;
-	int i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (!ft_isdigit(s[i]))
-			return (FAIL);
-		i++;
-	}
-	value = ft_atoi(s);
-	if (value >= min && value <= max)
-		return (OK);
-	return (FAIL);
-}
-
 void		parse_arguments(int argc, char **argv, t_cub *e)
 {
 	if (argc < 2 || argc > 3)
-		err_exit(ERR_ARGS_COUNT);
+		exit_cub(e, ERR_ARGS_COUNT);
 	if (!(ft_strlen(argv[1]) > 4 &&
 		ft_strncmp(argv[1] + ft_strlen(argv[1]) - 4, ".cub", 4) == 0))
-		err_exit(ERR_NO_CUB_FILE);
+		exit_cub(e, ERR_NO_CUB_FILE);
 	e->cub_filename = argv[1];
 	e->cub_fd = open(e->cub_filename, O_RDONLY);
 	if (e->cub_fd == -1)
-		err_exit(ERR_OPEN_FILE);
+		exit_cub(e, ERR_OPEN_FILE);
 	if (argc == 3)
 	{
 		if (eq(argv[2], SAVE_OPTION))
 			e->save_option = 1;
 		else
-			err_exit(ERR_INVALID_ARG);
+			exit_cub(e, ERR_INVALID_ARG);
 	}
 }
 
@@ -61,9 +43,9 @@ static void	prepare_cub(t_cub *e)
 	e->main.half_h = e->main.h / 2;
 	e->dpp = 1.0 * e->width / 2 / tan((FOV / 2) * M_PI / 180) / 1;
 	if (!(e->atans = malloc(sizeof(*e->atans) * e->main.w)))
-		err_exit(ERR_OUT_OF_MEM);
+		exit_cub(e, ERR_OUT_OF_MEM);
 	if (!(e->z = malloc(sizeof(*e->z) * e->main.w)))
-		err_exit(ERR_OUT_OF_MEM);
+		exit_cub(e, ERR_OUT_OF_MEM);
 	i = 0;
 	while (i < e->main.w)
 	{
@@ -81,15 +63,16 @@ void		parse_cub_file(t_cub *e)
 	while ((result = get_next_line(e->cub_fd, &line)))
 	{
 		if (result == -1)
-			err_exit(ERR_PARSE_FILE);
+			exit_cub(e, ERR_PARSE_FILE);
 		parse_line(e, line);
 		free(line);
 	}
 	if (ft_strlen(line) > 0)
 		parse_line(e, line);
 	free(line);
+	close(e->cub_fd);
 	if ((unsigned char)e->parsed != PARSE_OPT_COMPLETE)
-		err_exit(ERR_PARSE_FILE);
+		exit_cub(e, ERR_PARSE_FILE);
 	parse_map(e);
 	prepare_cub(e);
 }

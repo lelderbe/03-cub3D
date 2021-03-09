@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 15:33:45 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 11:30:28 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 14:12:49 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	parse_pl_pos(t_cub *e, const char *pl_allowed_chars)
 		y++;
 	}
 	if (count != 1)
-		err_exit(ERR_INVALID_MAP);
+		exit_cub(e, ERR_INVALID_MAP);
 }
 
 static int	validate_map(t_cub *e, char **map, int x, int y)
@@ -60,19 +60,19 @@ static int	validate_map(t_cub *e, char **map, int x, int y)
 		validate_map(e, map, x + 1, y + 1));
 }
 
-static char	**copy_map(char **map, unsigned height)
+static char	**copy_map(t_cub *e, char **map, unsigned height)
 {
 	int		i;
 	char	**result;
 
 	if (!(result = malloc(sizeof(*result) * (height + 1))))
-		err_exit(ERR_OUT_OF_MEM);
+		exit_cub(e, ERR_OUT_OF_MEM);
 	i = 0;
 	while (map[i])
 	{
 		result[i] = ft_strdup(map[i]);
 		if (!result[i])
-			err_exit(ERR_OUT_OF_MEM);
+			exit_cub(e, ERR_OUT_OF_MEM);
 		i++;
 	}
 	result[i] = 0;
@@ -87,23 +87,23 @@ void		parse_map(t_cub *e)
 	int		valid;
 
 	if (!(e->map = malloc(sizeof(*e->map) * (e->map_h + 1))))
-		err_exit(ERR_OUT_OF_MEM);
+		exit_cub(e, ERR_OUT_OF_MEM);
 	i = 0;
 	lst = e->map_lst;
 	while (lst)
 	{
 		if (!(e->map[i] = ft_calloc(e->map_w + 1, sizeof(**e->map))))
-			err_exit(ERR_OUT_OF_MEM);
+			exit_cub(e, ERR_OUT_OF_MEM);
 		ft_strlcpy(e->map[i], lst->content, ft_strlen(lst->content) + 1);
 		lst = lst->next;
 		i++;
 	}
 	e->map[i] = 0;
 	parse_pl_pos(e, PL_ALLOWED_CHARS);
-	map = copy_map(e->map, e->map_h);
+	map = copy_map(e, e->map, e->map_h);
 	valid = validate_map(e, map, (int)e->pl_x, (int)e->pl_y);
 	free_split(map);
 	if (!valid)
-		err_exit(ERR_INVALID_MAP);
+		exit_cub(e, ERR_INVALID_MAP);
 	parse_sprites(e);
 }

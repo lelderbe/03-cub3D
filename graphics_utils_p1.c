@@ -48,7 +48,7 @@ void	textures_load(t_cub *e)
 		{
 			if (!(e->w[i].img = mlx_xpm_file_to_image(
 					e->mlx, e->w[i].file, &e->w[i].w, &e->w[i].h)))
-				err_exit(ERR_LOAD_TEXTURE);
+				exit_cub(e, ERR_LOAD_TEXTURE);
 			e->w[i].addr = mlx_get_data_addr(
 					e->w[i].img, &e->w[i].bpp, &e->w[i].len, &e->w[i].endian);
 		}
@@ -56,7 +56,7 @@ void	textures_load(t_cub *e)
 	}
 	if (!(e->sprite.img = mlx_xpm_file_to_image(
 				e->mlx, e->sprite.file, &e->sprite.w, &e->sprite.h)))
-		err_exit(ERR_LOAD_SPRITE);
+		exit_cub(e, ERR_LOAD_SPRITE);
 	e->sprite.addr = mlx_get_data_addr(
 			e->sprite.img, &e->sprite.bpp, &e->sprite.len, &e->sprite.endian);
 }

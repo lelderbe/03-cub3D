@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 10:06:56 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 12:43:34 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 14:15:23 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ static void	print_img_data(t_img *img, int fd, int of)
 	}
 }
 
-void		save_img_to_bmp(t_img *img, int of)
+void		save_img_to_bmp(t_cub *e, t_img *img, int of)
 {
 	t_bmp		bmp;
 	int			fd;
 
 	if ((fd = open(SAVE_FILENAME, O_WRONLY | O_CREAT, 0664)) < 0)
-		err_exit(ERR_SAVE_BMP);
+		exit_cub(e, ERR_SAVE_BMP);
 	init_bmp(&bmp, img, of);
 	print_bitmap_file_header(&bmp, fd);
 	print_bitmap_info_header(&bmp, fd);
