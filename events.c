@@ -6,15 +6,15 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:51:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 14:26:51 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 18:19:36 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		ev_window_destroy(void)
+int		ev_window_destroy(t_cub *e)
 {
-	exit(0);
+	return (exit_cub(e, 0));
 }
 
 int		ev_mouse_motion(int x, int y, t_cub *e)

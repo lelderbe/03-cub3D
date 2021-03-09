@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 14:11:01 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 13:56:39 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 18:29:51 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,13 @@ static int	parse_color(t_cub *e, unsigned int *value, char **parts, int bit)
 		exit_cub(e, ERR_PARSE_FILE);
 	if (e->parsed & bit)
 		exit_cub(e, ERR_DUPLICATE_OPT);
-	if (parts[1] != 0)
+	if (parts[1] && !parts[2])
 	{
 		if (!(rgb = ft_split(parts[1], ',')))
 			exit_cub(e, ERR_OUT_OF_MEM);
 		if (rgb[0] && rgb[1] && rgb[2] && !rgb[3] &&
-			check_atoi(rgb[0], 0, 255) && check_atoi(rgb[1], 0, 255) &&
+			check_atoi(rgb[0], 0, 255) &&
+			check_atoi(rgb[1], 0, 255) &&
 			check_atoi(rgb[2], 0, 255))
 		{
 			*value = create_trgb(0,
