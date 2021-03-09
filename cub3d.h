@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 11:25:05 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 11:50:43 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@
 # define SAVE_FILENAME		"screenshot.bmp"
 # define ERROR				"Error"
 # define ERR_NO_CUB_FILE	"No .cub file given"
-# define ERR_ARGS_COUNT		"Invalid arguments count"
-# define ERR_INVALID_ARG	"Invalid argument"
+# define ERR_ARGS_COUNT		"Wrong arguments count"
+# define ERR_INVALID_ARG	"Wrong second argument"
 # define ERR_OPEN_FILE		"Can't open .cub file"
 # define ERR_PARSE_FILE		"Error parse .cub file"
 # define ERR_DUPLICATE_OPT	"Duplicate option"

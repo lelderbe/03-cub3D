@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 14:08:25 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 10:54:37 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 11:53:09 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void		parse_arguments(int argc, char **argv, t_cub *e)
 {
-	if (argc < 2)
-		err_exit(ERR_NO_CUB_FILE);
+	if (argc < 2 || argc > 3)
+		err_exit(ERR_ARGS_COUNT);
 	if (!(ft_strlen(argv[1]) > 4 &&
 		ft_strncmp(argv[1] + ft_strlen(argv[1]) - 4, ".cub", 4) == 0))
 		err_exit(ERR_NO_CUB_FILE);
@@ -23,10 +23,12 @@ void		parse_arguments(int argc, char **argv, t_cub *e)
 	e->cub_fd = open(e->cub_filename, O_RDONLY);
 	if (e->cub_fd == -1)
 		err_exit(ERR_OPEN_FILE);
-	if (argc >= 3)
+	if (argc == 3)
 	{
 		if (eq(argv[2], SAVE_OPTION))
 			e->save_option = 1;
+		else
+			err_exit(ERR_INVALID_ARG);
 	}
 }
 
