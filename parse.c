@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 14:08:25 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 12:17:20 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 12:34:23 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ static void	prepare_cub(t_cub *e)
 	int i;
 
 	e->of = e->width / 5;
-	if (e->save_option)
-		e->of = 0;
 	e->main.w = e->width + 2 * e->of;
 	e->main.h = e->height;
 	e->main.half_w = e->main.w / 2;

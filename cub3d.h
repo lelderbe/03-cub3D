@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 12:13:50 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 12:36:35 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,6 @@ void			display_2d_sprites(int x, int y, t_cub *e);
 void			display_3d_column(t_cub *e, int column, double d);
 void			display_3d_sprites(t_cub *e);
 
-void			save_img_to_bmp(t_img *img);
+void			save_img_to_bmp(t_img *img, int of);
 
 #endif
