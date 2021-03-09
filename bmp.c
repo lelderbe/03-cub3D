@@ -6,11 +6,25 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 10:06:56 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/08 09:40:16 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 12:34:17 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+static void	init_bmp(t_bmp *bmp, t_img *img, int of)
+{
+	ft_memset(bmp, 0, sizeof(*bmp));
+	bmp->file.file_type = 0x4D42;
+	bmp->file.file_size = 54 + img->len * img->h -
+	   (img->h * of * (img->bpp / 8) * 2);
+	bmp->file.pixel_offset = 54;
+	bmp->info.header_size = 40;
+	bmp->info.image_width = img->w - 2 * of;
+	bmp->info.image_height = img->h;
+	bmp->info.planes = 1;
+	bmp->info.bpp = img->bpp;
+}
 
 static void	print_bitmap_file_header(t_bmp *bmp, int fd)
 {
@@ -26,41 +40,29 @@ static void	print_bitmap_info_header(t_bmp *bmp, int fd)
 	write(fd, &bmp->info, sizeof(bmp->info));
 }
 
-static void	print_img_data(t_img *img, int fd)
+static void	print_img_data(t_img *img, int fd, int of)
 {
 	int	y;
 
 	y = img->h - 1;
 	while (y >= 0)
 	{
-		write(fd, img->addr + y * img->len, img->len);
+		write(fd, img->addr + y * img->len + of * (img->bpp / 8),
+			   	img->len - 2 * of * (img->bpp / 8));
 		y--;
 	}
 }
 
-static void	init_bmp(t_bmp *bmp, t_img *img)
-{
-	ft_memset(bmp, 0, sizeof(*bmp));
-	bmp->file.file_type = 0x4D42;
-	bmp->file.file_size = 54 + img->len * img->h;
-	bmp->file.pixel_offset = 54;
-	bmp->info.header_size = 40;
-	bmp->info.image_width = img->w;
-	bmp->info.image_height = img->h;
-	bmp->info.planes = 1;
-	bmp->info.bpp = img->bpp;
-}
-
-void		save_img_to_bmp(t_img *img)
+void		save_img_to_bmp(t_img *img, int of)
 {
 	t_bmp		bmp;
 	int			fd;
 
 	if ((fd = open(SAVE_FILENAME, O_WRONLY | O_CREAT, 0664)) < 0)
 		err_exit(ERR_SAVE_BMP);
-	init_bmp(&bmp, img);
+	init_bmp(&bmp, img, of);
 	print_bitmap_file_header(&bmp, fd);
 	print_bitmap_info_header(&bmp, fd);
-	print_img_data(img, fd);
+	print_img_data(img, fd, of);
 	close(fd);
 }

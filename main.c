@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:58:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 10:44:38 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 12:36:31 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	init_game(t_cub *e)
 {
-	ft_memset(e, 0, sizeof(*e));
+	ft_bzero(e, sizeof(*e));
 	e->w_clr = DEF_WALL_COLOR;
 	e->f_clr = DEF_FLOOR_COLOR;
 	e->c_clr = DEF_CEIL_COLOR;
@@ -59,7 +59,7 @@ int			main(int argc, char **argv)
 	repaint(&e);
 	if (e.save_option)
 	{
-		save_img_to_bmp(&e.main);
+		save_img_to_bmp(&e.main, e.of);
 		exit(0);
 	}
 	hook_events(&e);
