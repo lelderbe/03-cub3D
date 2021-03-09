@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/08 09:56:18 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 11:25:05 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "get_next_line.h"
 # include <math.h>
 # include <fcntl.h>
+# include <stdio.h>
 
 # define USE_MANY_COLORS	1
 # define USE_TEXTURES		1
