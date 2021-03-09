@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 14:11:01 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/07 11:53:16 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 12:15:23 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ static int	parse_r(t_cub *e, char **parts)
 		err_exit(ERR_PARSE_FILE);
 	if (e->parsed & R_BIT)
 		err_exit(ERR_DUPLICATE_OPT);
-	if (parts[1] && parts[2] && !parts[3])
+	if (parts[1] && parts[2] && !parts[3] &&
+			check_atoi(parts[1], 1, INT_MAX) &&
+			check_atoi(parts[2], 1, INT_MAX))
 	{
 		e->width = ft_atoi(parts[1]);
 		e->height = ft_atoi(parts[2]);
@@ -59,7 +61,9 @@ static int	parse_color(t_cub *e, unsigned int *value, char **parts, int bit)
 	{
 		if (!(rgb = ft_split(parts[1], ',')))
 			err_exit(ERR_OUT_OF_MEM);
-		if (rgb[0] && rgb[1] && rgb[2] && !rgb[3])
+		if (rgb[0] && rgb[1] && rgb[2] && !rgb[3] &&
+			check_atoi(rgb[0], 0, 255) && check_atoi(rgb[1], 0, 255) &&
+			check_atoi(rgb[2], 0, 255))
 		{
 			*value = create_trgb(0,
 				ft_atoi(rgb[0]), ft_atoi(rgb[1]), ft_atoi(rgb[2]));

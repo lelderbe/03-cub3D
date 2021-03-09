@@ -6,11 +6,29 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 14:08:25 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 11:53:09 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 12:17:20 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int			check_atoi(char *s, int min, int max)
+{
+	int	value;
+	int i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (!ft_isdigit(s[i]))
+			return (FAIL);
+		i++;
+	}
+	value = ft_atoi(s);
+	if (value >= min && value <= max)
+		return (OK);
+	return (FAIL);
+}
 
 void		parse_arguments(int argc, char **argv, t_cub *e)
 {

@@ -1,0 +1,11 @@
+R 1920 1080
+SO ./img/redbrick.xpm
+NO ./img/bluestone128.xpm
+WE ./img/bluestone.xpm
+EA ./img/greystone.xpm
+
+S ./img/Footman_Lordaeron.xpm
+
+F 102,102,102
+C 51,51,51
+

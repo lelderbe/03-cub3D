@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 11:50:43 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/09 12:13:50 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <math.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <limits.h>
 
 # define USE_MANY_COLORS	1
 # define USE_TEXTURES		1
@@ -234,6 +235,7 @@ void			parse_cub_file(t_cub *e);
 int				parse_line(t_cub *e, char *line);
 void			parse_map(t_cub *e);
 void			parse_sprites(t_cub *e);
+int				check_atoi(char *s, int min, int max);
 
 int				ev_window_destroy();
 int				ev_key_press(int keycode, t_cub *e);
