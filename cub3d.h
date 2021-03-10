@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/10 09:59:48 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/10 13:51:13 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define FAIL				0
 # define OK					1
 
-# define ___ERRORS___		"All errors is here"
+# define ___ERRORS___		"All errors are here"
 # define SAVE_OPTION		"--save"
 # define SAVE_FILENAME		"screenshot.bmp"
 # define ERROR				"Error"
@@ -95,7 +95,7 @@
 # define STEP				1.0 / 8
 # define ANGLE_STEP			5
 # define FOV				60
-# define MAX_VIEW			1200
+# define MAX_VIEW			200
 
 # define ___COLOR_DEFS___	"default color values"
 # define DEF_CEIL_COLOR		0x00333333
@@ -175,7 +175,7 @@ typedef struct	s_cub {
 	unsigned	map_h;
 	int			map_visible;
 
-	int			w_clr;
+	unsigned	w_clr;
 	unsigned	f_clr;
 	unsigned	c_clr;
 

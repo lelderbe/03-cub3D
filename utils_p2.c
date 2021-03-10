@@ -6,11 +6,33 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:04:11 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/10 10:08:48 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/10 11:21:26 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+char		**copy_map(t_cub *e, char **map, unsigned height)
+{
+	unsigned	y;
+	char		**result;
+
+	(void)height;
+	if (!(result = calloc((e->map_h + 1), sizeof(*result))))
+		exit_cub(e, ERR_OUT_OF_MEM);
+	y = 0;
+	while (y < e->map_h)
+	{
+		if (!(result[y] = malloc(sizeof(**result) * (e->map_w + 1))))
+		{
+			free_split(result);
+			exit_cub(e, ERR_OUT_OF_MEM);
+		}
+		ft_memcpy(result[y], map[y], e->map_w + 1);
+		y++;
+	}
+	return (result);
+}
 
 int			cub_atoi(const char *str)
 {

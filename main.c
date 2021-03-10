@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 15:58:19 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 19:55:57 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/10 13:50:31 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ int			main(int argc, char **argv)
 	hook_events(&e);
 	mlx_loop_hook(e.mlx, repaint, &e);
 	mlx_loop(e.mlx);
+	free_resources(&e);
 	return (0);
 }

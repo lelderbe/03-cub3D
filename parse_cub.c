@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 14:11:01 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/10 10:05:03 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/10 10:26:20 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static int	parse_map_line(t_cub *e, char *line)
 	content = ft_strdup(line);
 	if (!content || !(new = ft_lstnew(content)))
 		return (exit_cub(e, ERR_OUT_OF_MEM));
-	ft_lstadd_back(&e->map_lst, new);
+	ft_lstadd_front(&e->map_lst, new);
 	return (OK);
 }
 
