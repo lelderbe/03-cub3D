@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 19:53:23 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/10 09:59:48 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,6 +251,7 @@ void			free_split(char **s);
 double			cos_a(double ang);
 double			sin_a(double ang);
 void			free_resources(t_cub *e);
+int				cub_atoi(const char *str);
 
 int				create_trgb(int t, int r, int g, int b);
 int				add_shade(double d, unsigned color);

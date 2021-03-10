@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 14:11:01 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 19:53:18 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/10 10:05:03 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static int	parse_r(t_cub *e, char **parts)
 			check_atoi(parts[1], 1, INT_MAX) &&
 			check_atoi(parts[2], 1, INT_MAX))
 	{
-		e->width = ft_atoi(parts[1]);
-		e->height = ft_atoi(parts[2]);
+		e->width = cub_atoi(parts[1]);
+		e->height = cub_atoi(parts[2]);
 		e->width = e->width > e->sys_width ? e->sys_width : e->width;
 		e->height = e->height > e->sys_height ? e->sys_height : e->height;
 		if (!(e->width <= 0 || e->height <= 0))
@@ -67,7 +67,7 @@ static int	parse_color(t_cub *e, unsigned int *value, char **parts, int bit)
 			check_atoi(rgb[2], 0, 255))
 		{
 			*value = create_trgb(0,
-				ft_atoi(rgb[0]), ft_atoi(rgb[1]), ft_atoi(rgb[2]));
+				cub_atoi(rgb[0]), cub_atoi(rgb[1]), cub_atoi(rgb[2]));
 			free_split(rgb);
 			return (OK);
 		}

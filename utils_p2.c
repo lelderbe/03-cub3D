@@ -6,11 +6,38 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 13:04:11 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 14:52:04 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/10 10:08:48 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int			cub_atoi(const char *str)
+{
+	int	result;
+	int sign;
+
+	result = 0;
+	sign = 1;
+	while (*str == ' ' || *str == '\n' || *str == '\t' ||
+			*str == '\v' || *str == '\f' || *str == '\r')
+	{
+		str++;
+	}
+	if (*str == '+' || *str == '-')
+	{
+		if (*str == '-')
+			sign = -sign;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		result = result * 10 + (*str - '0') < result ?
+						INT_MAX : result * 10 + (*str - '0');
+		str++;
+	}
+	return (result * sign);
+}
 
 int			check_atoi(char *s, int min, int max)
 {
@@ -24,7 +51,7 @@ int			check_atoi(char *s, int min, int max)
 			return (FAIL);
 		i++;
 	}
-	value = ft_atoi(s);
+	value = cub_atoi(s);
 	if (value >= min && value <= max)
 		return (OK);
 	return (FAIL);
