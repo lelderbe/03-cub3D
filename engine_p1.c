@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:14:50 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/09 11:26:06 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/10 17:53:48 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static double	check_vert_lines(t_cub *e, double cos_a, double sin_a)
 		y += dy;
 	}
 	e->wall_v = (y < 0 || y >= e->map_h || x < 0 || x >= e->map_w) ? 0 : 1;
-	e->hit_y = y - (int)(y);
+	e->hit_y = cos_a < 0 ? 1 - (y - (int)(y)) : y - (int)y;
 	e->vcolor = (int)y * 30;
 	d = (x - e->pl_x) / cos_a;
 	e->wall_v = d < MAX_VIEW ? e->wall_v : 0;
@@ -63,7 +63,7 @@ static double	check_horiz_lines(t_cub *e, double cos_a, double sin_a)
 		y += dy;
 	}
 	e->wall_h = (y < 0 || y >= e->map_h || x < 0 || x >= e->map_w) ? 0 : 1;
-	e->hit_x = x - (int)(x);
+	e->hit_x = sin_a >= 0 ? 1 - (x - (int)(x)) : x - (int)x;
 	e->hcolor = (int)x * 30;
 	d = (y - e->pl_y) / sin_a;
 	e->wall_h = d < MAX_VIEW ? e->wall_h : 0;
