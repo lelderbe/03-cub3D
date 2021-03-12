@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:16:16 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/10 13:51:13 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/12 14:52:21 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@
 # define USE_MANY_COLORS	1
 # define USE_TEXTURES		1
 # define USE_FOG			0
-# define WALL_COLLISION		0
+# define WALL_COLLISION		1
 # define MOUSE_ON			0
+# define USE_SPRITES		1
 
 # define APP_NAME			"cub3D"
 # define FAIL				0

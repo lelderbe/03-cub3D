@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 17:56:33 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/04 21:24:05 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/12 11:29:24 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void		display_2d_sprites(int x, int y, t_cub *e)
 	int j;
 	int border;
 
+	if (!USE_SPRITES)
+		return ;
 	border = 1;
 	j = 0 + border;
 	while (j < MAP_TILE - border)

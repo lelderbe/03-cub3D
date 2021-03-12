@@ -6,7 +6,7 @@
 /*   By: lelderbe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 14:20:39 by lelderbe          #+#    #+#             */
-/*   Updated: 2021/03/06 19:33:44 by lelderbe         ###   ########.fr       */
+/*   Updated: 2021/03/12 11:27:14 by lelderbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ void		display_3d_sprites(t_cub *e)
 {
 	int		i;
 
+	if (!USE_SPRITES)
+		return ;
 	calc_sprite_distances(e);
 	sort_sprites(e);
 	i = 0;
