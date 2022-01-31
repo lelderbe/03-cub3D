@@ -118,7 +118,7 @@ void		display_3d_sprites(t_cub *e)
 {
 	int		i;
 
-	if (!USE_SPRITES)
+	if (!e->use_sprites)
 		return ;
 	calc_sprite_distances(e);
 	sort_sprites(e);

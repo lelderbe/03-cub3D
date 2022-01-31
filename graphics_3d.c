@@ -20,9 +20,9 @@ static int	get_color(t_cub *e, int dx, int dy)
 
 	wall = e->w[e->side];
 	color = e->w_clr;
-	color = USE_MANY_COLORS ? e->color : color;
+	color = e->walls_style == USE_MANY_COLORS ? e->color : color;
 	addr = dy * wall.len + dx * (wall.bpp / 8);
-	color = USE_TEXTURES ? *((unsigned int*)(wall.addr + addr)) : color;
+	color = e->walls_style == USE_TEXTURES ? *((unsigned int *)(wall.addr + addr)) : color;
 	return (color);
 }
 

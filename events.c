@@ -35,6 +35,7 @@ int		ev_mouse_motion(int x, int y, t_cub *e)
 
 int		ev_key_press(int keycode, t_cub *e)
 {
+	// printf("keycode: %d\n", keycode);
 	if (keycode == KEYCODE_ESC)
 		exit_cub(e, 0);
 	else if (keycode == KEYCODE_TAB)
@@ -51,6 +52,16 @@ int		ev_key_press(int keycode, t_cub *e)
 		e->pl_key_left = 1;
 	else if (keycode == KEYCODE_RIGHT)
 		e->pl_key_right = 1;
+	else if (keycode == KEYCODE_1)
+		e->walls_style = USE_ONE_COLOR;
+	else if (keycode == KEYCODE_2)
+		e->walls_style = USE_MANY_COLORS;
+	else if (keycode == KEYCODE_3)
+		e->walls_style = USE_TEXTURES;
+	else if (keycode == KEYCODE_4)
+		e->use_sprites = !e->use_sprites;
+	else if (keycode == KEYCODE_5)
+		e->wall_collision = !e->wall_collision;
 	return (0);
 }
 

@@ -20,13 +20,13 @@ static void	pl_move(t_cub *e, double dx, double dy)
 	x = e->pl_x + dx;
 	x = dx > 0 ? x + BODY / 2 : x - BODY / 2;
 	y = e->pl_y;
-	if (WALL_COLLISION && e->map[(int)y][(int)x] == MAP_WALL)
+	if (e->wall_collision && e->map[(int)y][(int)x] == MAP_WALL)
 		x = dx > 0 ? (int)(x) - BODY / 2 : (int)(x + 1) + BODY / 2;
 	else
 		x = e->pl_x + dx;
 	y = e->pl_y + dy;
 	y = dy > 0 ? y + BODY / 2 : y - BODY / 2;
-	if (WALL_COLLISION && e->map[(int)y][(int)x] == MAP_WALL)
+	if (e->wall_collision && e->map[(int)y][(int)x] == MAP_WALL)
 		y = dy > 0 ? (int)(y) - BODY / 2 : (int)(y + 1) + BODY / 2;
 	else
 		y = e->pl_y + dy;

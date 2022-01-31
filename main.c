@@ -18,6 +18,9 @@ static void	init_cub(t_cub *e)
 	e->w_clr = DEF_WALL_COLOR;
 	e->f_clr = DEF_FLOOR_COLOR;
 	e->c_clr = DEF_CEIL_COLOR;
+	e->walls_style = USE_TEXTURES;
+	e->wall_collision = WALL_COLLISION;
+	e->use_sprites = USE_SPRITES;
 	mlx_get_screen_size(&e->sys_width, &e->sys_height);
 	e->m_x = -1;
 	e->m_y = -1;

@@ -38,7 +38,7 @@ void		display_2d_sprites(int x, int y, t_cub *e)
 	int j;
 	int border;
 
-	if (!USE_SPRITES)
+	if (!e->use_sprites)
 		return ;
 	border = 1;
 	j = 0 + border;

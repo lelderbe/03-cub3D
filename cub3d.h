@@ -22,9 +22,7 @@
 # include <stdio.h>
 # include <limits.h>
 
-# define USE_MANY_COLORS	1
-# define USE_TEXTURES		1
-# define USE_FOG			0
+// # define USE_FOG			0
 # define WALL_COLLISION		0
 # define MOUSE_ON			0
 # define USE_SPRITES		1
@@ -33,9 +31,12 @@
 # define FAIL				0
 # define OK					1
 
-# define ___ERRORS___		"All errors are here"
 # define SAVE_OPTION		"--save"
 # define SAVE_FILENAME		"screenshot.bmp"
+
+/**
+ * ERRORS - All errors are here
+ */
 # define ERROR				"Error"
 # define ERR_NO_CUB_FILE	"No .cub file given"
 # define ERR_ARGS_COUNT		"Wrong arguments count"
@@ -54,7 +55,9 @@
 # define ERR_LOAD_SPRITE	"Error load sprite from file"
 # define ERR_SAVE_BMP		"Error save bmp file"
 
-# define ___OPTIONS___		".cub file options"
+/**
+ * OPTIONS - .cub file options
+ */
 # define R_RES				"R"
 # define NO_NORTH			"NO"
 # define SO_SOUTH			"SO"
@@ -64,16 +67,21 @@
 # define F_COLOR			"F"
 # define C_COLOR			"C"
 
-# define ___MAP_SYMBOLS___	"all allowed map symbols, grouped by types"
+/**
+ * MAP_SYMBOLS - all allowed map symbols, grouped by types
+ * 
+ */
 # define MAP_ALLOWED_CHARS	" 012ENWS"
 # define MAP_WALL			'1'
 # define MAP_EMPTY			'0'
 # define PL_ALLOWED_CHARS	"ENWS"
 # define SPRITE_SYMBOLS		"2"
 
-# define ___PARSE___		"parse options, set bit when option is parsed"
+/**
+ * PARSE - parse options, set bit when option is parsed
+ */
 # define PARSE_OPT_COMPLETE	255
-# define R_BIT				1
+# define R_BIT				1<<0
 # define NO_BIT				1<<1
 # define SO_BIT				1<<2
 # define WE_BIT				1<<3
@@ -82,35 +90,49 @@
 # define F_BIT				1<<6
 # define C_BIT				1<<7
 
-# define ___2D_DEFAULTS___	"2D mini-map defaults"
-# define MAP_TILE			20
+/**
+ * 2D_DEFAULTS - mini map defaults
+ */
+# define MAP_TILE			20			// cell size
 # define MAP_COLOR			0x00999999
 # define MAP_PL_BODY		20 * BODY
 # define MAP_PL_BODY_COLOR	0x0000FF00
 # define MAP_RAY_COLOR		0x000000FF
-# define MAP_RAY_STEP		0.05
-# define MAP_RAYS_SHOW		1
+# define MAP_RAY_STEP		0.05		// smaller - better, but slower
+# define MAP_RAYS_SHOW		1			// show FOV rays
 
-# define ___3D_DEFAULTS___	"3D defaults"
-# define BODY				1.0 / 2
-# define STEP				1.0 / 8
-# define ANGLE_STEP			5
-# define FOV				60
-# define MAX_VIEW			200
+/**
+ * 3D_DEFAULTS
+ */
+# define BODY				1.0 / 2		// player's body size
+# define STEP				1.0 / 8		// one step value
+# define ANGLE_STEP			5			// turn by this value degreeds
+# define FOV				60			// player's FOV
+# define MAX_VIEW			200			// max distance to render
 
-# define ___COLOR_DEFS___	"default color values"
+# define USE_ONE_COLOR		1<<0		// use one color for walls
+# define USE_MANY_COLORS	1<<1		// use many colors
+# define USE_TEXTURES		1<<2		// use textures for walls
+
+/**
+ * COLORS DEFAULTS
+ */
 # define DEF_CEIL_COLOR		0x00333333
 # define DEF_FLOOR_COLOR	0x00666666
 # define DEF_WALL_COLOR		0x00000066
 # define TRANSPARENT_COLOR	0x00980088
 
-# define ___WALL_SIDE___	"index of walls side"
+/**
+ * WALL_SIDES
+ */
 # define E_WALL				0
 # define N_WALL				1
 # define W_WALL				2
 # define S_WALL				3
 
-# define ___KEYCODES___		"keys and their keycodes"
+/**
+ * KEYCODES - keys and their keycodes
+ */
 # define KEYCODE_ESC		53
 # define KEYCODE_W			13
 # define KEYCODE_A			0
@@ -119,8 +141,15 @@
 # define KEYCODE_LEFT		123
 # define KEYCODE_RIGHT		124
 # define KEYCODE_TAB		48
+# define KEYCODE_1			18
+# define KEYCODE_2			19
+# define KEYCODE_3			20
+# define KEYCODE_4			21
+# define KEYCODE_5			23
 
-# define ___EVENTS___		"events and masks for hooks"
+/**
+ * EVENTS - events and masks for hooks
+ */
 # define EV_KEY_PRESS		2
 # define EV_KEY_RELEASE		3
 # define EV_MOTION_NOTIFY	6
@@ -165,25 +194,25 @@ typedef struct	s_cub {
 	int			width;
 	int			height;
 
-	t_img		main;
-	t_img		mp;
-	t_img		w[4];
-	t_img		sprite;
+	t_img		main;		// main image
+	t_img		mp;			// minimap image
+	t_img		w[4];		// walls textures
+	t_img		sprite;		// sprite texture
 
-	t_list		*map_lst;
-	char		**map;
-	unsigned	map_w;
-	unsigned	map_h;
-	int			map_visible;
+	t_list		*map_lst;	// load minimap in list
+	char		**map;		// convert minimap in array
+	unsigned	map_w;		// width of map
+	unsigned	map_h;		// height of map
+	int			map_visible;	// show minimap
 
-	unsigned	w_clr;
-	unsigned	f_clr;
-	unsigned	c_clr;
+	unsigned	w_clr;		// wall color
+	unsigned	f_clr;		// floor color
+	unsigned	c_clr;		// ceil color
 
-	double		pl_x;
-	double		pl_y;
-	double		pl_a;
-	int			pl_key_a;
+	double		pl_x;		// player x
+	double		pl_y;		// player y
+	double		pl_a;		// player angle
+	int			pl_key_a;	// pressed keys
 	int			pl_key_w;
 	int			pl_key_s;
 	int			pl_key_d;
@@ -194,6 +223,7 @@ typedef struct	s_cub {
 	int			hcolor;
 	int			vcolor;
 
+	// render walls
 	double		dpp;
 	double		hit;
 	double		hit_x;
@@ -205,11 +235,12 @@ typedef struct	s_cub {
 	int			wall_h;
 	int			wall_v;
 
-	double		*atans;
-	double		*z;
-	t_spr		**s;
+	double		*atans;		// for walls correction - calculated angles for rays
+	double		*z;			// z-buffer
+	t_spr		**s;		// sprites array
 	int			s_count;
 
+	// sprite render
 	int			s_h;
 	int			s_w;
 	double		s_dx;
@@ -224,11 +255,14 @@ typedef struct	s_cub {
 	int			y_ceil;
 	int			y_floor;
 
-	int			of;
+	int			of;			// offset of sprites image
 
-	int			m_x;
-	int			m_y;
+	int			m_x;		// mouse x
+	int			m_y;		// mouse y
 
+	int			walls_style;	// hotkeys: 1 2 3
+	int			use_sprites;	// hotkey: 4
+	int			wall_collision;	// hotkey: 5
 }				t_cub;
 
 void			parse_arguments(int argc, char **argv, t_cub *e);
