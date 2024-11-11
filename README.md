@@ -26,7 +26,9 @@ map0.cub - mini 1024x768
 map.cub - 1920x1080, different sprites  
 map3.cub  
 map4.cub  
-map5.cub
+map5.cub  
+big.cub - large maps  
+big2.cub
 
 # Interface keys
 
