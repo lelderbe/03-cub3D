@@ -23,7 +23,7 @@
 # include <limits.h>
 
 // # define USE_FOG			0
-# define WALL_COLLISION		0
+# define WALL_COLLISION		1
 # define MOUSE_ON			0
 # define USE_SPRITES		1
 
@@ -272,7 +272,7 @@ void			parse_map(t_cub *e);
 void			parse_sprites(t_cub *e);
 int				check_atoi(char *s, int min, int max);
 
-int				ev_window_destroy();
+int				ev_window_destroy(t_cub *e);
 int				ev_key_press(int keycode, t_cub *e);
 int				ev_key_release(int keycode, t_cub *e);
 int				ev_mouse_motion(int x, int y, t_cub *e);
