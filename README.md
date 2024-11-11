@@ -1,8 +1,10 @@
 # About
 
-Пример простой трёхмерной игры типа Wolf3D, написанной на Си во время обучения в Школе 21
+Пример простой генерации трёхмерной графики типа Wolf3D, написанный на Си во время обучения в Школе 21
 
-Запускается с файлом карты, который содержит информацию о ресурсах, а также карту лабиринта
+Для отрисовки графики используется метод Ray casting: преобразуем план этажа (карту) в 3D-проекцию путем "бросания лучей" из точки обзора по всей области видимости
+
+Запускается с файлом карты, который содержит информацию о ресурсах и карту лабиринта
 
 https://github.com/user-attachments/assets/7f1b8836-6060-436e-bf1d-6fb7f651551e
 
@@ -21,7 +23,7 @@ make
 # Available maps
 
 map0.cub - mini 1024x768  
-map.cub  
+map.cub - 1920x1080, different sprites  
 map3.cub  
 map4.cub  
 map5.cub
@@ -32,9 +34,9 @@ ESC - exit
 Tab - toggle minimap  
 1 - no textures  
 2 - gradient textures  
-3 - textures  
+3 - image textures  
 4 - toggle sprites  
-5 - toggle walls collisions
+5 - toggle walls collision
 
 # Movement keys
 
